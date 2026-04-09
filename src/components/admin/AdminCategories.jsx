@@ -113,6 +113,9 @@ const AdminCategories = () => {
         <button onClick={openNew}
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 rounded-lg text-sm font-bold transition-colors">
           <Plus size={16}/> Add Category
+
+          
+          
         </button>
       </div>
 
