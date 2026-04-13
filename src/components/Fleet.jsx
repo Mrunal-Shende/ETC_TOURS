@@ -22,7 +22,7 @@ const FleetHomeCTA = () => {
 
         <div className="flex justify-center mt-8">
           <a 
-            href="https://express-travel-fxaf.onrender.com/luxury-car" 
+            href="https://www.etconline.in/luxury-car" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="group inline-flex items-center gap-3 bg-gray-900 text-white px-10 py-4 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-blue-600 transition-all duration-300 shadow-xl"

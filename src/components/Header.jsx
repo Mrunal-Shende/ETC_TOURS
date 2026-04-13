@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom';
 import { ChevronDown, Menu, Globe, Send, X, CreditCard, ChevronRight } from 'lucide-react';
 
 const Header = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
   const [langDropdown, setLangDropdown] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(null);
   const [selectedLang, setSelectedLang] = useState('English');
   const langRef = useRef(null);
 
@@ -23,7 +21,6 @@ const Header = () => {
 
   // 1. Initialize Google Translate
   useEffect(() => {
-    // Check if script already exists to avoid duplicates
     if (!document.getElementById('google-translate-script')) {
       const addScript = document.createElement('script');
       addScript.id = 'google-translate-script';
@@ -33,7 +30,6 @@ const Header = () => {
       window.googleTranslateElementInit = () => {
         new window.google.translate.TranslateElement({
           pageLanguage: 'en',
-          // Isme sari languages define karni padti hain jo aap allow karna chahte ho
           includedLanguages: 'en,hi,ta,fr,de,es,ar', 
           autoDisplay: false,
         }, 'google_translate_element');
@@ -41,16 +37,15 @@ const Header = () => {
     }
   }, []);
 
-  // 2. Language Change Logic with Trigger
+  // 2. Language Change Logic
   const changeLanguage = (langCode, langName) => {
     setSelectedLang(langName);
     const googleCombo = document.querySelector('.goog-te-combo');
     
     if (googleCombo) {
       googleCombo.value = langCode;
-      googleCombo.dispatchEvent(new Event('change')); // Trigger translate event
+      googleCombo.dispatchEvent(new Event('change'));
     } else {
-      // Agar widget load nahi hua toh 1 sec wait karke try karein
       setTimeout(() => changeLanguage(langCode, langName), 1000);
     }
   };
@@ -77,47 +72,19 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleLinkClick = (link) => {
+  const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
-    if (link && !link.startsWith('#')) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Updated Menu Items: Redirecting directly to the list pages
   const menuItems = [
     { name: 'Home', link: '/' },
     { name: 'About Us', link: '/about' },
-    {
-      name: 'India Tours',
-      link: '#',
-      submenu: [
-        { name: 'Andaman Island', path: '/tours/india/andaman' },
-        { name: 'Andhra & Telangana', path: '/tours/india/andhra-pradesh' },
-        { name: 'Tamil Nadu', path: '/tours/india/tamil-nadu' },
-        { name: 'Goa', path: '/tours/india/goa' },
-        { name: 'Himachal Pradesh', path: '/tours/india/himachal' },
-        { name: 'Karnataka', path: '/tours/india/karnataka' },
-        { name: 'Kashmir', path: '/tours/india/kashmir' },
-        { name: 'Kerala', path: '/tours/india/kerala' },
-        { name: 'Maharashtra', path: '/tours/india/maharashtra' },
-        { name: 'North East', path: '/tours/india/north-east' },
-        { name: 'Sikkim', path: '/tours/india/sikkim' },
-        { name: 'Uttarakhand', path: '/tours/india/uttarakhand' }
-      ]
-    },
-    {
-      name: 'International',
-      link: '#',
-      submenu: [
-        { name: 'AUSTRALIA', path: '/tours/australia-wonders' },
-        { name: "EUROPE", path: "/tours/europe-greece-turkey" },
-        { name: 'MALDIVES', path: '/tours/maldives-luxury-package' },
-        { name: 'SOUTH AFRICA', path: '/tours/south-africa-inspiring-new-ways' },
-        { name: 'Visit DUBAI', path: '/tours/visit-dubai' }
-      ]
-    },
+    { name: 'India Tours', link: '/tours/india' }, // Redirects to IndiaToursList
+    { name: 'International', link: '/tours/international' }, // Redirects to InternationalList
     { name: 'Blog', link: '/blog' },
-    { name: 'Car Rentals', link: 'https://express-travel-fxaf.onrender.com', isExternal: true },
+    { name: 'Car Rentals', link: 'https://www.etconline.in/', isExternal: true },
     { name: 'Services', link: '/services' },
     { name: 'Contact', link: '/contact' }
   ];
@@ -125,7 +92,7 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300 font-sans">
       
-      {/* Hidden container for Google Widget (Required) */}
+      {/* Hidden container for Google Widget */}
       <div id="google_translate_element" style={{ position: 'absolute', top: '-9999px' }}></div>
 
       {/* LAYER 1: BRANDING BAR */}
@@ -199,32 +166,20 @@ const Header = () => {
           <nav className="flex items-center h-full">
             <ul className="flex items-center h-full">
               {menuItems.map((item, index) => (
-                <li key={index} className="relative group h-12 flex items-center px-5 border-r border-gray-100 last:border-0" onMouseEnter={() => setActiveDropdown(item.name)} onMouseLeave={() => setActiveDropdown(null)}>
+                <li key={index} className="relative h-12 flex items-center px-5 border-r border-gray-100 last:border-0">
                   {item.isExternal ? (
                     <a href={item.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[11px] font-bold uppercase text-slate-700 hover:text-blue-600 transition-all">
                       {item.name}
                     </a>
                   ) : (
-                    <Link to={item.link && !item.link.startsWith('#') ? item.link : '#'} onClick={() => handleLinkClick(item.link)} className="flex items-center gap-1.5 text-[11px] font-bold uppercase text-slate-700 hover:text-blue-600 transition-all">
+                    <Link to={item.link} onClick={handleLinkClick} className="flex items-center gap-1.5 text-[11px] font-bold uppercase text-slate-700 hover:text-blue-600 transition-all">
                       {item.name}
-                      {item.submenu && <ChevronDown size={14} className="opacity-40" />}
                     </Link>
-                  )}
-                  {item.submenu && activeDropdown === item.name && (
-                    <ul className="absolute top-12 left-0 w-72 bg-white shadow-2xl border-t-4 border-blue-600 py-2 z-[60]">
-                      {item.submenu.map((sub, i) => (
-                        <li key={i}>
-                          <Link to={sub.path} onClick={() => handleLinkClick(sub.path)} className="block px-6 py-2.5 text-[11px] font-bold text-slate-600 hover:bg-blue-50 border-b border-gray-50 uppercase">
-                            {sub.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
                   )}
                 </li>
               ))}
               <li className="h-12 flex items-center px-4 bg-gray-50 border-l border-gray-100">
-                <Link to="/enquiry" onClick={() => handleLinkClick('/enquiry')}>
+                <Link to="/enquiry" onClick={handleLinkClick}>
                   <button className="bg-blue-600 text-white py-2 px-5 text-[10px] font-black uppercase flex items-center gap-2 hover:bg-blue-800 transition-all">
                     <Send size={12} /> Enquiry
                   </button>
@@ -246,22 +201,12 @@ const Header = () => {
             {menuItems.map((item, idx) => (
               <div key={idx} className="flex flex-col border-b border-gray-50">
                 <div className="flex justify-between items-center py-4">
-                  {item.submenu ? (
-                    <button onClick={() => setMobileSubmenuOpen(mobileSubmenuOpen === item.name ? null : item.name)} className="flex justify-between items-center w-full">
-                      <span className={`text-[15px] font-black uppercase ${mobileSubmenuOpen === item.name ? 'text-blue-600' : 'text-blue-900'}`}>{item.name}</span>
-                      <ChevronRight size={20} className={`text-blue-600 transition-transform ${mobileSubmenuOpen === item.name ? 'rotate-90' : ''}`} />
-                    </button>
+                  {item.isExternal ? (
+                    <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-[15px] font-black text-blue-900 uppercase w-full">{item.name}</a>
                   ) : (
-                    <a href={item.link} target={item.isExternal ? "_blank" : "_self"} onClick={() => setIsMobileMenuOpen(false)} className="text-[15px] font-black text-blue-900 uppercase w-full">{item.name}</a>
+                    <Link to={item.link} onClick={handleLinkClick} className="text-[15px] font-black text-blue-900 uppercase w-full">{item.name}</Link>
                   )}
                 </div>
-                {item.submenu && mobileSubmenuOpen === item.name && (
-                  <div className="flex flex-col gap-1 pl-4 border-l-2 border-blue-600 bg-blue-50/30 py-2 mb-4">
-                    {item.submenu.map((sub, i) => (
-                      <Link key={i} to={sub.path} onClick={() => setIsMobileMenuOpen(false)} className="text-[11px] font-bold text-gray-500 uppercase py-2.5 px-2">{sub.name}</Link>
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
           </nav>
@@ -278,22 +223,21 @@ const Header = () => {
             </div>
           </div>
         </div>
+        
+
+
+        
       )}
 
-      {/* --- IMPORTANT: CSS TO CLEAN GOOGLE UI --- */}
       <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #2563eb; }
-        
-        /* Hide Google Translate Bar and Logos */
         .goog-te-banner-frame.skiptranslate, .goog-te-banner-frame { display: none !important; }
         body { top: 0px !important; }
         .goog-logo-link { display:none !important; }
         .goog-te-gadget { color: transparent !important; font-size: 0px !important; }
         .goog-te-gadget span { display: none !important; }
         #goog-gt-tt { display: none !important; visibility: hidden !important; }
-        
-        /* Ensure no extra margin added to body */
         html { height: 100%; }
         body { position: relative; min-height: 100%; }
       `}</style>

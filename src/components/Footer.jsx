@@ -191,9 +191,7 @@ const Footer = () => {
             <div>
               <b style={{ color: '#fff', fontSize: '8x' }}>EXPRESS TRAVEL CORPORATE SERVICES PRIVATE LIMITED</b><br />
               <span style={{ color: '#94a3b8', fontSize: '11px', lineHeight: '1.4' }}>
-                New No.21, New Tank Street,<br />
-                Nungambakkam, Chennai – 600 034.<br />
-                Tamilnadu, INDIA.
+                Regd. Office <br />Express Building <br />No.20, Duraisamy Street, <br />Nungambakkam, Chennai-600034
               </span>
             </div>
           </div>
