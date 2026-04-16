@@ -1,64 +1,63 @@
 import React from 'react';
 
-const PaymentPartners = () => {
-  const partners = [
-    { name: 'Visa', src: '/payment_image/visa.png' },
-    { name: 'MasterCard', src: '/payment_image/mastercard.png' },
-    { name: 'Diners Club', src: '/payment_image/dinersclub.png' },
-    { name: 'American Express', src: '/payment_image/americanexpresss.png' },
-    { name: 'Citibank', src: '/payment_image/citibank.png' },
-    { name: 'JCB', src: '/payment_image/jcb.png' },
-    { name: 'VeriSign', src: '/payment_image/verisign.png' },
-    { name: 'Norton', src: '/payment_image/norton.jpg' },
-    { name: 'Mastercard Securecode', src: '/payment_image/mastercardsecurecode.png' },
-    { name: 'Verified by Visa', src: '/payment_image/verifiedbyvisa.png' },
-    { name: 'American Express safe key', src: '/payment_image/safekey.png' },
+const MembershipCarousel = () => {
+  const carouselLogos = [
+    { src: "/Certification/ministry.jpeg", alt: "Ministry of Tourism", name: "Government of India." },
+    { src: "/Certification/1.jpg", alt: "IATO", name: "Recognized by Ministry of Tourism Government of India." },
+    { src: "/Certification/2.jpg", alt: "ITTA", name: "Affiliations: IATO- Indian Association of Tour Operators." },
+    { src: "/Certification/nla.jpeg", alt: "NLA", name: "Member - National Limousine Association." },
+    { src: "/Certification/3.png", alt: "SKAL", name: "Member - SKAL International." },
+    { src: "/Certification/india.jpeg", alt: "India Map", name: "All India Car Rental" },
   ];
 
-  const carouselItems = [...partners, ...partners];
+  const scrollItems = [...carouselLogos, ...carouselLogos];
 
   return (
-    <section className="bg-white py-6 overflow-hidden border-t border-b border-slate-100">
-      <div className="max-w-7xl mx-auto px-6">
-        
-        <div className="relative flex overflow-x-hidden group">
-          <div className="flex animate-payment-scroll whitespace-nowrap gap-12 py-2 items-center">
-            {carouselItems.map((partner, index) => (
-              <div 
-                key={index} 
-                // Is container ki wajah se saare logos equal size ke lagenge
-                className="flex-shrink-0 w-[100px] h-[50px] flex items-center justify-center"
-              >
+    <section className="bg-white py-6 overflow-hidden border-t border-slate-50">
+      <div className="max-w-7xl mx-auto px-6 mb-6 text-center">
+        <h2 className="text-blue-600 font-bold tracking-[0.2em] text-[10px] md:text-xs uppercase">
+          Memberships & Certifications
+        </h2>
+      </div>
+
+      <div className="relative flex overflow-x-hidden group">
+        <div className="flex animate-membership-scroll whitespace-nowrap gap-4 py-2">
+          {scrollItems.map((logo, index) => (
+            <div 
+              key={index} 
+              // Width ko 300px se kam karke 180px-220px kar diya hai
+              className="flex-shrink-0 flex flex-col items-center w-[180px] md:w-[220px]"
+            >
+              {/* Card Container: Height 160px se kam karke 100px kar di hai */}
+              <div className="w-full h-[100px] bg-white border border-slate-200 rounded-xl shadow-sm flex items-center justify-center p-4 mb-3 transition-all duration-300 group-hover:border-blue-100">
                 <img 
-                  src={partner.src} 
-                  alt={partner.name} 
-                  // object-contain ensures image box ke bahar na jaye aur stretch na ho
+                  src={logo.src} 
+                  alt={logo.alt} 
                   className="max-h-full max-w-full object-contain block" 
+                  onError={(e) => { e.target.style.display = 'none'; }}
                 />
               </div>
-            ))}
-            
-            {/* Security Text Badges */}
-            <div className="flex items-center gap-10 border-l pl-10 border-slate-200">
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Verified by VISA</span>
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MasterCard SecureCode</span>
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Norton Secured</span>
+              
+              {/* Caption Text: Font size aur chota kiya hai */}
+              <p className="text-[9px] md:text-[10px] text-slate-700 font-semibold uppercase tracking-tight text-center whitespace-normal px-2 leading-tight">
+                {logo.name}
+              </p>
             </div>
-          </div>
+          ))}
         </div>
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes payment-scroll {
+        @keyframes membership-scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .animate-payment-scroll {
-          animation: payment-scroll 30s linear infinite;
+        .animate-membership-scroll {
+          animation: membership-scroll 25s linear infinite;
           display: flex;
           width: max-content;
         }
-        .group:hover .animate-payment-scroll {
+        .group:hover .animate-membership-scroll {
           animation-play-state: paused;
         }
       `}} />
@@ -66,4 +65,4 @@ const PaymentPartners = () => {
   );
 };
 
-export default PaymentPartners;
+export default MembershipCarousel;

@@ -21,16 +21,18 @@ const ContactUs = () => {
   ];
 
   return (
-    <div className="bg-[#fcfdfe] min-h-screen font-sans text-slate-800 pt-16 overflow-hidden">
+    <div className="bg-[#fcfdfe] min-h-screen font-sans text-slate-800 selection:bg-blue-100 overflow-x-hidden">
       
-      {/* --- SECTION 1: HERO SECTION --- */}
-      <div className="relative w-full h-[75vh] md:h-[85vh] bg-[#0f172a] overflow-hidden flex items-center justify-center">
+      {/* --- SECTION 1: HERO SECTION (MADE FULL SCREEN TO MATCH HOME) --- */}
+      <div className="relative w-full h-screen bg-[#0f172a] overflow-hidden flex items-center justify-center">
         <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40" 
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat scale-105" 
           style={{ backgroundImage: "url('/contact1.jpeg')" }}
         ></div>
+        {/* Overlays for Header Readability */}
+        <div className="absolute inset-0 z-10 bg-black/40"></div>
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0f172a]/70 via-transparent to-[#0f172a]/40"></div>
         <div className="absolute inset-0 z-0 opacity-10" style={{ backgroundImage: "radial-gradient(#3b82f6 1px, transparent 1px)", backgroundSize: "40px 40px" }}></div>
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0f172a]/70 via-transparent to-transparent"></div>
 
         <div className="relative z-20 text-center max-w-4xl mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex flex-col items-center mb-8 px-5 py-2 border border-white/10 backdrop-blur-md bg-white/5 mt-6 md:mt-8">
@@ -40,7 +42,7 @@ const ContactUs = () => {
             <span className="text-[7px] md:text-[8px] text-blue-400 font-black uppercase tracking-[0.3em] mt-1">Recognized by Ministry of Tourism</span>
           </motion.div>
 
-          <motion.h1 initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-5xl md:text-7xl font-black text-white tracking-tighter uppercase italic leading-none drop-shadow-2xl">
+          <motion.h1 initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-6xl md:text-7xl font-black text-white tracking-tighter uppercase italic leading-none drop-shadow-2xl">
             Connect <br /> <span className="text-blue-600 not-italic">With Us</span>
           </motion.h1>
         </div>
@@ -87,7 +89,10 @@ const ContactUs = () => {
                   <MapPin className="text-blue-500 shrink-0" size={20} />
                   <p className="text-[11px] leading-snug text-slate-300">
                     <b className="text-white block text-sm mb-1 uppercase italic">Express Travel Corp Pvt Ltd</b>
-                    No.21, New Tank Street, Nungambakkam, Chennai – 600034.
+                    Regd. Office
+Express Building
+No.20, Duraisamy Street,
+Nungambakkam, Chennai-600034
                   </p>
                 </div>
                 <div className="grid gap-2 text-[11px] font-black tracking-widest">
@@ -101,8 +106,7 @@ const ContactUs = () => {
               <h3 className="text-[10px] font-black uppercase mb-4 text-slate-400 tracking-widest">Executive Support</h3>
               <div className="space-y-2">
                 {[
-                  { name: "Ms. Sapna", dept: "Transport", call: "+91 98227 03908" },
-                  { name: "Mr. Murugadas", dept: "Tours", call: "+91 97910 07710" }
+                  { name: "Ms. Sapna", dept: "Transport", call: "+91 97910 07710" }
                 ].map((item, idx) => (
                   <div key={idx} className="flex justify-between items-center p-3 bg-white border border-slate-100">
                     <div>
@@ -120,7 +124,7 @@ const ContactUs = () => {
         {/* --- MAP SECTION --- */}
         <div className="mt-12 relative group overflow-hidden border-8 border-white shadow-2xl h-[400px]">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.721458999335!2d80.24439067586616!3d13.053331913076228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52664539659b95%3A0x6b30349884576307!2sExpress%20Travels!5e0!3m2!1sen!2sin!4v1710600000000!5m2!1sen!2sin" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.643798934571!2d80.24584217585573!3d13.058359487265148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52664650567e91%3A0xc0787e816a751662!2sExpress%20Travel%20Corp%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 

@@ -1,12 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Menu, Globe, Send, X, CreditCard, ChevronRight } from 'lucide-react';
+import { ChevronDown, Menu, X, Globe, CreditCard } from 'lucide-react';
 
 const Header = () => {
-  const [langDropdown, setLangDropdown] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [toursDropdown, setToursDropdown] = useState(false);
+  const [langDropdown, setLangDropdown] = useState(false);
   const [selectedLang, setSelectedLang] = useState('English');
+  
+  // Mobile specific states
+  const [mobileToursOpen, setMobileToursOpen] = useState(false);
+  const [mobileLangOpen, setMobileLangOpen] = useState(false);
+
+  const toursRef = useRef(null);
   const langRef = useRef(null);
 
   const languageOptions = [
@@ -19,7 +26,6 @@ const Header = () => {
     { name: 'Arabic', code: 'ar' }
   ];
 
-  // 1. Initialize Google Translate
   useEffect(() => {
     if (!document.getElementById('google-translate-script')) {
       const addScript = document.createElement('script');
@@ -37,26 +43,20 @@ const Header = () => {
     }
   }, []);
 
-  // 2. Language Change Logic
   const changeLanguage = (langCode, langName) => {
     setSelectedLang(langName);
     const googleCombo = document.querySelector('.goog-te-combo');
-    
     if (googleCombo) {
       googleCombo.value = langCode;
       googleCombo.dispatchEvent(new Event('change'));
-    } else {
-      setTimeout(() => changeLanguage(langCode, langName), 1000);
     }
+    setLangDropdown(false);
+    setMobileLangOpen(false);
   };
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerWidth >= 1280) {
-        setIsScrolled(window.scrollY > 50);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -64,9 +64,8 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (langRef.current && !langRef.current.contains(event.target)) {
-        setLangDropdown(false);
-      }
+      if (toursRef.current && !toursRef.current.contains(event.target)) setToursDropdown(false);
+      if (langRef.current && !langRef.current.contains(event.target)) setLangDropdown(false);
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -74,15 +73,22 @@ const Header = () => {
 
   const handleLinkClick = () => {
     setIsMobileMenuOpen(false);
+    setMobileToursOpen(false);
+    setMobileLangOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Updated Menu Items: Redirecting directly to the list pages
   const menuItems = [
     { name: 'Home', link: '/' },
     { name: 'About Us', link: '/about' },
-    { name: 'India Tours', link: '/tours/india' }, // Redirects to IndiaToursList
-    { name: 'International', link: '/tours/international' }, // Redirects to InternationalList
+    { 
+      name: 'Tours', 
+      isDropdown: true, 
+      subItems: [
+        { name: 'India Tours', link: '/tours/india' },
+        { name: 'International', link: '/tours/international' }
+      ] 
+    },
     { name: 'Blog', link: '/blog' },
     { name: 'Car Rentals', link: 'https://www.etconline.in/', isExternal: true },
     { name: 'Services', link: '/services' },
@@ -90,156 +96,211 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300 font-sans">
+    <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 font-sans
+      ${isScrolled ? 'py-3 bg-white/80 backdrop-blur-xl shadow-md border-b border-gray-100' : 'py-6 bg-transparent'}`}>
       
-      {/* Hidden container for Google Widget */}
-      <div id="google_translate_element" style={{ position: 'absolute', top: '-9999px' }}></div>
+      <div id="google_translate_element" className="hidden"></div>
 
-      {/* LAYER 1: BRANDING BAR */}
-      <div className={`bg-white px-2 md:px-8 shadow-sm transition-all duration-500 overflow-visible ${isScrolled ? 'xl:max-h-0 xl:opacity-0 xl:invisible xl:py-0' : 'max-h-[200px] py-2 md:py-4 opacity-100 visible'}`}>
-        <div className="max-w-[1440px] mx-auto flex justify-between items-center gap-4">
-          
-          <Link to="/" className="flex items-center gap-1 md:gap-4 shrink-0 min-w-0">
-            <img src="/LOGO.jpg" alt="Logo" className="h-8 md:h-16 w-auto object-contain" />
-            <div className="flex flex-col border-l-2 border-blue-900 pl-1.5 md:pl-3">
-              <span className="text-[11px] md:text-[24px] font-black tracking-tighter text-blue-900 uppercase">Express Travel</span>
-              <span className="text-[6px] md:text-[12px] font-bold text-blue-600 uppercase">Corporate Services Pvt Ltd</span>
-            </div>
-          </Link>
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center h-12">
+        
+        {/* LEFT: LOGO */}
+        <Link to="/" className="flex items-center gap-3 shrink-0 group">
+          <img src="/LOGO.jpg" alt="Logo" className="h-10 md:h-14 w-auto object-contain transition-transform group-hover:scale-105" />
+          {/* Vertical Line for Logo - Always present, color changes on scroll */}
+          <div className={`h-10 w-[1px] ml-1 transition-colors duration-500 ${isScrolled ? 'bg-blue-900' : 'bg-white/50'}`}></div>
+          <div className="flex flex-col pl-2">
+            <span className={`text-[14px] md:text-[25px] font-black tracking-tighter uppercase leading-none transition-colors duration-500 ${isScrolled ? 'text-blue-900' : 'text-white'}`}>
+              Express Travel
+            </span>
+            <span className={`text-[7px] md:text-[9px] font-bold uppercase transition-colors duration-500 ${isScrolled ? 'text-blue-600' : 'text-blue-100'}`}>
+              Corporate Services Pvt Ltd
+            </span>
+          </div>
+        </Link>
 
-          <div className="flex items-center gap-1 md:gap-6 shrink-0">
-            <div className="flex items-center gap-1 md:gap-2">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white w-12 h-10 md:w-20 md:h-14 flex flex-col items-center justify-center rounded-sm transition-all">
-                <CreditCard size={12} className="md:size-5" />
-                <span className="text-[5px] md:text-[8px] font-black uppercase mt-0.5">Pay Online</span>
-              </button>
+        {/* MIDDLE: NAVIGATION (Tight spacing for laptop) */}
+        <nav className="hidden xl:flex items-center absolute left-1/2 -translate-x-1/2">
+          <ul className="flex items-center gap-x-1"> 
+            {menuItems.map((item, idx) => (
+              <li key={idx} className="relative group" ref={item.isDropdown ? toursRef : null}>
+                {item.isDropdown ? (
+                  <button 
+                    onClick={() => setToursDropdown(!toursDropdown)}
+                    className={`flex items-center gap-1 px-3 py-2 text-[12px] font-black uppercase transition-all duration-300
+                      ${isScrolled ? 'text-slate-800 hover:text-blue-600' : 'text-white hover:text-blue-200'}`}
+                  >
+                    {item.name} <ChevronDown size={13} className={`transition-transform duration-300 ${toursDropdown ? 'rotate-180' : ''}`} />
+                  </button>
+                ) : (
+                  <Link 
+                    to={item.isExternal ? '#' : item.link} 
+                    onClick={() => item.isExternal ? window.open(item.link) : handleLinkClick()}
+                    className={`px-3 py-2 text-[12px] font-black uppercase transition-all duration-300
+                      ${isScrolled ? 'text-slate-800 hover:text-blue-600' : 'text-white hover:text-blue-200'}`}
+                  >
+                    {item.name}
+                  </Link>
+                )}
 
-              <div className="relative" ref={langRef}>
-                <button 
-                  onClick={() => setLangDropdown(!langDropdown)}
-                  className={`flex flex-col items-center justify-center w-12 h-10 md:w-20 md:h-14 transition-all rounded-sm border ${langDropdown ? 'bg-blue-600 text-white border-blue-600' : 'text-blue-600 border-blue-100 bg-blue-50 hover:bg-blue-100'}`}
-                >
-                  <Globe size={12} className="md:size-5" /> 
-                  <div className="flex items-center gap-0.5 mt-0.5">
-                    <span className="text-[5px] md:text-[8px] font-black uppercase">{selectedLang}</span>
-                    <ChevronDown size={7} className={`transition-transform ${langDropdown ? 'rotate-180' : ''}`} />
-                  </div>
-                </button>
-                
-                {langDropdown && (
-                  <div className="absolute top-[105%] right-0 w-32 md:w-48 bg-white shadow-2xl border border-gray-100 z-[100] animate-in fade-in duration-200">
-                    <div className="bg-blue-600 h-1 w-full"></div>
-                    <ul className="max-h-60 overflow-y-auto py-1 custom-scrollbar">
-                      {languageOptions.map((lang, idx) => (
-                        <li key={idx} 
-                          onClick={() => { changeLanguage(lang.code, lang.name); setLangDropdown(false); }} 
-                          className="px-3 md:px-4 py-2 text-[9px] md:text-[11px] font-bold text-gray-700 hover:bg-blue-600 hover:text-white border-b border-gray-50 last:border-0 cursor-pointer uppercase"
-                        >
-                          {lang.name}
-                        </li>
-                      ))}
-                    </ul>
+                {item.isDropdown && toursDropdown && (
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-2xl shadow-2xl border-t-4 border-blue-600 animate-in fade-in slide-in-from-top-2 duration-300">
+                    {item.subItems.map((sub, sIdx) => (
+                      <Link key={sIdx} to={sub.link} onClick={handleLinkClick} className="block px-6 py-4 text-[11px] font-bold text-gray-700 hover:bg-blue-600 hover:text-white border-b border-gray-50 last:border-0 uppercase transition-colors">
+                        {sub.name}
+                      </Link>
+                    ))}
                   </div>
                 )}
-              </div>
-            </div>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-            <div className="hidden xl:flex flex-col items-end border-l pl-6 border-gray-100">
-              <span className="text-[20px] font-black text-blue-900 leading-none uppercase tracking-tight">
+        {/* RIGHT: TOOLS & INCREDIBLE INDIA */}
+        <div className="flex items-center gap-6">
+          
+          <div className="hidden xl:flex items-center gap-2">
+            {/* Pay Online with Hover Expand */}
+            <button className={`group flex items-center gap-0 hover:gap-2 px-2.5 py-2 rounded-full transition-all duration-300 border overflow-hidden
+              ${isScrolled ? 'border-gray-200 text-blue-900 hover:bg-blue-600 hover:text-white' : 'border-white/20 text-white hover:bg-white hover:text-blue-900'}`}>
+              <CreditCard size={18} className="shrink-0" />
+              <span className="max-w-0 group-hover:max-w-[100px] transition-all duration-500 overflow-hidden text-[10px] font-black uppercase whitespace-nowrap">
+                Pay Online
+              </span>
+            </button>
+
+            {/* Language with Hover Expand */}
+            <div className="relative" ref={langRef}>
+              <button 
+                onClick={() => setLangDropdown(!langDropdown)}
+                className={`group flex items-center gap-0 hover:gap-2 px-2.5 py-2 rounded-full transition-all duration-300 border overflow-hidden
+                ${isScrolled ? 'border-gray-200 text-blue-900 hover:bg-blue-600 hover:text-white' : 'border-white/20 text-white hover:bg-white hover:text-blue-900'}`}
+              >
+                <Globe size={18} className="shrink-0" />
+                <span className="max-w-0 group-hover:max-w-[100px] transition-all duration-500 overflow-hidden text-[10px] font-black uppercase whitespace-nowrap">
+                  {selectedLang}
+                </span>
+                <ChevronDown size={10} className="shrink-0 ml-1" />
+              </button>
+
+              {langDropdown && (
+                <div className="absolute top-full right-0 mt-2 w-36 bg-white shadow-2xl rounded-lg border border-gray-100 z-[110] overflow-hidden">
+                  {languageOptions.map((lang, i) => (
+                    <button key={i} onClick={() => changeLanguage(lang.code, lang.name)} className="w-full text-left px-4 py-2 text-[10px] font-bold text-gray-700 hover:bg-blue-600 hover:text-white uppercase transition-colors">
+                      {lang.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* INCREDIBLE INDIA with Vertical Line */}
+          <div className="hidden lg:flex items-center gap-2">
+            {/* Same vertical line as logo, color white fix */}
+            <div className={`h-10 w-[1px] transition-colors duration-500 ${isScrolled ? 'bg-blue-900' : 'bg-white/50'}`}></div>
+            <div className="flex flex-col items-start leading-none pl-1">
+              <span className={`text-[18px] md:text-[25px] font-[1000] leading-none uppercase tracking-tighter transition-colors duration-500
+                ${isScrolled ? 'text-blue-900' : 'text-white'}`}>
                 Incredible <span className="text-blue-600">!</span>ndia
               </span>
-              <p className="text-[9px] font-bold text-gray-500 uppercase mt-1 text-right leading-tight">
-                Recognized by Ministry of Tourism<br/>Govt. of India
-              </p>
+              <span className={`text-[7px] font-bold uppercase tracking-widest mt-1 transition-colors duration-500
+                ${isScrolled ? 'text-gray-500' : 'text-blue-100/80'}`}>
+                Recognized by Govt. of India
+              </span>
             </div>
+          </div>
 
-            <button className="xl:hidden p-1 text-blue-900" onClick={() => setIsMobileMenuOpen(true)}>
-              <Menu size={24} />
+          {/* Stable Hamburger Toggle */}
+          <button 
+            className={`xl:hidden p-2 rounded-full transition-all ${isScrolled ? 'text-blue-900 bg-blue-50' : 'text-white bg-white/10 backdrop-blur-sm'}`} 
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <Menu size={28} />
+          </button>
+        </div>
+      </div>
+
+      {/* MOBILE MENU (Accordion Logic Added) */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[200] bg-white flex flex-col animate-in slide-in-from-right duration-300 overflow-hidden">
+          <div className="p-6 flex justify-between items-center border-b border-gray-100">
+            <img src="/LOGO.jpg" alt="Logo" className="h-10 w-auto" />
+            <button onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 p-2 bg-blue-50 rounded-full">
+              <X size={32} />
             </button>
           </div>
-        </div>
-      </div>
-
-      {/* LAYER 2: DESKTOP NAVBAR */}
-      <div className={`hidden xl:flex justify-center px-4 transition-all duration-300 ${isScrolled ? 'mt-4' : 'mt-2'}`}>
-        <div className="bg-white shadow-xl border border-gray-100 flex items-center h-12 max-w-fit px-2">
-          <nav className="flex items-center h-full">
-            <ul className="flex items-center h-full">
-              {menuItems.map((item, index) => (
-                <li key={index} className="relative h-12 flex items-center px-5 border-r border-gray-100 last:border-0">
-                  {item.isExternal ? (
-                    <a href={item.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[11px] font-bold uppercase text-slate-700 hover:text-blue-600 transition-all">
-                      {item.name}
-                    </a>
-                  ) : (
-                    <Link to={item.link} onClick={handleLinkClick} className="flex items-center gap-1.5 text-[11px] font-bold uppercase text-slate-700 hover:text-blue-600 transition-all">
-                      {item.name}
-                    </Link>
-                  )}
-                </li>
-              ))}
-              <li className="h-12 flex items-center px-4 bg-gray-50 border-l border-gray-100">
-                <Link to="/enquiry" onClick={handleLinkClick}>
-                  <button className="bg-blue-600 text-white py-2 px-5 text-[10px] font-black uppercase flex items-center gap-2 hover:bg-blue-800 transition-all">
-                    <Send size={12} /> Enquiry
-                  </button>
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-
-      {/* MOBILE MENU */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[200] bg-white w-full h-full flex flex-col p-6 overflow-y-auto xl:hidden">
-          <div className="flex justify-between items-center mb-8">
-            <img src="/LOGO.jpg" alt="Logo" className="h-10 w-auto" />
-            <button onClick={() => setIsMobileMenuOpen(false)} className="text-blue-900 bg-blue-50 p-2 rounded-full"><X size={28} /></button>
-          </div>
-          <nav className="flex flex-col gap-2">
+          
+          <nav className="p-8 flex flex-col gap-5 overflow-y-auto h-full">
             {menuItems.map((item, idx) => (
-              <div key={idx} className="flex flex-col border-b border-gray-50">
-                <div className="flex justify-between items-center py-4">
-                  {item.isExternal ? (
-                    <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-[15px] font-black text-blue-900 uppercase w-full">{item.name}</a>
-                  ) : (
-                    <Link to={item.link} onClick={handleLinkClick} className="text-[15px] font-black text-blue-900 uppercase w-full">{item.name}</Link>
-                  )}
-                </div>
+              <div key={idx} className="border-b border-gray-50 pb-2">
+                {item.isDropdown ? (
+                  <div>
+                    <button 
+                      onClick={() => setMobileToursOpen(!mobileToursOpen)}
+                      className="flex justify-between items-center w-full text-[18px] font-black text-blue-900 uppercase py-2"
+                    >
+                      {item.name} <ChevronDown size={20} className={`transition-transform ${mobileToursOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {/* Accordion content for India & International */}
+                    {mobileToursOpen && (
+                      <div className="pl-4 py-2 flex flex-col gap-3 animate-in fade-in">
+                        {item.subItems.map((sub, sIdx) => (
+                          <Link key={sIdx} to={sub.link} onClick={handleLinkClick} className="text-[16px] font-bold text-blue-600 uppercase">
+                            • {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link to={item.link} onClick={handleLinkClick} className="text-[18px] font-black text-blue-900 uppercase block py-2">{item.name}</Link>
+                )}
               </div>
             ))}
-          </nav>
 
-          {/* Mobile Language Selector */}
-          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-            <p className="text-[10px] font-bold text-gray-400 uppercase mb-2">Select Language</p>
-            <div className="flex flex-wrap gap-2">
-              {languageOptions.map((lang, idx) => (
-                <button key={idx} onClick={() => { changeLanguage(lang.code, lang.name); setIsMobileMenuOpen(false); }} className={`px-3 py-1.5 rounded-md text-[11px] font-bold uppercase ${selectedLang === lang.name ? 'bg-blue-600 text-white' : 'bg-white text-blue-900 border border-gray-200'}`}>
-                  {lang.name}
-                </button>
-              ))}
+            {/* Pay Online - Hamburger Menu */}
+            <button className="w-full flex items-center justify-center gap-3 bg-blue-600 text-white py-4 rounded-xl font-black uppercase text-sm mt-2">
+                <CreditCard size={20} /> Pay Online
+            </button>
+
+            {/* Language Selection Accordion Mobile */}
+            <div className="pb-10">
+              <button 
+                onClick={() => setMobileLangOpen(!mobileLangOpen)}
+                className="w-full flex justify-between items-center border border-gray-200 px-4 py-3 rounded-xl font-black text-blue-900 uppercase text-sm mt-2"
+              >
+                <div className="flex items-center gap-2"><Globe size={20} /> {selectedLang}</div>
+                <ChevronDown size={18} className={`transition-transform ${mobileLangOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileLangOpen && (
+                <div className="grid grid-cols-2 gap-2 mt-3 p-2 bg-gray-50 rounded-xl animate-in fade-in">
+                  {languageOptions.map((lang, idx) => (
+                    <button 
+                      key={idx} 
+                      onClick={() => changeLanguage(lang.code, lang.name)}
+                      className={`py-2 px-3 text-[10px] font-bold rounded-lg border ${selectedLang === lang.name ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 border-gray-100'}`}
+                    >
+                      {lang.name}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
+
+            <div className="mt-auto pt-8 border-t border-gray-100 text-center">
+               <p className="text-[32px] font-[1000] text-blue-900 uppercase leading-none tracking-tighter">Incredible <span className="text-blue-600">!</span>ndia</p>
+               <p className="text-[11px] font-bold text-gray-400 mt-2 uppercase tracking-widest leading-none">Recognized by Govt. of India</p>
+            </div>
+          </nav>
         </div>
-        
-
-
-        
       )}
 
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #2563eb; }
         .goog-te-banner-frame.skiptranslate, .goog-te-banner-frame { display: none !important; }
         body { top: 0px !important; }
-        .goog-logo-link { display:none !important; }
         .goog-te-gadget { color: transparent !important; font-size: 0px !important; }
-        .goog-te-gadget span { display: none !important; }
         #goog-gt-tt { display: none !important; visibility: hidden !important; }
-        html { height: 100%; }
-        body { position: relative; min-height: 100%; }
       `}</style>
     </header>
   );

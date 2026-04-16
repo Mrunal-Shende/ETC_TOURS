@@ -97,29 +97,31 @@ const BlogPage = () => {
   ];
 
   return (
-    <div className="bg-[#fcfdfe] min-h-screen font-sans text-slate-700 pt-16 selection:bg-blue-100">
+    <div className="bg-[#fcfdfe] min-h-screen font-sans text-slate-700 selection:bg-blue-100">
       <AnimatePresence mode="wait">
         {!selectedBlog ? (
           <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             
-            {/* --- UPDATED HERO SECTION HEIGHT --- */}
-            <div className="relative w-full h-[75vh] md:h-[85vh] bg-[#0f172a] overflow-hidden flex items-center justify-center">
-              <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-60 scale-105"
+            {/* --- HERO SECTION FIXED TO FULL SCREEN --- */}
+            <div className="relative w-full h-screen bg-[#0f172a] overflow-hidden flex items-center justify-center">
+              <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat scale-105"
                 style={{ backgroundImage: "url('/heroblog.jpeg')" }}></div>
               
-              <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0f172a]/80 via-transparent to-transparent"></div>
+              {/* Overlay for readability */}
+              <div className="absolute inset-0 z-10 bg-black/40"></div>
+              <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0f172a]/60 via-transparent to-[#0f172a]/40"></div>
 
               <div className="relative z-20 text-center max-w-4xl mx-auto px-4 md:px-6">
                 <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="inline-flex flex-col items-center mb-6 mt-8 px-6 py-2 border border-white/10 backdrop-blur-md bg-white/5">
                   <span className="text-white font-serif text-xl md:text-2xl font-bold tracking-tight italic text-center leading-tight">Incredible <span className="text-blue-500 font-sans not-italic font-black">!</span>ndia</span>
                   <span className="text-[7px] md:text-[8px] text-blue-400 font-black uppercase tracking-[0.3em] mt-1 text-center">Travel Chronicles & Insights</span>
                 </motion.div>
-                <motion.h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase italic leading-none drop-shadow-2xl">BLOG</motion.h1>
+                <motion.h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter uppercase italic leading-none drop-shadow-2xl">BLOG</motion.h1>
               </div>
             </div>
 
             {/* --- BLOG LISTING --- */}
-            <div className="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-12 space-y-12 md:space-y-16">
+            <div className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 space-y-12 md:space-y-16">
               {blogs.map((blog) => (
                 <motion.div key={blog.id} className={`flex flex-col ${blog.borderPos === 'left' ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-6 md:gap-10`}>
                   <div className="w-full md:w-1/2 overflow-hidden shadow-lg aspect-[4/3]">
@@ -142,7 +144,7 @@ const BlogPage = () => {
           </motion.div>
         ) : (
           <motion.div key="detail" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="bg-white min-h-screen relative">
-            <div className="max-w-6xl mx-auto px-4 md:px-6 pt-15 md:pt-25 pb-24 md:pb-32">
+            <div className="max-w-6xl mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-24 md:pb-32">
               <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
                 <div className="lg:w-1/3 lg:sticky lg:top-32 h-fit bg-slate-50/50 p-4 md:p-6 border-r border-slate-100">
                   <div className="border-l-4 border-blue-600 pl-4 md:pl-6 mb-8 md:mb-10">

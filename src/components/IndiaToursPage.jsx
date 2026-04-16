@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, ArrowRight, Star } from 'lucide-react';
+import { MapPin, Clock, ArrowRight, Star, ArrowLeft } from 'lucide-react';
 
 /* ── Category Landing (no slug) ─────────────────────────────────────────── */
 const IndiaToursList = () => {
   const [cats, setCats] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     supabase.from('tour_categories')
@@ -23,6 +24,18 @@ const IndiaToursList = () => {
   return (
     <div className="pt-32 pb-20 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
+        
+        {/* --- BACK BUTTON REDIRECTING TO TOURS --- */}
+        <div className="mb-10 flex justify-start">
+          <button 
+            onClick={() => navigate('/')} 
+            className="flex items-center gap-3 bg-slate-900 text-white px-6 py-3 rounded-none font-bold uppercase tracking-widest text-[11px] hover:bg-blue-600 transition-all duration-300 shadow-lg group"
+          >
+            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+            Back 
+          </button>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-14">
           <span className="text-blue-600 text-[10px] font-bold tracking-[0.28em] uppercase block mb-3">Explore India</span>
@@ -74,7 +87,7 @@ const IndiaTourDetail = () => {
   const [cat, setCat]           = useState(null);
   const [packages, setPackages] = useState([]);
   const [loading, setLoading]   = useState(true);
-  const [enquiry, setEnquiry]   = useState(null); // package being enquired
+  const [enquiry, setEnquiry]   = useState(null); 
 
   useEffect(() => {
     const load = async () => {
@@ -104,9 +117,16 @@ const IndiaTourDetail = () => {
 
         {/* Hero */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <Link to="/tours/india" className="text-blue-600 text-xs font-bold uppercase tracking-widest hover:underline mb-4 block">
-            ← India Tours
-          </Link>
+          
+          {/* BACK BUTTON REDIRECTING TO LIST */}
+          <button 
+            onClick={() => navigate('/tours/india')} 
+            className="flex items-center gap-3 bg-slate-900 text-white px-5 py-2.5 rounded-none font-bold uppercase tracking-widest text-[10px] hover:bg-blue-600 transition-all mb-8 group shadow-lg"
+          >
+            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform"/>
+            Back to List
+          </button>
+
           <div className="flex flex-col lg:flex-row gap-10 items-center">
             <div className="flex-1">
               <span className="text-blue-600 text-[10px] font-bold tracking-[0.28em] uppercase block mb-2">{cat.tagline}</span>

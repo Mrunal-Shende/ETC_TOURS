@@ -52,7 +52,7 @@ const AboutUsETC = () => {
             <div className="flex items-center gap-3 mb-2 justify-center">
               <div className="h-[2px] w-6 md:w-10 bg-white"></div>
               <span className="text-white drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] font-black uppercase tracking-[0.3em] text-[10px] md:text-sm">
-                Est. since 2008
+                Est. since 1999
               </span>
               <div className="h-[2px] w-6 md:w-10 bg-white"></div>
             </div>
@@ -68,42 +68,79 @@ const AboutUsETC = () => {
                 "Synonymous with leisure and business travel. We provide a superior total travel management service of premium quality."
               </p>
             </div>
-
-            <div className="flex flex-row gap-4 md:gap-9 justify-center">
-               <div className="bg-white/10 backdrop-blur-xl px-5 py-4 md:px-10 md:py-6 rounded-none border border-white/20 shadow-2xl">
-                  <p className="text-xl md:text-3xl font-black text-white tracking-tighter">18+ Years</p>
-                  <p className="text-[10px] md:text-xs uppercase font-bold text-blue-700 tracking-widest mt-1">Legacy</p>
-               </div>
-               <div className="bg-white/10 backdrop-blur-xl px-5 py-4 md:px-10 md:py-6 rounded-none border border-white/20 shadow-2xl">
-                  <p className="text-xl md:text-3xl font-black text-white tracking-tighter">Premium</p>
-                  <p className="text-[10px] md:text-xs uppercase font-bold text-blue-700 tracking-widest mt-1">Quality</p>
-               </div>
-            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* --- NEW SECTION: COMPANY PHILOSOPHY --- */}
-      <section className="py-16 bg-slate-50 border-y border-slate-100">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
-            <Award className="mx-auto text-blue-600" size={40} />
-            <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight">Our Core Mission</h2>
-            <p className="text-slate-600 text-base md:text-lg leading-relaxed font-medium">
-              Established on 31 January 2008, Express Travel Corporate Services Pvt Ltd has spent over a decade 
-              mastering the art of travel management. We cater to the global community—from individuals 
-              to large groups—with a steadfast commitment to personalized service. We never compromise on 
-              the attention to detail that every traveler deserves, ensuring a seamless experience across 
-              all aspects of your journey.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    {/* --- NEW SECTION: COMPANY PHILOSOPHY --- */}
+<section
+  ref={(el) => {
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.querySelector('.glide-left').style.animation = 'glideLeft 0.75s ease-out 0.2s forwards';
+          el.querySelector('.glide-right').style.animation = 'glideRight 0.75s ease-out 0.2s forwards';
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+  }}
+  className="py-16 bg-slate-50 border-y border-slate-100"
+>
+  <style>{`
+    @keyframes glideLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes glideRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .glide-left, .glide-right {
+      display: inline;
+      opacity: 0;
+    }
+  `}</style>
+
+  <div className="max-w-5xl mx-auto px-6 text-center">
+    <div className="space-y-6">
+
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        <Award className="mx-auto text-blue-600" size={40} />
+      </motion.div>
+
+      <motion.h2
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight"
+      >
+        Our Core Mission
+      </motion.h2>
+
+      <p className="text-slate-600 text-base md:text-lg leading-relaxed font-medium">
+        <span className="glide-left">
+          Est. Since 1999, Express Travel Corporate Services Pvt Ltd has spent over a decade
+          mastering the art of travel management. We cater to the global community—
+        </span>
+        <span className="glide-right">
+          from individuals to large groups—with a steadfast commitment to personalized
+          service, ensuring a seamless experience across every aspect of your journey.
+        </span>
+      </p>
+
+    </div>
+  </div>
+</section>
 
       {/* --- COMPACT SPECIAL INTEREST TOURISM --- */}
       <section className="py-12 md:py-16 bg-white relative overflow-hidden">
@@ -179,7 +216,7 @@ const AboutUsETC = () => {
         </div>
       </section>
 
-      {/* --- SERVICE SPECTRUM --- */}
+      {/* --- SERVICE SPECTRUM ---
       <section className="relative py-16 px-4 bg-white overflow-hidden">
         <div className="max-w-[1400px] mx-auto relative z-10">
           <div className="text-center mb-12">
@@ -210,7 +247,7 @@ const AboutUsETC = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* --- INFRASTRUCTURE --- */}
       <section className="py-12 bg-white overflow-hidden">
@@ -261,7 +298,7 @@ const AboutUsETC = () => {
         </div>
       </section>
 
-      {/* --- CAROUSEL --- */}
+      {/* --- CAROUSEL ---
       <section className="bg-white py-12 overflow-hidden border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-10">
@@ -284,7 +321,7 @@ const AboutUsETC = () => {
           .animate-scroll { animation: scroll 30s linear infinite; display: flex; width: max-content; }
           .group:hover .animate-scroll { animation-play-state: paused; }
         `}} />
-      </section>
+      </section> */}
     </div>
   );
 };
