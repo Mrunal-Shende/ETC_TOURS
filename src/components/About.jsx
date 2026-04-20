@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
+
 const features = [
   {
     title: "Ministry Recognized",
@@ -32,7 +33,7 @@ const features = [
   },
 ];
 
-const FRONT_IMAGE = "https://assets.quickerala.com/promotion/promo_1731316252.jpg";
+const FRONT_IMAGE = "/about1.jpeg";
 
 const AboutSection = () => {
   const navigate = useNavigate();
@@ -77,11 +78,13 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
-            className="relative w-full max-w-[500px] mx-auto lg:mx-0"
+            // CHANGE 1: Increase max-w- to give it more width
+            className="relative w-full max-w-[600px] mx-auto lg:mx-0"
           >
             <div
               className="relative w-full cursor-pointer"
-              style={{ perspective: '1500px', aspectRatio: '4/3' }}
+              // CHANGE 2: Adjust aspect-ratio to make the box overall larger (4/3 -> 3/2)
+              style={{ perspective: '1500px', aspectRatio: '2/2' }}
               // Desktop hover support
               onMouseEnter={() => setFlipped(true)}
               onMouseLeave={() => setFlipped(false)}
@@ -151,7 +154,7 @@ const AboutSection = () => {
                 </div>
               </motion.div>
             </div>
-            {/* Decorative boxes - Hidden on very small screens if needed, or kept for style */}
+            {/* Decorative boxes */}
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-600/5 rounded-xl -z-10" />
             <div className="absolute -top-4 -left-4 w-16 h-16 bg-slate-100 rounded-xl -z-10" />
           </motion.div>

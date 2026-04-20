@@ -15,11 +15,11 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
 
 const travelCards = [
-  { img: nepalImg, title: "NEPAL", sub: "Majestic Himalayan peaks and spiritual traditions.", link: "/tours/india/nepal" },
-  { img: northEastImg, title: "THE BEST OF NORTH EAST", sub: "Explore Darjeeling, Gangtok, and Pelling.", link: "/tours/india/north-india-home" },
-  { img: telanganaImg, title: "TELANGANA", sub: "Ancient architecture and divine serenity.", link: "/tours/india/telangana-home" },
-  { img: kashmirImg, title: "KASHMIR", sub: "Snow-capped peaks and tranquil waters.", link: "/tours/india/kashmir-home" },
-  { img: gujaratImg, title: "GUJARAT", sub: "White salt deserts and Asiatic Lions.", link: "/tours/india/gujarat-home" },
+  { img: nepalImg, title: "NEPAL", sub: "Majestic Himalayan peaks and spiritual traditions.", link: "/tours/india" },
+  { img: northEastImg, title: "THE BEST OF NORTH EAST", sub: "Explore Darjeeling, Gangtok, and Pelling.", link: "/tours/india" },
+  { img: telanganaImg, title: "TELANGANA", sub: "Ancient architecture and divine serenity.", link: "/tours/india" },
+  { img: kashmirImg, title: "KASHMIR", sub: "Snow-capped peaks and tranquil waters.", link: "/tours/india" },
+  { img: gujaratImg, title: "GUJARAT", sub: "White salt deserts and Asiatic Lions.", link: "/tours/india" },
 ];
 
 const multiCards = [...travelCards, ...travelCards];
