@@ -3,38 +3,28 @@ import { supabase } from '../../supabaseClient';
 import {
   Plus, Pencil, Trash2, X, Save,
   Star, Eye, EyeOff, Search,
-  ChevronDown, ChevronUp, PlusCircle, MinusCircle
+  PlusCircle, MinusCircle
 } from 'lucide-react';
 
-/* ── empty form state ─────────────────────────────────────────────────── */
 const EMPTY = {
-  category_id: '', name: '', nights: '', start_city: '', end_city: '',
-  route_covering: '', price: '', price_label: 'Starting From',
-  highlights: '', description: '', image_url: '', badge: '',
-  duration_label: '', is_featured: false, is_active: true, display_order: 0,
-  // new columns
-  inclusions: '',
-  exclusions: '',
-  gallery: '',
-  itinerary: [],          // array of { day_number, title, description }
+  category_id:'', name:'', nights:'', start_city:'', end_city:'',
+  route_covering:'', price:'', price_label:'Starting From',
+  highlights:'', description:'', image_url:'', badge:'',
+  duration_label:'', is_featured:false, is_active:true, display_order:0,
+  inclusions:'', exclusions:'', gallery:'', itinerary:[],
+  key_details:'', validity_text:'',
 };
 
-/* ── Itinerary day builder ─────────────────────────────────────────────── */
+/* ── Itinerary builder ─────────────────────────────────────────────────── */
 const ItineraryBuilder = ({ days, onChange }) => {
-  const addDay = () => {
-    onChange([...days, { day_number: days.length + 1, title: '', description: '' }]);
-  };
+  const addDay = () =>
+    onChange([...days, { day_number: days.length + 1, title:'', description:'' }]);
 
-  const removeDay = (idx) => {
-    const updated = days.filter((_, i) => i !== idx)
-      .map((d, i) => ({ ...d, day_number: i + 1 }));
-    onChange(updated);
-  };
+  const removeDay = idx =>
+    onChange(days.filter((_,i) => i !== idx).map((d,i) => ({ ...d, day_number: i+1 })));
 
-  const updateDay = (idx, field, value) => {
-    const updated = days.map((d, i) => i === idx ? { ...d, [field]: value } : d);
-    onChange(updated);
-  };
+  const updateDay = (idx, field, value) =>
+    onChange(days.map((d,i) => i === idx ? { ...d, [field]: value } : d));
 
   return (
     <div className="space-y-3">
@@ -44,41 +34,30 @@ const ItineraryBuilder = ({ days, onChange }) => {
             <span className="bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded flex-shrink-0">
               Day {day.day_number}
             </span>
-            <input
-              value={day.title}
-              onChange={e => updateDay(idx, 'title', e.target.value)}
+            <input value={day.title}
+              onChange={e => updateDay(idx,'title',e.target.value)}
               placeholder="Day title e.g. Arrive at Port Blair"
-              className="field flex-1"
-            />
-            <button
-              type="button"
-              onClick={() => removeDay(idx)}
-              className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0"
-            >
+              className="field flex-1"/>
+            <button type="button" onClick={() => removeDay(idx)}
+              className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0">
               <MinusCircle size={18}/>
             </button>
           </div>
-          <textarea
-            rows={3}
-            value={day.description}
-            onChange={e => updateDay(idx, 'description', e.target.value)}
-            placeholder="Describe activities, transfers, sightseeing for this day..."
-            className="field resize-none w-full"
-          />
+          <textarea rows={3} value={day.description}
+            onChange={e => updateDay(idx,'description',e.target.value)}
+            placeholder="Describe activities for this day..."
+            className="field resize-none w-full"/>
         </div>
       ))}
-      <button
-        type="button"
-        onClick={addDay}
-        className="w-full flex items-center justify-center gap-2 border border-dashed border-slate-600 text-slate-400 hover:text-blue-400 hover:border-blue-500 py-3 rounded-lg text-sm transition-colors"
-      >
+      <button type="button" onClick={addDay}
+        className="w-full flex items-center justify-center gap-2 border border-dashed border-slate-600 text-slate-400 hover:text-blue-400 hover:border-blue-500 py-3 rounded-lg text-sm transition-colors">
         <PlusCircle size={16}/> Add Day
       </button>
     </div>
   );
 };
 
-/* ── Main Component ───────────────────────────────────────────────────── */
+/* ── Main ──────────────────────────────────────────────────────────────── */
 const AdminPackages = () => {
   const [packages, setPackages]     = useState([]);
   const [cats, setCats]             = useState([]);
@@ -90,7 +69,7 @@ const AdminPackages = () => {
   const [showForm, setShowForm]     = useState(false);
   const [saving, setSaving]         = useState(false);
   const [msg, setMsg]               = useState('');
-  const [activeTab, setActiveTab]   = useState('basic'); // basic | itinerary | details
+  const [activeTab, setActiveTab]   = useState('basic');
 
   const load = async () => {
     const [{ data: pkgs }, { data: categories }] = await Promise.all([
@@ -106,7 +85,6 @@ const AdminPackages = () => {
 
   useEffect(() => { load(); }, []);
 
-  /* filtered list */
   const displayed = packages.filter(p => {
     const matchCat    = !filterCat  || p.category_id === filterCat;
     const matchType   = !filterType || p.tour_categories?.type === filterType;
@@ -114,59 +92,44 @@ const AdminPackages = () => {
     return matchCat && matchType && matchSearch;
   });
 
-  const openNew = () => {
-    setForm(EMPTY);
-    setEditing(null);
-    setActiveTab('basic');
-    setShowForm(true);
-  };
+  const openNew = () => { setForm(EMPTY); setEditing(null); setActiveTab('basic'); setShowForm(true); };
 
-  const openEdit = (pkg) => {
+  const openEdit = pkg => {
     setForm({
-      ...EMPTY,
-      ...pkg,
-      highlights:  Array.isArray(pkg.highlights) ? pkg.highlights.join(', ') : (pkg.highlights || ''),
+      ...EMPTY, ...pkg,
+      highlights: Array.isArray(pkg.highlights) ? pkg.highlights.join(', ') : (pkg.highlights||''),
       inclusions:  pkg.inclusions  || '',
       exclusions:  pkg.exclusions  || '',
       gallery:     pkg.gallery     || '',
-      itinerary:   Array.isArray(pkg.itinerary) ? pkg.itinerary : [],
+      key_details: pkg.key_details || '',
+      validity_text: pkg.validity_text || '',
+      itinerary: Array.isArray(pkg.itinerary) ? pkg.itinerary : [],
     });
-    setEditing(pkg.id);
-    setActiveTab('basic');
-    setShowForm(true);
+    setEditing(pkg.id); setActiveTab('basic'); setShowForm(true);
   };
 
-  const handleSave = async (e) => {
-    e.preventDefault();
-    setSaving(true);
-
+  const handleSave = async e => {
+    e.preventDefault(); setSaving(true);
     const payload = {
-      category_id:    form.category_id,
-      name:           form.name,
-      nights:         form.nights   ? +form.nights   : null,
-      price:          form.price    ? +form.price    : null,
-      display_order:  +form.display_order || 0,
-      start_city:     form.start_city,
-      end_city:       form.end_city,
-      route_covering: form.route_covering,
-      price_label:    form.price_label,
-      description:    form.description,
-      image_url:      form.image_url,
-      badge:          form.badge,
-      duration_label: form.duration_label,
-      is_featured:    form.is_featured,
-      is_active:      form.is_active,
-      // arrays / text
+      category_id: form.category_id,
+      name: form.name,
+      nights: form.nights ? +form.nights : null,
+      price:  form.price  ? +form.price  : null,
+      display_order: +form.display_order || 0,
+      start_city: form.start_city, end_city: form.end_city,
+      route_covering: form.route_covering, price_label: form.price_label,
+      description: form.description, image_url: form.image_url,
+      badge: form.badge, duration_label: form.duration_label,
+      is_featured: form.is_featured, is_active: form.is_active,
       highlights: form.highlights
-        ? form.highlights.split(',').map(h => h.trim()).filter(Boolean)
-        : [],
-      inclusions:  form.inclusions  || null,
-      exclusions:  form.exclusions  || null,
-      gallery:     form.gallery     || null,
-      itinerary:   form.itinerary.length ? form.itinerary : null,
+        ? form.highlights.split(',').map(h => h.trim()).filter(Boolean) : [],
+      inclusions:    form.inclusions    || null,
+      exclusions:    form.exclusions    || null,
+      gallery:       form.gallery       || null,
+      key_details:   form.key_details   || null,
+      validity_text: form.validity_text || null,
+      itinerary: form.itinerary.length ? form.itinerary : null,
     };
-
-    // remove joined relation field
     delete payload.tour_categories;
 
     let err;
@@ -175,44 +138,37 @@ const AdminPackages = () => {
     } else {
       ({ error: err } = await supabase.from('tour_packages').insert(payload));
     }
-
-    if (err) {
-      setMsg('Error: ' + err.message);
-    } else {
-      setMsg(editing ? 'Package updated!' : 'Package added!');
-      setShowForm(false);
-      setEditing(null);
-      load();
-    }
+    if (err) { setMsg('Error: ' + err.message); }
+    else { setMsg(editing ? 'Package updated!' : 'Package added!'); setShowForm(false); setEditing(null); load(); }
     setSaving(false);
     setTimeout(() => setMsg(''), 3000);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async id => {
     if (!confirm('Delete this package?')) return;
     await supabase.from('tour_packages').delete().eq('id', id);
     load();
   };
 
-  const toggleFeatured = async (pkg) => {
+  const toggleFeatured = async pkg => {
     await supabase.from('tour_packages').update({ is_featured: !pkg.is_featured }).eq('id', pkg.id);
     load();
   };
 
-  const toggleActive = async (pkg) => {
+  const toggleActive = async pkg => {
     await supabase.from('tour_packages').update({ is_active: !pkg.is_active }).eq('id', pkg.id);
     load();
   };
 
-  const set = (key) => (e) => setForm({ ...form, [key]: e.target.value });
-
+  const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
   const indiaCats = cats.filter(c => c.type === 'india');
   const intlCats  = cats.filter(c => c.type === 'international');
 
   const TABS = [
-    { id: 'basic',     label: 'Basic Info'  },
-    { id: 'itinerary', label: 'Itinerary'   },
-    { id: 'details',   label: 'Inc / Exc / Gallery' },
+    { id:'basic',     label:'Basic Info'         },
+    { id:'itinerary', label:'Itinerary'           },
+    { id:'details',   label:'Inc / Exc / Gallery' },
+    { id:'keyinfo',   label:'Key Details'         },
   ];
 
   return (
@@ -230,17 +186,14 @@ const AdminPackages = () => {
       </div>
 
       {msg && (
-        <div className="mb-4 bg-emerald-900/40 border border-emerald-700 text-emerald-300 text-sm px-4 py-3 rounded-lg">
-          {msg}
-        </div>
+        <div className="mb-4 bg-emerald-900/40 border border-emerald-700 text-emerald-300 text-sm px-4 py-3 rounded-lg">{msg}</div>
       )}
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-5">
         <div className="relative">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"/>
-          <input value={search} onChange={e => setSearch(e.target.value)}
-            placeholder="Search packages..."
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search packages..."
             className="bg-slate-800 border border-slate-700 text-white text-sm pl-9 pr-3 py-2 rounded-lg focus:outline-none focus:border-blue-500 w-56"/>
         </div>
         <select value={filterType} onChange={e => { setFilterType(e.target.value); setFilterCat(''); }}
@@ -282,7 +235,7 @@ const AdminPackages = () => {
                   <td className="px-4 py-3 text-slate-300 text-sm whitespace-nowrap">
                     {pkg.price ? `₹${Number(pkg.price).toLocaleString()}` : '—'}
                   </td>
-                  <td className="px-4 py-3 text-slate-400 text-xs">
+                  <td className="px-4 py-3 text-xs">
                     {Array.isArray(pkg.itinerary) && pkg.itinerary.length > 0
                       ? <span className="text-emerald-400 font-bold">{pkg.itinerary.length}D</span>
                       : <span className="text-slate-600">—</span>}
@@ -293,7 +246,7 @@ const AdminPackages = () => {
                     </button>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <button onClick={() => toggleActive(pkg)} title="Toggle visibility">
+                    <button onClick={() => toggleActive(pkg)}>
                       {pkg.is_active
                         ? <Eye size={16} className="text-emerald-400 hover:text-slate-400"/>
                         : <EyeOff size={16} className="text-slate-600 hover:text-emerald-400"/>}
@@ -315,25 +268,22 @@ const AdminPackages = () => {
         </div>
       </div>
 
-      {/* ── FORM MODAL ─────────────────────────────────────────────────── */}
+      {/* ── Modal ────────────────────────────────────────────────────────── */}
       {showForm && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
           onClick={e => e.target === e.currentTarget && setShowForm(false)}>
           <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl max-h-[92vh] flex flex-col">
 
-            {/* Modal header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 flex-shrink-0">
               <h2 className="text-white font-bold">{editing ? 'Edit Package' : 'Add Package'}</h2>
-              <button onClick={() => setShowForm(false)}>
-                <X size={20} className="text-slate-400 hover:text-white"/>
-              </button>
+              <button onClick={() => setShowForm(false)}><X size={20} className="text-slate-400 hover:text-white"/></button>
             </div>
 
             {/* Tabs */}
-            <div className="flex border-b border-slate-800 flex-shrink-0">
+            <div className="flex border-b border-slate-800 flex-shrink-0 overflow-x-auto">
               {TABS.map(tab => (
                 <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                  className={`px-5 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
+                  className={`px-5 py-3 text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors ${
                     activeTab === tab.id
                       ? 'text-blue-400 border-b-2 border-blue-400'
                       : 'text-slate-500 hover:text-slate-300'
@@ -343,14 +293,12 @@ const AdminPackages = () => {
               ))}
             </div>
 
-            {/* Form body */}
             <form onSubmit={handleSave} className="flex flex-col flex-1 overflow-hidden">
               <div className="flex-1 overflow-y-auto p-6 space-y-4">
 
-                {/* ── TAB 1: Basic Info ── */}
+                {/* ── TAB 1: Basic ── */}
                 {activeTab === 'basic' && (
                   <>
-                    {/* Category */}
                     <div>
                       <label className="label">Category *</label>
                       <select required value={form.category_id} onChange={set('category_id')} className="field">
@@ -363,93 +311,65 @@ const AdminPackages = () => {
                         </optgroup>
                       </select>
                     </div>
-
-                    {/* Name */}
                     <div>
                       <label className="label">Package Name *</label>
-                      <input required value={form.name} onChange={set('name')}
-                        className="field" placeholder="e.g. Andaman Unlimited"/>
+                      <input required value={form.name} onChange={set('name')} className="field" placeholder="e.g. Andaman Unlimited"/>
                     </div>
-
-                    {/* Nights / Start / End */}
                     <div className="grid grid-cols-3 gap-3">
                       <div>
                         <label className="label">Nights</label>
-                        <input type="number" min="1" value={form.nights} onChange={set('nights')}
-                          className="field" placeholder="5"/>
+                        <input type="number" min="1" value={form.nights} onChange={set('nights')} className="field" placeholder="5"/>
                       </div>
                       <div>
                         <label className="label">Start City</label>
-                        <input value={form.start_city} onChange={set('start_city')}
-                          className="field" placeholder="Port Blair"/>
+                        <input value={form.start_city} onChange={set('start_city')} className="field" placeholder="Port Blair"/>
                       </div>
                       <div>
                         <label className="label">End City</label>
-                        <input value={form.end_city} onChange={set('end_city')}
-                          className="field" placeholder="Port Blair"/>
+                        <input value={form.end_city} onChange={set('end_city')} className="field" placeholder="Port Blair"/>
                       </div>
                     </div>
-
-                    {/* Route */}
                     <div>
                       <label className="label">Route / Covering</label>
-                      <input value={form.route_covering} onChange={set('route_covering')}
-                        className="field" placeholder="1 Port Blair - 2 Havelock - 2 Port Blair"/>
+                      <input value={form.route_covering} onChange={set('route_covering')} className="field" placeholder="1 Port Blair - 2 Havelock - 2 Port Blair"/>
                     </div>
-
-                    {/* Price + Badge */}
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="label">Price (₹)</label>
-                        <input type="number" value={form.price} onChange={set('price')}
-                          className="field" placeholder="18500"/>
+                        <input type="number" value={form.price} onChange={set('price')} className="field" placeholder="18500"/>
                       </div>
                       <div>
                         <label className="label">Badge Label</label>
-                        <input value={form.badge} onChange={set('badge')}
-                          className="field" placeholder="Popular / Spiritual / Featured"/>
+                        <input value={form.badge} onChange={set('badge')} className="field" placeholder="Popular / Spiritual"/>
                       </div>
                     </div>
-
-                    {/* Highlights */}
                     <div>
-                      <label className="label">
-                        Highlights <span className="text-slate-500 normal-case font-normal">(comma separated)</span>
-                      </label>
-                      <input value={form.highlights} onChange={set('highlights')}
-                        className="field" placeholder="Cellular Jail, Havelock Beach, Water Sports"/>
+                      <label className="label">Highlights <span className="text-slate-500 normal-case font-normal">(comma separated)</span></label>
+                      <input value={form.highlights} onChange={set('highlights')} className="field" placeholder="Cellular Jail, Havelock Beach, Water Sports"/>
                     </div>
-
-                    {/* Description */}
                     <div>
                       <label className="label">Description</label>
-                      <textarea rows={3} value={form.description} onChange={set('description')}
-                        className="field resize-none" placeholder="Short package overview..."/>
+                      <textarea rows={3} value={form.description} onChange={set('description')} className="field resize-none" placeholder="Short package overview..."/>
                     </div>
-
-                    {/* Image URL */}
                     <div>
                       <label className="label">Main Image URL</label>
-                      <input value={form.image_url} onChange={set('image_url')}
-                        className="field" placeholder="https://..."/>
+                      <input value={form.image_url} onChange={set('image_url')} className="field" placeholder="https://..."/>
                       {form.image_url && (
                         <img src={form.image_url} alt="preview"
                           className="mt-2 h-24 w-full object-cover rounded-lg opacity-80"
-                          onError={e => e.target.style.display = 'none'}/>
+                          onError={e => e.target.style.display='none'}/>
                       )}
                     </div>
-
-                    {/* Toggles */}
                     <div className="flex gap-6 pt-1">
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" checked={form.is_featured}
-                          onChange={e => setForm({ ...form, is_featured: e.target.checked })}
+                          onChange={e => setForm(f => ({ ...f, is_featured: e.target.checked }))}
                           className="w-4 h-4 accent-amber-500"/>
                         <span className="text-slate-300 text-sm">⭐ Show on Homepage</span>
                       </label>
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" checked={form.is_active}
-                          onChange={e => setForm({ ...form, is_active: e.target.checked })}
+                          onChange={e => setForm(f => ({ ...f, is_active: e.target.checked }))}
                           className="w-4 h-4 accent-blue-500"/>
                         <span className="text-slate-300 text-sm">Active / Visible</span>
                       </label>
@@ -463,66 +383,94 @@ const AdminPackages = () => {
                     <div className="flex items-center justify-between mb-4">
                       <div>
                         <p className="text-white font-bold text-sm">Day-by-Day Itinerary</p>
-                        <p className="text-slate-400 text-xs mt-0.5">
-                          Add each day's title and detailed description. Shows as accordion on the package detail page.
-                        </p>
+                        <p className="text-slate-400 text-xs mt-0.5">Each day shows as an expandable accordion on the detail page.</p>
                       </div>
-                      <span className="bg-blue-900 text-blue-300 text-xs font-bold px-3 py-1 rounded-full">
-                        {form.itinerary.length} days
-                      </span>
+                      <span className="bg-blue-900 text-blue-300 text-xs font-bold px-3 py-1 rounded-full">{form.itinerary.length} days</span>
                     </div>
-                    <ItineraryBuilder
-                      days={form.itinerary}
-                      onChange={days => setForm({ ...form, itinerary: days })}
-                    />
+                    <ItineraryBuilder days={form.itinerary} onChange={days => setForm(f => ({ ...f, itinerary: days }))}/>
                   </div>
                 )}
 
                 {/* ── TAB 3: Inc / Exc / Gallery ── */}
                 {activeTab === 'details' && (
                   <>
-                    {/* Inclusions */}
                     <div>
-                      <label className="label">
-                        Inclusions
-                        <span className="text-slate-500 normal-case font-normal ml-2">(one per line)</span>
-                      </label>
-                      <textarea rows={6} value={form.inclusions} onChange={set('inclusions')}
-                        className="field resize-none"
-                        placeholder={"Accommodation as mentioned\nAll transfers by AC car\nEntry tickets to sightseeing\nPrivate ferry tickets\nMeet and greet at airport"}/>
-                      <p className="text-slate-500 text-[10px] mt-1">Each new line = one inclusion bullet point on the detail page</p>
+                      <label className="label">Inclusions <span className="text-slate-500 normal-case font-normal">(one per line)</span></label>
+                      <textarea rows={6} value={form.inclusions} onChange={set('inclusions')} className="field resize-none"
+                        placeholder={"Accommodation as mentioned\nAll transfers by AC car\nEntry tickets to sightseeing\nPrivate ferry tickets"}/>
                     </div>
-
-                    {/* Exclusions */}
                     <div>
-                      <label className="label">
-                        Exclusions
-                        <span className="text-slate-500 normal-case font-normal ml-2">(one per line)</span>
-                      </label>
-                      <textarea rows={5} value={form.exclusions} onChange={set('exclusions')}
-                        className="field resize-none"
-                        placeholder={"Air tickets and airport taxes\nWater sports activities\nPersonal expenses\nCamera / video fees at monuments"}/>
-                      <p className="text-slate-500 text-[10px] mt-1">Each new line = one exclusion bullet point on the detail page</p>
+                      <label className="label">Exclusions <span className="text-slate-500 normal-case font-normal">(one per line)</span></label>
+                      <textarea rows={5} value={form.exclusions} onChange={set('exclusions')} className="field resize-none"
+                        placeholder={"Air tickets and airport taxes\nWater sports activities\nPersonal expenses"}/>
                     </div>
-
-                    {/* Gallery */}
                     <div>
-                      <label className="label">
-                        Gallery Image URLs
-                        <span className="text-slate-500 normal-case font-normal ml-2">(comma separated)</span>
-                      </label>
-                      <textarea rows={3} value={form.gallery} onChange={set('gallery')}
-                        className="field resize-none"
+                      <label className="label">Gallery Image URLs <span className="text-slate-500 normal-case font-normal">(comma separated)</span></label>
+                      <textarea rows={3} value={form.gallery} onChange={set('gallery')} className="field resize-none"
                         placeholder="https://image1.jpg, https://image2.jpg, https://image3.jpg"/>
-                      <p className="text-slate-500 text-[10px] mt-1">Paste multiple image URLs separated by commas. They show as a photo grid on the detail page.</p>
-
-                      {/* Gallery preview */}
                       {form.gallery && (
                         <div className="flex gap-2 mt-2 flex-wrap">
-                          {form.gallery.split(',').map((url, i) => url.trim() && (
-                            <img key={i} src={url.trim()} alt={`gallery ${i+1}`}
+                          {form.gallery.split(',').map((url,i) => url.trim() && (
+                            <img key={i} src={url.trim()} alt={`g${i}`}
                               className="h-16 w-24 object-cover rounded-lg opacity-80"
-                              onError={e => e.target.style.display = 'none'}/>
+                              onError={e => e.target.style.display='none'}/>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                {/* ── TAB 4: Key Details ── */}
+                {activeTab === 'keyinfo' && (
+                  <>
+                    {/* Validity text */}
+                    <div>
+                      <label className="label">
+                        Package Validity Text
+                        <span className="ml-2 text-amber-400 text-[10px] font-bold normal-case tracking-normal">★ Shown as highlighted banner</span>
+                      </label>
+                      <input
+                        value={form.validity_text}
+                        onChange={set('validity_text')}
+                        className="field"
+                        placeholder="This package is valid from 01st April 2026 to 30th September 2026."
+                      />
+                      {form.validity_text && (
+                        <div className="mt-2 flex items-center gap-2 bg-amber-500/15 border border-amber-500/30 px-4 py-2.5 rounded">
+                          <span className="text-amber-400 text-xs">★</span>
+                          <p className="text-amber-300 text-xs font-bold">{form.validity_text}</p>
+                        </div>
+                      )}
+                      <p className="text-slate-500 text-[10px] mt-1.5">This appears as a prominent highlighted banner near the top of the package detail page.</p>
+                    </div>
+
+                    <div className="border-t border-slate-800 pt-4">
+                      <label className="label">
+                        Key Details
+                        <span className="text-slate-500 normal-case font-normal ml-2">(one per line)</span>
+                      </label>
+                      <p className="text-slate-400 text-xs mb-3 leading-relaxed">
+                        Add package-specific key details. Each new line becomes a separate bullet point with a checkmark.
+                        <br/>
+                        <span className="text-slate-500">e.g. commission, tax info, booking terms, special conditions</span>
+                      </p>
+                      <textarea
+                        rows={8}
+                        value={form.key_details}
+                        onChange={set('key_details')}
+                        className="field resize-none"
+                        placeholder={"Rates are 10% commissionable\nAll government taxes are included\nNo GST input\nRates subject to availability at the time of booking\nMinimum 2 pax required\nChild below 5 years complimentary"}
+                      />
+                      {/* Live preview */}
+                      {form.key_details && (
+                        <div className="mt-3 bg-slate-800 rounded-lg p-4">
+                          <p className="text-slate-400 text-[9px] uppercase tracking-widest font-bold mb-3">Preview</p>
+                          {form.key_details.split('\n').filter(Boolean).map((item, i) => (
+                            <div key={i} className="flex items-start gap-2 mb-2">
+                              <span className="text-emerald-400 text-xs mt-0.5 flex-shrink-0">✔</span>
+                              <span className="text-slate-300 text-xs">{item}</span>
+                            </div>
                           ))}
                         </div>
                       )}
@@ -531,12 +479,11 @@ const AdminPackages = () => {
                 )}
               </div>
 
-              {/* Footer buttons */}
+              {/* Footer */}
               <div className="flex gap-3 px-6 py-4 border-t border-slate-800 flex-shrink-0">
                 <button type="submit" disabled={saving}
                   className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-900 text-white py-2.5 rounded-lg font-bold text-sm transition-colors">
-                  <Save size={16}/>
-                  {saving ? 'Saving...' : (editing ? 'Update Package' : 'Add Package')}
+                  <Save size={16}/> {saving ? 'Saving...' : (editing ? 'Update Package' : 'Add Package')}
                 </button>
                 <button type="button" onClick={() => setShowForm(false)}
                   className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-medium text-sm transition-colors">

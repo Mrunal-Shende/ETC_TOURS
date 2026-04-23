@@ -170,11 +170,7 @@ const AboutUsETC = () => {
               </p>
               
               <div className="flex flex-wrap gap-1.5 justify-center md:justify-start">
-                {["Ayurveda", "Yoga", "Wildlife", "Textiles", "Jewellery", "Art & Crafts", "Architecture"].map((item, i) => (
-                  <span key={i} className="px-2.5 py-0.5 bg-slate-50 border border-slate-200 rounded-none text-[9px] md:text-[10px] font-bold text-[#0033CC] uppercase tracking-wider">
-                    {item}
-                  </span>
-                ))}
+                
               </div>
             </div>
             <p className="text-slate-500 text-sm md:text-base leading-relaxed italic border-l-4 border-[#0033CC] pl-4">
@@ -184,7 +180,7 @@ const AboutUsETC = () => {
             <div className="grid grid-cols-2 gap-3">
               {[
                 { t: "South India", d: "Temple & Ayurveda", color: "bg-orange-50/50" },
-                { t: "North India", d: "Golden Triangle", color: "bg-blue-50/50" },
+                { t: "Pilgrimage", d: "Religion", color: "bg-blue-50/50" },
                 { t: "Kashmir & Hills", d: "Paradise & Himalayas", color: "bg-emerald-50/50" },
                 { t: "Pan India", d: "Exotic Destinations", color: "bg-purple-50/50" }
               ].map((item, i) => (

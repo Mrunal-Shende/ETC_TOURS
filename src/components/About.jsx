@@ -34,6 +34,7 @@ const features = [
 ];
 
 const FRONT_IMAGE = "/about1.jpeg";
+const BACK_IMAGE = "https://i.pinimg.com/1200x/19/fc/fb/19fcfbb5debcb7d95a5f73a556a54b39.jpg";
 
 const AboutSection = () => {
   const navigate = useNavigate();
@@ -124,32 +125,40 @@ const AboutSection = () => {
                     backfaceVisibility: 'hidden',
                     WebkitBackfaceVisibility: 'hidden',
                     transform: 'rotateY(180deg)',
+                    backgroundImage: `url(${BACK_IMAGE})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                   }}
-                  className="absolute inset-0 rounded-xl bg-[#0f2744] flex flex-col justify-center items-center p-6 text-center shadow-xl"
+                  className="absolute inset-0 rounded-xl flex flex-col justify-center items-center p-6 text-center shadow-xl overflow-hidden"
                 >
-                  <div className="mb-4">
-                    <div className="w-10 h-10 mx-auto mb-3 rounded-full border border-white/20 flex items-center justify-center">
-                      <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" />
-                      </svg>
-                    </div>
-                    <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '10px', letterSpacing: '0.25em' }} className="text-blue-300 uppercase mb-2">
-                      Ministry of Tourism Recognized
-                    </p>
-                    <p className="text-white text-lg font-semibold leading-snug mb-2">
-                      Top India Tour Packages
-                    </p>
-                    <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '12px', lineHeight: '1.6' }} className="text-white/60">
-                      Dedicated to unforgettable journeys with superior service — from a single traveller to large corporate groups.
-                    </p>
-                  </div>
-                  <div className="flex gap-5 mt-1">
-                    {[['25+', 'Years'], ['10K+', 'Clients'], ['4', 'States']].map(([num, label]) => (
-                      <div key={label} className="text-center">
-                        <p className="text-white text-base font-bold leading-none">{num}</p>
-                        <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '9px' }} className="text-white/50 mt-1 uppercase tracking-wider">{label}</p>
+                  {/* Overlay for better text visibility */}
+                  <div className="absolute inset-0 bg-[#0f2744]/80 z-0" />
+
+                  <div className="relative z-10">
+                    <div className="mb-4">
+                      <div className="w-10 h-10 mx-auto mb-3 rounded-full border border-white/20 flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" />
+                        </svg>
                       </div>
-                    ))}
+                      <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '10px', letterSpacing: '0.25em' }} className="text-blue-300 uppercase mb-2">
+                        Ministry of Tourism Recognized
+                      </p>
+                      <p className="text-white text-lg font-semibold leading-snug mb-2">
+                        Top India Tour Packages
+                      </p>
+                      <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '12px', lineHeight: '1.6' }} className="text-white/80">
+                        Dedicated to unforgettable journeys with superior service — from a single traveller to large corporate groups.
+                      </p>
+                    </div>
+                    <div className="flex gap-5 mt-1 justify-center">
+                      {[['25+', 'Years'], ['10K+', 'Clients'], ['24/7', 'Support']].map(([num, label]) => (
+                        <div key={label} className="text-center">
+                          <p className="text-white text-base font-bold leading-none">{num}</p>
+                          <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '9px' }} className="text-white/50 mt-1 uppercase tracking-wider">{label}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>

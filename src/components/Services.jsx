@@ -94,7 +94,7 @@ const Services = () => {
                   `}
                 >
                   {/* FRONT SIDE */}
-                  <div className="absolute inset-0 h-full w-full [backface-visibility:hidden] overflow-hidden shadow-xl rounded-sm">
+                  <div className="absolute inset-0 h-full w-full [backface-visibility:hidden] overflow-hidden shadow-xl rounded-2xl">
                     <img src={service.img} alt={service.title} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
                     <div className="absolute inset-0 flex flex-col justify-end p-8">
@@ -106,7 +106,7 @@ const Services = () => {
                   </div>
 
                   {/* BACK SIDE */}
-                  <div className="absolute inset-0 h-full w-full [transform:rotateY(180deg)] [backface-visibility:hidden] bg-[#0f172a] backdrop-blur-xl border border-white/10 p-10 flex flex-col justify-center text-left shadow-2xl rounded-sm">
+                  <div className="absolute inset-0 h-full w-full [transform:rotateY(180deg)] [backface-visibility:hidden] bg-[#0f172a] backdrop-blur-xl border border-white/10 p-10 flex flex-col justify-center text-left shadow-2xl rounded-2xl">
                     <h3 className="text-white text-xl md:text-2xl font-black uppercase tracking-tight mb-4">
                       {service.title}
                     </h3>

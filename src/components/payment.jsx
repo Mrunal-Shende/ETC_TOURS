@@ -16,7 +16,7 @@ const MembershipCarousel = () => {
     <section className="bg-white py-6 overflow-hidden border-t border-slate-50">
       <div className="max-w-7xl mx-auto px-6 mb-6 text-center">
         <h2 className="text-blue-600 font-bold tracking-[0.2em] text-[10px] md:text-xs uppercase">
-          Memberships & Certifications
+          Memberships
         </h2>
       </div>
 
@@ -37,11 +37,7 @@ const MembershipCarousel = () => {
                   onError={(e) => { e.target.style.display = 'none'; }}
                 />
               </div>
-              
-              {/* Caption Text: Font size aur chota kiya hai */}
-              <p className="text-[9px] md:text-[10px] text-slate-700 font-semibold uppercase tracking-tight text-center whitespace-normal px-2 leading-tight">
-                {logo.name}
-              </p>
+
             </div>
           ))}
         </div>
