@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-
 const features = [
   {
     title: "Ministry Recognized",
@@ -40,18 +39,20 @@ const AboutSection = () => {
   const navigate = useNavigate();
   const [flipped, setFlipped] = useState(false);
   
-  // Ref for scroll tracking
   const containerRef = useRef(null);
-  // useInView will trigger when 40% of the section is visible
   const isInView = useInView(containerRef, { amount: 0.4 });
 
-  // Flip the card when scrolled into view
   useEffect(() => {
+    let timeout;
     if (isInView) {
-      setFlipped(true);
+      // 2 second delay before auto-flip when scrolled into view
+      timeout = setTimeout(() => {
+        setFlipped(true);
+      }, 2000);
     } else {
       setFlipped(false);
     }
+    return () => clearTimeout(timeout);
   }, [isInView]);
 
   return (
@@ -61,7 +62,6 @@ const AboutSection = () => {
       style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
       className="relative w-full bg-white py-10 md:py-16 overflow-hidden"
     >
-      {/* Subtle background accent */}
       <div className="absolute top-0 right-0 w-[480px] h-[480px] opacity-[0.04] pointer-events-none">
         <svg viewBox="0 0 480 480" fill="none">
           <circle cx="240" cy="240" r="240" fill="#1e3a5f" />
@@ -79,22 +79,18 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
-            // CHANGE 1: Increase max-w- to give it more width
             className="relative w-full max-w-[600px] mx-auto lg:mx-0"
           >
             <div
               className="relative w-full cursor-pointer"
-              // CHANGE 2: Adjust aspect-ratio to make the box overall larger (4/3 -> 3/2)
               style={{ perspective: '1500px', aspectRatio: '2/2' }}
-              // Desktop hover support
-              onMouseEnter={() => setFlipped(true)}
-              onMouseLeave={() => setFlipped(false)}
-              // Mobile tap support
+              // Hover effects removed, only onClick remains
               onClick={() => setFlipped(!flipped)}
             >
               <motion.div
                 animate={{ rotateY: flipped ? 180 : 0 }}
-                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                // Slowed down transition for premium feel
+                transition={{ duration: 1.5, ease: [0.4, 0, 0.2, 1] }}
                 style={{ transformStyle: 'preserve-3d', width: '100%', height: '100%', position: 'relative' }}
               >
                 {/* FRONT */}
@@ -131,7 +127,6 @@ const AboutSection = () => {
                   }}
                   className="absolute inset-0 rounded-xl flex flex-col justify-center items-center p-6 text-center shadow-xl overflow-hidden"
                 >
-                  {/* Overlay for better text visibility */}
                   <div className="absolute inset-0 bg-[#0f2744]/80 z-0" />
 
                   <div className="relative z-10">
@@ -163,7 +158,6 @@ const AboutSection = () => {
                 </div>
               </motion.div>
             </div>
-            {/* Decorative boxes */}
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-600/5 rounded-xl -z-10" />
             <div className="absolute -top-4 -left-4 w-16 h-16 bg-slate-100 rounded-xl -z-10" />
           </motion.div>

@@ -1,33 +1,33 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
-// ── Layout ────────────────────────────────────────────────────────────────
+// ── Layout Components ──────────────────────────────────────────────────
 import Header           from './components/Header';
 import Footer           from './components/Footer';
 import PaymentPartners  from './components/payment';
 import FloatingControls from './components/FloatingIcons';
 
-// ── Home ──────────────────────────────────────────────────────────────────
+// ── Home Components ────────────────────────────────────────────────────
 import Herosection          from './components/Herosection';
 import About                from './components/About';
-import Tour                 from './components/Tour'; // Added
+import Tour                 from './components/Tour'; 
 import HomeFeaturedPackages from './components/HomeFeaturedPackages';
-import Fleet                from './components/Fleet'; // Added
+import Fleet                from './components/Fleet'; 
 
-// ── Static pages ──────────────────────────────────────────────────────────
+// ── Static & Functional Pages ──────────────────────────────────────────
 import AboutPage   from './components/AboutPage';
 import Blog        from './components/Blog';
 import Services    from './components/Services';
 import ContactUs   from './components/Contact';
-import EnquiryPage from './components/enquery';
+import EnquiryPage from './components/enquery'; // Ensure file name is 'enquery.jsx'
 
-// ── Dynamic tour pages ────────────────────────────────────────────────────
+// ── Dynamic Tour Pages ─────────────────────────────────────────────────
 import CategoryPage          from './components/CategoryPage';
 import PackageDetail         from './components/PackageDetail';
 import { IndiaToursList }    from './components/IndiaToursPage';
 import { InternationalList } from './components/InternationalToursPage';
 
-// ── Admin ─────────────────────────────────────────────────────────────────
+// ── Admin Components ───────────────────────────────────────────────────
 import AdminLogin      from './components/admin/AdminLogin';
 import AdminLayout     from './components/admin/AdminLayout';
 import AdminDashboard  from './components/admin/AdminDashboard';
@@ -36,13 +36,20 @@ import AdminPackages   from './components/admin/AdminPackages';
 import AdminEnquiries  from './components/admin/AdminEnquiries';
 import ProtectedRoute  from './components/admin/ProtectedRoute';
 
+// ── New Admin Backend Components ──────────────────────────────────────
+import ImageUploader       from './components/admin/ImageUploader';
+import AccommodationEditor from './components/admin/AccommodationEditor';
+
 // ─────────────────────────────────────────────────────────────────────────
+
+// Helper: Page transition hone par scroll top par le jane ke liye
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 }
 
+// Layout Wrapper: Public pages ke common structure ke liye
 const PublicLayout = ({ children }) => (
   <div className="min-h-screen bg-white font-sans text-slate-800">
     <Header/>
@@ -54,63 +61,71 @@ const PublicLayout = ({ children }) => (
 );
 
 // ─────────────────────────────────────────────────────────────────────────
+
 function App() {
   return (
     <Router>
       <ScrollToTop/>
       <Routes>
 
-        {/* ── ADMIN ── */}
+        {/* ── ADMIN ROUTES (With Authentication) ── */}
         <Route path="/admin" element={<AdminLogin/>}/>
+        
         <Route path="/admin/*" element={
-          <ProtectedRoute><AdminLayout/></ProtectedRoute>
+          <ProtectedRoute>
+            <AdminLayout/>
+          </ProtectedRoute>
         }>
-          <Route path="dashboard"  element={<AdminDashboard/>}/>
-          <Route path="categories" element={<AdminCategories/>}/>
-          <Route path="packages"   element={<AdminPackages/>}/>
-          <Route path="enquiries"  element={<AdminEnquiries/>}/>
+          <Route path="dashboard"     element={<AdminDashboard/>}/>
+          <Route path="categories"    element={<AdminCategories/>}/>
+          <Route path="packages"      element={<AdminPackages/>}/>
+          <Route path="enquiries"     element={<AdminEnquiries/>}/>
+          
+          {/* Backend Fetching Components Added Here */}
+          <Route path="uploader"      element={<ImageUploader/>}/>
+          <Route path="accommodation" element={<AccommodationEditor/>}/>
         </Route>
 
-        {/* ── HOME ── */}
-        <Route path="/" element={
-          <PublicLayout>
-            <Herosection/>
-            <About/>
-            <Tour/> {/* Added here */}
-            <HomeFeaturedPackages/>
-            <Fleet/> {/* Added here */}
-          </PublicLayout>
-        }/>
-        <Route path="/home" element={
-          <PublicLayout>
-            <Herosection/>
-            <About/>
-            <Tour/> {/* Added here */}
-            <HomeFeaturedPackages/>
-            <Fleet/> {/* Added here */}
-          </PublicLayout>
-        }/>
+        {/* ── PUBLIC HOME ROUTES ── */}
+        {["/", "/home"].map((path) => (
+          <Route 
+            key={path}
+            path={path} 
+            element={
+              <PublicLayout>
+                <Herosection/>
+                <About/>
+                <Tour/>
+                <HomeFeaturedPackages/>
+                <Fleet/>
+              </PublicLayout>
+            }
+          />
+        ))}
 
         {/* ── STATIC PAGES ── */}
         <Route path="/about"    element={<PublicLayout><AboutPage/></PublicLayout>}/>
         <Route path="/blog"     element={<PublicLayout><Blog/></PublicLayout>}/>
         <Route path="/services" element={<PublicLayout><Services/></PublicLayout>}/>
         <Route path="/contact"  element={<PublicLayout><ContactUs/></PublicLayout>}/>
-        <Route path="/enquiry"  element={<PublicLayout><EnquiryPage/></PublicLayout>}/>
+        
+        {/* ContactUs page ke pop-up se linked redirection route */}
+        <Route path="/enquery"  element={<PublicLayout><EnquiryPage/></PublicLayout>}/>
 
-        {/* ── INDIA TOURS ── */}
+        {/* ── TOURS ROUTES ── */}
+        {/* India */}
         <Route path="/tours/india"
           element={<PublicLayout><IndiaToursList/></PublicLayout>}/>
         <Route path="/tours/india/:slug"
           element={<PublicLayout><CategoryPage type="india"/></PublicLayout>}/>
 
-        {/* ── INTERNATIONAL TOURS ── */}
+        {/* International */}
         <Route path="/tours/international"
           element={<PublicLayout><InternationalList/></PublicLayout>}/>
         <Route path="/tours/international/:slug"
           element={<PublicLayout><CategoryPage type="international"/></PublicLayout>}/>
 
-        {/* ── PACKAGE DETAIL PAGE ── */}
+        {/* Package Detail */}
         <Route path="/package/:packageId"
           element={<PublicLayout><PackageDetail/></PublicLayout>}/>
 
