@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -6,7 +8,7 @@ import {
   MapPin, Clock, Users, CheckCircle, XCircle,
   Phone, Send, X, Star, Hotel,
   Activity, ZoomIn, Info, Shield, Check, Calendar,
-  ArrowRight, Plane
+  ArrowRight, Plane, BedDouble, Utensils
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
 
@@ -16,7 +18,15 @@ import { supabase } from '../supabaseClient';
 const safeLines  = (v) => (v && typeof v === 'string' ? v.split('\n').filter(Boolean) : []);
 const safeCommas = (v) => (v && typeof v === 'string' ? v.split(',').map(s => s.trim()).filter(Boolean) : []);
 const safeArray  = (v) => (Array.isArray(v) ? v : []);
-const fmtPrice   = (v) => { const n = Number(v); return (isNaN(n) || n === 0) ? null : '₹' + n.toLocaleString('en-IN'); };
+const safeJSON   = (v) => {
+  if (Array.isArray(v)) return v;
+  if (v && typeof v === 'string') {
+    try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; }
+    catch { return []; }
+  }
+  return [];
+};
+const fmtPrice = (v) => { const n = Number(v); return (isNaN(n) || n === 0) ? null : '₹' + n.toLocaleString('en-IN'); };
 
 /* ═══════════════════════════════════════════════
    SECTION TITLE
@@ -53,17 +63,12 @@ const DayCard = ({ day, index }) => {
         {index + 1}
       </div>
       <div className={`rounded-xl border transition-all duration-200 ${open ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-50 border-transparent hover:border-slate-200'}`}>
-        <button
-          onClick={() => setOpen(!open)}
-          className="w-full flex items-center justify-between text-left px-5 py-4 gap-4"
-        >
+        <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between text-left px-5 py-4 gap-4">
           <h3 className={`font-black text-sm uppercase tracking-wide leading-snug ${open ? 'text-blue-600' : 'text-[#0a1628]'}`}>
             {day.title || `Day ${index + 1}`}
           </h3>
           <div className={`shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-colors ${open ? 'bg-blue-50' : 'bg-slate-100'}`}>
-            {open
-              ? <ChevronUp size={13} className="text-blue-600" />
-              : <ChevronDown size={13} className="text-slate-500" />}
+            {open ? <ChevronUp size={13} className="text-blue-600" /> : <ChevronDown size={13} className="text-slate-500" />}
           </div>
         </button>
         {open && (
@@ -72,6 +77,119 @@ const DayCard = ({ day, index }) => {
             <p className="text-slate-600 text-sm leading-relaxed">{day.description || ''}</p>
           </div>
         )}
+      </div>
+    </div>
+  );
+};
+
+/* ═══════════════════════════════════════════════
+   ACCOMMODATION TABLE
+   Expects pkg.accommodation as JSON array:
+   [{ city, nights, category_a, category_b, category_c, meal_plan }]
+═══════════════════════════════════════════════ */
+const AccommodationTable = ({ rows }) => {
+  if (!rows || rows.length === 0) return null;
+const formatMealPlan = (plan) => {
+  const map = {
+    CP: 'Breakfast',
+    MAP: 'Breakfast + Dinner',
+    AP: 'All Meals',
+    EP: 'Room Only',
+    BB: 'Bed & Breakfast',
+  };
+
+  return map[plan] || plan || '—';
+};
+
+  // Detect which category columns have data
+  const hasA = rows.some(r => r.cat_a);
+  const hasB = rows.some(r => r.cat_b);
+  const hasC = rows.some(r => r.cat_c);
+  const hasMeal = rows.some(r => r.meal_plan);
+
+  return (
+    <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+      {/* Table header bar */}
+      <div className="bg-[#0a1628] px-5 py-3.5 flex items-center gap-2.5">
+        <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center shrink-0">
+          <BedDouble size={13} className="text-white" />
+        </div>
+        <h4
+          style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+          className="text-white font-black text-lg uppercase italic tracking-tight"
+        >
+          Accommodation Options
+        </h4>
+      </div>
+
+      {/* Scrollable table wrapper for mobile */}
+      <div className="overflow-x-auto bg-white">
+        <table className="w-full min-w-[520px] text-sm border-collapse">
+          <thead>
+            <tr className="bg-slate-50 border-b border-slate-200">
+              <th className="text-left px-4 py-3 text-[11px] font-black text-[#0a1628] uppercase tracking-wider">City</th>
+              <th className="text-center px-4 py-3 text-[11px] font-black text-[#0a1628] uppercase tracking-wider">Nights</th>
+              {hasA && <th className="text-center px-4 py-3 text-[11px] font-black text-[#0a1628] uppercase tracking-wider">Category A</th>}
+              {hasB && <th className="text-center px-4 py-3 text-[11px] font-black text-[#0a1628] uppercase tracking-wider">Category B</th>}
+              {hasC && <th className="text-center px-4 py-3 text-[11px] font-black text-[#0a1628] uppercase tracking-wider">Category C</th>}
+              {hasMeal && (
+                <th className="text-center px-4 py-3 text-[11px] font-black text-[#0a1628] uppercase tracking-wider">
+                  <span className="flex items-center justify-center gap-1">
+                    <Utensils size={11} /> Meal Plan
+                  </span>
+                </th>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, i) => (
+              <tr
+                key={i}
+                className={`border-b border-slate-100 last:border-0 transition-colors hover:bg-blue-50/30 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`}
+              >
+                {/* City */}
+                <td className="px-4 py-3.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0" />
+                    <span className="font-bold text-[#0a1628] text-sm">{row.city || '—'}</span>
+                  </div>
+                </td>
+                {/* Nights */}
+                <td className="px-4 py-3.5 text-center">
+                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#0a1628] text-white font-black text-xs">
+                    {row.nights ?? '—'}
+                  </span>
+                </td>
+                {/* Category A */}
+                {hasA && (
+                  <td className="px-4 py-3.5 text-center">
+                    <span className="text-sm font-medium text-slate-700 leading-snug block">{row.cat_a || '—'}</span>
+                  </td>
+                )}
+                {/* Category B */}
+                {hasB && (
+                  <td className="px-4 py-3.5 text-center">
+                    <span className="text-sm font-medium text-slate-700 leading-snug block">{row.cat_b || '—'}</span>
+                  </td>
+                )}
+                {/* Category C */}
+                {hasC && (
+                  <td className="px-4 py-3.5 text-center">
+                    <span className="text-sm font-medium text-slate-700 leading-snug block">{row.cat_c || '—'}</span>
+                  </td>
+                )}
+                {/* Meal Plan */}
+                {hasMeal && (
+                  <td className="px-4 py-3.5 text-center">
+                    <span className="inline-block bg-blue-50 border border-blue-100 text-blue-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                      {formatMealPlan(row.meal_plan) || '—'}
+                    </span>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
@@ -102,10 +220,8 @@ const EnquiryModal = ({ pkg, onClose }) => {
   const labelCls = "block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5";
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0a1628]/85"
-      onClick={e => e.target === e.currentTarget && onClose()}
-    >
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0a1628]/85"
+      onClick={e => e.target === e.currentTarget && onClose()}>
       <motion.div
         initial={{ y: 28, opacity: 0, scale: 0.98 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -125,7 +241,6 @@ const EnquiryModal = ({ pkg, onClose }) => {
             <X size={17} />
           </button>
         </div>
-
         <div className="px-7 py-6 overflow-y-auto">
           {done ? (
             <div className="text-center py-10">
@@ -170,7 +285,7 @@ const HeroChip = ({ icon: Icon, label }) => (
 );
 
 /* ═══════════════════════════════════════════════
-   STAT CARD (sidebar mini)
+   STAT CARD
 ═══════════════════════════════════════════════ */
 const StatCard = ({ icon: Icon, label, value }) => (
   <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 hover:border-blue-200 hover:bg-blue-50/30 transition-all group">
@@ -214,7 +329,6 @@ const PackageDetail = () => {
     })();
   }, [packageId]);
 
-  /* LOADING */
   if (status === 'loading') return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-4">
       <div className="w-10 h-10 border-[3px] border-blue-600 border-t-transparent rounded-full animate-spin" />
@@ -222,7 +336,6 @@ const PackageDetail = () => {
     </div>
   );
 
-  /* ERROR */
   if (status === 'error' || !pkg) return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-5 px-6 text-center">
       <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center">
@@ -239,7 +352,7 @@ const PackageDetail = () => {
     </div>
   );
 
-  /* PARSE ALL FIELDS */
+  /* ── PARSE ALL FIELDS ── */
   const nights         = Number(pkg.nights) || 0;
   const days           = nights + 1;
   const priceStr       = fmtPrice(pkg.price);
@@ -250,40 +363,31 @@ const PackageDetail = () => {
   const highlights     = safeLines(pkg.highlights);
   const notes          = safeLines(pkg.notes);
   const gallery        = safeCommas(pkg.gallery);
+  const accommodation  = safeJSON(pkg.accommodation);  // NEW
   const validityText   = pkg.validity_text || null;
   const heroImage      = pkg.image_url || cat?.image_url || null;
   const startCity      = pkg.start_city || null;
   const endCity        = pkg.end_city && pkg.end_city !== pkg.start_city ? pkg.end_city : null;
-  const routeLabel     = startCity && endCity ? `${startCity} → ${endCity}` : startCity || endCity || null;
 
   return (
     <div className="min-h-screen bg-white">
 
-      {/* ════════════════════════════════════════════
-          HERO — crisp image, bottom-only dark fade
-      ════════════════════════════════════════════ */}
-      <div className="relative w-full h-[65vh] min-h-[480px] overflow-hidden bg-[#0a1628]">
-
-        {/* Full-quality hero image — NO blur, NO filter */}
+      {/* ════════════════════════════════════════
+          HERO
+      ════════════════════════════════════════ */}
+      <div className="relative w-full h-[55vh] min-h-[420px] overflow-hidden bg-[#0a1628]">
         {heroImage && (
-          <img
-            src={heroImage}
-            alt={pkg.name}
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
+          <img src={heroImage} alt={pkg.name}
+            className="absolute inset-0 w-full h-full object-cover object-center" />
         )}
-
-        {/* Thin bottom fade only — keeps image clear */}
+        {/* Bottom-only fade — image stays crystal clear */}
         <div className="absolute inset-0"
-          style={{ background: 'linear-gradient(to top, #0a1628 0%, rgba(10,22,40,0.55) 35%, transparent 65%)' }}
-        />
+          style={{ background: 'linear-gradient(to top, #0a1628 0%, rgba(10,22,40,0.55) 35%, transparent 65%)' }} />
 
-        {/* Back button */}
+        {/* Back */}
         <div className="absolute top-28 left-6 sm:left-10 z-20">
-          <button
-            onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 bg-black/25 hover:bg-black/40 border border-white/20 text-white rounded-full pl-3 pr-4 py-2 text-[11px] font-black uppercase tracking-widest transition-all"
-          >
+          <button onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-2 bg-black/25 hover:bg-black/40 border border-white/20 text-white rounded-full pl-3 pr-4 py-2 text-[11px] font-black uppercase tracking-widest transition-all">
             <ArrowLeft size={13} /> Back
           </button>
         </div>
@@ -298,23 +402,17 @@ const PackageDetail = () => {
                   <span className="text-blue-300 text-[11px] font-bold uppercase tracking-[0.22em]">{cat.name}</span>
                 </div>
               )}
-
-              <h1
-                style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
-                className="text-white font-black uppercase italic tracking-tight leading-[0.82] text-5xl sm:text-[4.5rem] md:text-[5.5rem]"
-              >
+              <h1 style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+                className="text-white font-black uppercase italic tracking-tight leading-[0.82] text-5xl sm:text-[4.5rem] md:text-[5.5rem]">
                 {pkg.name}
               </h1>
-
-              {/* Chips row */}
               <div className="flex flex-wrap gap-2 mt-5">
                 {nights > 0 && <HeroChip icon={Clock} label={`${days} Days / ${nights} Nights`} />}
-                {/* Route with arrow — shows both start and end clearly */}
                 {startCity && endCity ? (
                   <div className="inline-flex items-center gap-2 bg-black/30 border border-white/20 rounded-full px-4 py-1.5">
                     <MapPin size={13} className="text-blue-300 shrink-0" />
                     <span className="text-white text-xs font-bold">{startCity}</span>
-                    <ArrowRight size={12} className="text-blue-300" />
+                    <ArrowRight size={11} className="text-blue-300" />
                     <span className="text-white text-xs font-bold">{endCity}</span>
                   </div>
                 ) : startCity ? (
@@ -328,142 +426,74 @@ const PackageDetail = () => {
         </div>
       </div>
 
-      {/* ════════════════════════════════════════════
+      {/* ════════════════════════════════════════
           STICKY BAR
-      ════════════════════════════════════════════ */}
-      {/* <div className="sticky top-0 z-50 bg-[#0a1628] border-b border-white/5 shadow-xl shadow-black/30">
+      ════════════════════════════════════════ */}
+      <div className="sticky top-0 z-50 bg-[#0a1628] border-b border-white/5 shadow-xl shadow-black/30">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-3.5 flex items-center justify-between gap-4">
-          
-
+          <div className="hidden md:flex items-center divide-x divide-white/10">
+            {nights > 0 && (
+              <div className="flex items-center gap-2 pr-5">
+                <Clock size={13} className="text-blue-400 shrink-0" />
+                <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider">{days} Days / {nights} Nights</span>
+              </div>
+            )}
+            {(startCity || endCity) && (
+              <div className="flex items-center gap-2 px-5">
+                <Plane size={13} className="text-blue-400 shrink-0" />
+                {startCity && endCity ? (
+                  <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider flex items-center gap-1.5">
+                    {startCity} <ArrowRight size={10} className="text-blue-400" /> {endCity}
+                  </span>
+                ) : (
+                  <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider">{startCity || endCity}</span>
+                )}
+              </div>
+            )}
+            {pkg.min_pax && (
+              <div className="flex items-center gap-2 pl-5">
+                <Users size={13} className="text-blue-400 shrink-0" />
+                <span className="text-[11px] font-bold text-white/90 uppercase tracking-wider">Min {pkg.min_pax} Pax</span>
+              </div>
+            )}
+          </div>
           <div className="flex items-center gap-5 ml-auto">
             <div className="text-right">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.18em] block leading-none mb-1">Starting From</span>
-              <span style={{ fontFamily:"'Barlow Condensed', sans-serif" }} className="text-[1.75rem] font-black text-white italic leading-none">
+              <span style={{ fontFamily:"'Barlow Condensed', sans-serif" }}
+                className="text-[1.75rem] font-black text-white italic leading-none">
                 {priceStr || 'On Request'}
               </span>
             </div>
-            <button
-              onClick={() => setEnquiry(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 font-black text-[11px] uppercase tracking-[0.18em] rounded-lg transition-all whitespace-nowrap"
-            >
+            <button onClick={() => setEnquiry(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 font-black text-[11px] uppercase tracking-[0.18em] rounded-lg transition-all whitespace-nowrap">
               Book Now →
             </button>
           </div>
         </div>
-      </div> */}
+      </div>
 
-      {/* ════════════════════════════════════════════
-          BREADCRUMB
-      ════════════════════════════════════════════ */}
-      {/* <div className="bg-slate-50 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 py-2.5 flex items-center gap-1.5 flex-wrap">
-          <Link to="/" className="text-[11px] font-semibold text-slate-400 hover:text-blue-600 transition-colors">Home</Link>
-          <ChevronRight size={10} className="text-slate-300" />
-          <Link to="/tours/india" className="text-[11px] font-semibold text-slate-400 hover:text-blue-600 transition-colors">India Tours</Link>
-          {cat?.name && (
-            <>
-              <ChevronRight size={10} className="text-slate-300" />
-              <span className="text-[11px] font-semibold text-slate-400">{cat.name}</span>
-            </>
-          )}
-          <ChevronRight size={10} className="text-slate-300" />
-          <span className="text-[11px] font-bold text-[#0a1628] truncate max-w-[200px]">{pkg.name}</span>
-        </div>
-      </div> */}
-
-      {/* ════════════════════════════════════════════
-          VALIDITY BANNER — shown only if field exists
-      ════════════════════════════════════════════ */}
-      {/* {validityText && (
-        <div className="border-b border-blue-100 bg-gradient-to-r from-[#0a1628] to-[#0f2040]">
-           */}
-          {/* TOP VALIDITY BAR */}
-          {/* <div className="max-w-7xl mx-auto px-6 sm:px-10 py-3.5 flex items-center gap-3">
-            
+      {/* ════════════════════════════════════════
+          VALIDITY BANNER
+      ════════════════════════════════════════ */}
+      {validityText && (
+        <div className="border-b border-blue-900/30 bg-gradient-to-r from-[#0a1628] to-[#0f2040]">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 py-3.5 flex items-center gap-3">
             <div className="flex items-center gap-2 shrink-0">
               <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
                 <Calendar size={14} className="text-white" />
               </div>
-              <span className="text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] hidden sm:block">
-                Validity
-              </span>
+              <span className="text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] hidden sm:block">Validity</span>
             </div>
-
             <div className="w-px h-5 bg-white/10 hidden sm:block" />
-
-            <p className="text-white/90 text-sm font-semibold leading-snug">
-              {validityText}
-            </p>
-
+            <p className="text-white/90 text-sm font-semibold leading-snug">{validityText}</p>
           </div>
         </div>
-      )} */}
+      )}
 
-
-      {/* ════════════════════════════════════════════
-          STICKY BAR (SEPARATE)
-      ════════════════════════════════════════════ */}
-      <div className="sticky top-0 z-50 bg-[#0a1628] border-b border-white/5 shadow-xl shadow-black/30">
-
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 py-3.5 flex items-center justify-between gap-4">
-
-          {/* ════════════════════════════════════════════
-            VALIDITY BANNER — shown only if field exists
-        ════════════════════════════════════════════ */}
-          {validityText && (
-            <div className="border-b border-blue-100 bg-gradient-to-r from-[#0a1628] to-[#0f2040]">
-              
-              {/* TOP VALIDITY BAR */}
-              <div className="max-w-7xl mx-auto px-6 sm:px-10 py-3.5 flex items-center gap-3">
-                
-                <div className="flex items-center gap-2 shrink-0">
-                  <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
-                    <Calendar size={14} className="text-white" />
-                  </div>
-                  <span className="text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] hidden sm:block">
-                    Validity
-                  </span>
-                </div>
-
-                <div className="w-px h-5 bg-white/10 hidden sm:block" />
-
-                <p className="text-white/90 text-sm font-semibold leading-snug">
-                  {validityText}
-                </p>
-
-              </div>
-            </div>
-          )}
-
-          {/* LEFT SIDE EMPTY or TITLE */}
-          <div></div>
-
-          {/* RIGHT SIDE CONTENT */}
-          <div className="flex items-center gap-5 ml-auto">
-            <div className="text-right">
-              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.18em] block leading-none mb-1">
-                Starting From
-              </span>
-              <span className="text-[1.75rem] font-black text-white italic leading-none">
-                {priceStr || 'On Request'}
-              </span>
-            </div>
-
-            <button
-              onClick={() => setEnquiry(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 font-black text-[11px] uppercase tracking-[0.18em] rounded-lg transition-all whitespace-nowrap"
-            >
-              Book Now →
-            </button>
-          </div>
-
-        </div>
-        
-      </div>
-
-      {/* ════════════════════════════════════════════
-          MAIN CONTENT — 8 / 4 grid
-      ════════════════════════════════════════════ */}
+      {/* ════════════════════════════════════════
+          MAIN CONTENT
+      ════════════════════════════════════════ */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 py-14">
         <div className="grid lg:grid-cols-12 gap-10 xl:gap-14">
 
@@ -477,10 +507,10 @@ const PackageDetail = () => {
                 <p className="text-slate-600 text-[15px] leading-relaxed mb-8">{pkg.description}</p>
               )}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {nights > 0   && <StatCard icon={Clock}    label="Duration"       value={`${days}D / ${nights}N`} />}
-                {startCity    && <StatCard icon={MapPin}   label="Starts From"    value={startCity} />}
-                {endCity      && <StatCard icon={MapPin}   label="Ends At"        value={endCity} />}
-                {pkg.tour_type && <StatCard icon={Activity} label="Tour Type"      value={pkg.tour_type} />}
+                {nights > 0        && <StatCard icon={Clock}    label="Duration"       value={`${days}D / ${nights}N`} />}
+                {startCity         && <StatCard icon={MapPin}   label="Starts From"    value={startCity} />}
+                {endCity           && <StatCard icon={MapPin}   label="Ends At"        value={endCity} />}
+                {pkg.tour_type     && <StatCard icon={Activity} label="Tour Type"      value={pkg.tour_type} />}
                 {pkg.accommodation_type && <StatCard icon={Hotel} label="Accommodation" value={pkg.accommodation_type} />}
               </div>
             </section>
@@ -507,30 +537,35 @@ const PackageDetail = () => {
               <section>
                 <SectionTitle icon={Activity}>Day-by-Day Itinerary</SectionTitle>
                 <div className="mt-2 space-y-1">
-                  {itinerary.map((day, i) => (
-                    <DayCard key={i} day={day} index={i} />
-                  ))}
+                  {itinerary.map((day, i) => <DayCard key={i} day={day} index={i} />)}
                 </div>
               </section>
             )}
 
-            {/* INCLUSIONS & EXCLUSIONS — premium navy/slate theme */}
+            {/* ── ACCOMMODATION TABLE ── */}
+            {accommodation.length > 0 && (
+              <section>
+                <SectionTitle icon={BedDouble}>Accommodation Options</SectionTitle>
+                <AccommodationTable rows={accommodation} />
+                <p className="text-[11px] text-slate-400 font-medium mt-2.5">
+                  * Hotel options subject to availability at time of booking
+                </p>
+              </section>
+            )}
+
+            {/* INCLUSIONS & EXCLUSIONS */}
             {(inclusions.length > 0 || exclusions.length > 0) && (
               <section>
                 <SectionTitle icon={CheckCircle}>Inclusions & Exclusions</SectionTitle>
                 <div className="grid md:grid-cols-2 gap-5">
-
                   {inclusions.length > 0 && (
                     <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-                      {/* header — dark navy */}
                       <div className="bg-[#0a1628] px-5 py-3.5 flex items-center gap-2.5">
                         <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
                           <Check size={13} className="text-white" />
                         </div>
                         <h4 style={{ fontFamily:"'Barlow Condensed', sans-serif" }}
-                          className="text-white font-black text-lg uppercase italic tracking-tight">
-                          What's Included
-                        </h4>
+                          className="text-white font-black text-lg uppercase italic tracking-tight">What's Included</h4>
                       </div>
                       <div className="bg-white p-5">
                         <ul className="space-y-3">
@@ -546,18 +581,14 @@ const PackageDetail = () => {
                       </div>
                     </div>
                   )}
-
                   {exclusions.length > 0 && (
                     <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
-                      {/* header — medium dark */}
                       <div className="bg-slate-700 px-5 py-3.5 flex items-center gap-2.5">
                         <div className="w-6 h-6 rounded-full bg-slate-500 flex items-center justify-center">
                           <X size={13} className="text-white" />
                         </div>
                         <h4 style={{ fontFamily:"'Barlow Condensed', sans-serif" }}
-                          className="text-white font-black text-lg uppercase italic tracking-tight">
-                          Not Included
-                        </h4>
+                          className="text-white font-black text-lg uppercase italic tracking-tight">Not Included</h4>
                       </div>
                       <div className="bg-white p-5">
                         <ul className="space-y-3">
@@ -573,7 +604,6 @@ const PackageDetail = () => {
                       </div>
                     </div>
                   )}
-
                 </div>
               </section>
             )}
@@ -584,17 +614,10 @@ const PackageDetail = () => {
                 <SectionTitle icon={ZoomIn}>Photo Gallery</SectionTitle>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 auto-rows-[170px]">
                   {gallery.map((url, i) => (
-                    <div
-                      key={i}
-                      onClick={() => setLightbox(url)}
-                      className={`overflow-hidden rounded-xl bg-slate-100 cursor-zoom-in group relative ${i === 0 ? 'col-span-2 row-span-2' : ''}`}
-                    >
-                      <img
-                        src={url}
-                        alt={`Gallery ${i + 1}`}
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
+                    <div key={i} onClick={() => setLightbox(url)}
+                      className={`overflow-hidden rounded-xl bg-slate-100 cursor-zoom-in group relative ${i === 0 ? 'col-span-2 row-span-2' : ''}`}>
+                      <img src={url} alt={`Gallery ${i + 1}`} loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-[#0a1628]/0 group-hover:bg-[#0a1628]/25 transition-all duration-300 flex items-center justify-center">
                         <ZoomIn size={22} className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 drop-shadow-lg" />
                       </div>
@@ -633,7 +656,7 @@ const PackageDetail = () => {
           <aside className="lg:col-span-4">
             <div className="sticky top-[68px] space-y-5">
 
-              {/* PRICE + ENQUIRE */}
+              {/* PRICE CTA */}
               <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-100">
                 <div className="bg-[#0a1628] px-6 py-5">
                   <p className="text-blue-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-1.5">Package Price</p>
@@ -645,8 +668,6 @@ const PackageDetail = () => {
                     {pkg.price_per && <span className="text-slate-400 text-sm font-medium pb-0.5">/ {pkg.price_per}</span>}
                   </div>
                   {pkg.price_note && <p className="text-slate-400 text-xs mt-2 leading-snug">{pkg.price_note}</p>}
-
-                  {/* route display in sidebar too */}
                   {(startCity || endCity) && (
                     <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/10">
                       <Plane size={12} className="text-blue-400 shrink-0" />
@@ -661,18 +682,16 @@ const PackageDetail = () => {
                   )}
                 </div>
                 <div className="bg-white px-6 py-5">
-                  <button
-                    onClick={() => setEnquiry(true)}
-                    className="w-full py-3.5 bg-blue-600 hover:bg-[#0a1628] text-white font-black text-[11px] uppercase tracking-[0.18em] rounded-xl transition-all"
-                  >
+                  <button onClick={() => setEnquiry(true)}
+                    className="w-full py-3.5 bg-blue-600 hover:bg-[#0a1628] text-white font-black text-[11px] uppercase tracking-[0.18em] rounded-xl transition-all">
                     Enquire Now →
                   </button>
                   <p className="text-center text-slate-400 text-[11px] font-medium mt-3">Free consultation · No hidden charges</p>
                 </div>
               </div>
 
-              {/* VALIDITY (sidebar echo) */}
-              {/* {validityText && (
+              {/* VALIDITY SIDEBAR */}
+              {validityText && (
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 flex items-start gap-3">
                   <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shrink-0">
                     <Calendar size={16} className="text-white" />
@@ -682,16 +701,14 @@ const PackageDetail = () => {
                     <p className="text-sm font-semibold text-[#0a1628] leading-snug">{validityText}</p>
                   </div>
                 </div>
-              )} */}
+              )}
 
               {/* TRAVEL LOGISTICS */}
               {keyDetails.length > 0 && (
                 <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
                   <div className="bg-slate-900 px-5 py-3.5">
                     <h4 style={{ fontFamily:"'Barlow Condensed', sans-serif" }}
-                      className="text-white font-black text-xl uppercase italic tracking-tight">
-                      Travel Logistics
-                    </h4>
+                      className="text-white font-black text-xl uppercase italic tracking-tight">Travel Logistics</h4>
                   </div>
                   <div className="bg-white px-5 py-3">
                     <ul className="divide-y divide-slate-100">
@@ -717,7 +734,7 @@ const PackageDetail = () => {
                   <div>
                     <h4 className="font-black text-[#0a1628] text-sm uppercase tracking-tight">Verified Operator</h4>
                     <p className="text-xs font-medium text-slate-500 mt-1 leading-relaxed">
-                      Ministry of Tourism approved. Professional handlers & 24/7 support across all destinations.
+                      Ministry of Tourism approved. Professional handlers & 24/7 support.
                     </p>
                   </div>
                 </div>
@@ -733,7 +750,7 @@ const PackageDetail = () => {
                 <p className="text-blue-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-4">Need Help Planning?</p>
                 <div className="space-y-2">
                   <a href="tel:+914422722279"
-                    className="flex items-center gap-3 bg-white/8 hover:bg-white/15 border border-white/10 rounded-xl px-4 py-3 transition-all group">
+                    className="flex items-center gap-3 hover:bg-white/10 border border-white/10 rounded-xl px-4 py-3 transition-all group">
                     <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center shrink-0">
                       <Phone size={14} className="text-white" />
                     </div>
@@ -767,18 +784,12 @@ const PackageDetail = () => {
             onClick={() => setLightbox(null)}
           >
             <motion.img
-              initial={{ scale: 0.94, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.94, opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              src={lightbox}
-              className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
-              alt="Gallery"
+              initial={{ scale: 0.94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.94, opacity: 0 }} transition={{ duration: 0.18 }}
+              src={lightbox} className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl" alt="Gallery"
             />
-            <button
-              onClick={() => setLightbox(null)}
-              className="absolute top-5 right-5 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all border border-white/10"
-            >
+            <button onClick={() => setLightbox(null)}
+              className="absolute top-5 right-5 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all border border-white/10">
               <X size={19} />
             </button>
           </motion.div>
@@ -789,7 +800,6 @@ const PackageDetail = () => {
       <AnimatePresence>
         {enquiry && <EnquiryModal pkg={pkg} onClose={() => setEnquiry(false)} />}
       </AnimatePresence>
-
     </div>
   );
 };

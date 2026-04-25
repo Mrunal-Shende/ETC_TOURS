@@ -380,7 +380,7 @@ const AdminPackages = () => {
       route_covering: form.route_covering,
       price_label:    form.price_label,
       description:    form.description,
-      // image_url:      form.image_url,
+      image_url:      form.image_url,
       badge:          form.badge,
       duration_label: form.duration_label,
       is_featured:    form.is_featured,
@@ -650,6 +650,14 @@ const AdminPackages = () => {
                       <textarea rows={4} value={form.description} onChange={set('description')}
                         className="field resize-none" placeholder="Short package overview shown on the category page..."/>
                     </div>
+                    <div className="space-y-2">
+                      <ImageUploader
+                        label="Main Package Image (Hero)"
+                        currentUrl={form.image_url}
+                        onUpload={url => setForm(f => ({ ...f, image_url: url }))}
+                      />
+                      <p className="text-[10px] text-slate-500 italic">This is the primary image shown on cards and the header.</p>
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                       <label className="flex items-center gap-2 cursor-pointer bg-slate-800 border border-slate-700 rounded-lg px-4 py-3">
                         <input type="checkbox" checked={form.is_featured}
@@ -674,55 +682,83 @@ const AdminPackages = () => {
                 )}
 
                 {/* ══ TAB 2: IMAGES ══ */}
-                {activeTab==='media' && (
+                {activeTab === 'media' && (
                   <>
-                    <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 mb-2">
+                    <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 mb-4">
                       <p className="text-slate-400 text-xs leading-relaxed">
-                        <span className="text-blue-400 font-bold">Tip:</span> Upload images directly to Supabase Storage (requires a public bucket named <span className="font-mono bg-slate-700 px-1 rounded">package-images</span>), or paste any external image URL.
+                        <span className="text-blue-400 font-bold">Tip:</span> Uploaded images are stored in your <span className="font-mono bg-slate-700 px-1 rounded">package-images</span> bucket.
                       </p>
                     </div>
 
-                    {/* Hero image */}
-                    {/* <ImageUploader
-                      label="Hero / Cover Image"
-                      currentUrl={form.image_url}
-                      onUpload={url => setForm(f => ({ ...f, image_url: url }))}
-                    /> */}
-
+                    {/* Upload Gallery Image */}
                     <ImageUploader
-                      label="Upload Gallery Image"
+                      label="Add to Gallery"
                       currentUrl=""
                       onUpload={(url) => {
-                        setForm(f => ({
-                          ...f,
-                          gallery: f.gallery
-                            ? f.gallery + ', ' + url
-                            : url
-                        }))
+                        setForm(f => {
+                          // Clean up string to avoid double commas or leading spaces
+                          const currentGallery = f.gallery ? f.gallery.trim() : '';
+                          const newGallery = currentGallery 
+                            ? `${currentGallery}, ${url}` 
+                            : url;
+                          return { ...f, gallery: newGallery };
+                        });
                       }}
                     />
 
-                    <div className="border-t border-slate-800 pt-5">
-                      <label className="label">Gallery Images <span className="text-slate-500 normal-case font-normal">(comma separated URLs)</span></label>
-                      <p className="text-slate-500 text-xs mb-2">Paste multiple image URLs separated by commas. They show as a photo grid on the detail page.</p>
-                      <textarea rows={3} value={form.gallery} onChange={set('gallery')} className="field resize-none"
-                        placeholder="https://image1.jpg, https://image2.jpg, https://image3.jpg"/>
-                      {/* Gallery previews */}
-                      {form.gallery && (
-                        <div className="flex gap-2 mt-3 flex-wrap">
-                          {form.gallery.split(',').map((url,i) => url.trim() && (
-                            <div key={i} className="relative group">
-                              <img src={url.trim()} alt={`Gallery ${i+1}`}
-                                className="h-16 w-24 object-cover rounded-lg border border-slate-700 opacity-80 hover:opacity-100 transition-opacity"
-                                onError={e => e.target.parentElement.style.display='none'}/>
-                              <span className="absolute top-0.5 left-0.5 bg-black/60 text-white text-[8px] px-1 rounded">{i+1}</span>
-                            </div>
-                          ))}
+                    <div className="border-t border-slate-800 pt-5 mt-5">
+                      <label className="label">Gallery Preview & Manage</label>
+                      
+                      {/* Gallery visual management */}
+                      {form.gallery ? (
+                        <div className="grid grid-cols-3 gap-3 mt-3">
+                          {form.gallery.split(',').map((url, i) => {
+                            const cleanUrl = url.trim();
+                            if (!cleanUrl) return null;
+                            return (
+                              <div key={i} className="relative group aspect-video">
+                                <img 
+                                  src={cleanUrl} 
+                                  alt={`Gallery ${i + 1}`}
+                                  className="h-full w-full object-cover rounded-lg border border-slate-700 group-hover:border-blue-500 transition-all"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const filtered = form.gallery.split(',')
+                                      .map(u => u.trim())
+                                      .filter((_, index) => index !== i)
+                                      .join(', ');
+                                    setForm({ ...form, gallery: filtered });
+                                  }}
+                                  className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <X size={12} />
+                                </button>
+                                <span className="absolute bottom-1 left-1 bg-black/60 text-white text-[10px] px-1.5 rounded-md">
+                                  {i + 1}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div className="text-center py-8 border border-dashed border-slate-800 rounded-lg text-slate-600 text-sm">
+                          No gallery images uploaded yet
                         </div>
                       )}
+
+                      <textarea 
+                        rows={3} 
+                        value={form.gallery} 
+                        onChange={set('gallery')} 
+                        className="field resize-none mt-4 text-xs font-mono"
+                        placeholder="Manual URL entry (comma separated)..."
+                      />
                     </div>
                   </>
                 )}
+                
 
                 {/* ══ TAB 3: ITINERARY ══ */}
                 {activeTab==='itinerary' && (

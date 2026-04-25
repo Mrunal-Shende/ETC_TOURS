@@ -16,7 +16,6 @@ import ForexImg from '/image/Forex.jpeg';
 const Services = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedServiceForForm, setSelectedServiceForForm] = useState(null);
-  const [flippedCard, setFlippedCard] = useState(null);
 
   const services = [
     { title: "Transportation", desc: "Your choice of cars and reliable services at the best available prices.", img: TransportationImg },
@@ -35,16 +34,10 @@ const Services = () => {
     setIsDrawerOpen(true);
   };
 
-  const handleCardFlip = (index) => {
-    if (window.innerWidth < 1024) {
-      setFlippedCard(flippedCard === index ? null : index);
-    }
-  };
-
   return (
-    <div className="bg-white text-slate-900 font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-white text-slate-900 font-sans overflow-x-hidden">
 
-      {/* --- HERO SECTION --- */}
+      {/* --- HERO SECTION (Unchanged) --- */}
       <section className="relative h-[95vh] min-h-[400px] flex items-center justify-center pt-10 overflow-hidden bg-[#0a2339]">
         <div className="absolute inset-0 z-0">
           <img src={backgroundImg} className="w-full h-full object-cover" alt="Hero" />
@@ -70,78 +63,59 @@ const Services = () => {
         </div>
       </section>
 
-      {/* --- SERVICE GRID --- */}
-      <section className="py-16 md:py-24 bg-slate-50">
+      {/* --- SERVICE GRID (Updated to 3 Columns) --- */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-8">
-          <div className="mb-10 md:mb-16 border-l-4 border-blue-600 pl-4 md:pl-6">
-            <h2 className="text-2xl md:text-4xl font-black text-slate-900 uppercase tracking-tighter">
-              World-Class <span className="text-blue-600">Solutions</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          {/* Changed lg:grid-cols-4 to lg:grid-cols-3 for 3 cards per row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16">
             {services.map((service, index) => (
-              <div
-                key={index}
-                className="group h-[420px] md:h-[380px] w-full [perspective:1200px] cursor-pointer"
-                onClick={() => handleCardFlip(index)}
+              <motion.div 
+                key={index} 
+                initial={{ opacity: 0, y: 24 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }} 
+                className="flex flex-col items-center text-center h-full"
               >
-                {/* ✅ Pure CSS flip for desktop, state-based for mobile */}
-                <div
-                  className={`relative h-full w-full [transform-style:preserve-3d] transition-transform duration-700 ease-in-out
-                    lg:group-hover:[transform:rotateY(180deg)]
-                    ${flippedCard === index ? '[transform:rotateY(180deg)]' : ''}
-                  `}
+                
+                {/* Image Box with White Border */}
+                <div 
+                  className="w-full aspect-[5/4] overflow-hidden border-[6px] border-white shadow-sm ring-1 ring-gray-100 mb-6 cursor-pointer group"
+                  onClick={() => handleInquiryClick(service)}
                 >
-                  {/* FRONT SIDE */}
-                  <div className="absolute inset-0 h-full w-full [backface-visibility:hidden] overflow-hidden shadow-xl rounded-2xl">
-                    <img src={service.img} alt={service.title} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
-                    <div className="absolute inset-0 flex flex-col justify-end p-8">
-                      <h3 className="text-white text-xl md:text-2xl font-black uppercase tracking-tight mb-4">{service.title}</h3>
-                      <div className="flex items-center gap-2 text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.2em] bg-blue-600 py-2.5 px-5 w-fit">
-                        Explore Details <span>→</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* BACK SIDE */}
-                  <div className="absolute inset-0 h-full w-full [transform:rotateY(180deg)] [backface-visibility:hidden] bg-[#0f172a] backdrop-blur-xl border border-white/10 p-10 flex flex-col justify-center text-left shadow-2xl rounded-2xl">
-                    <h3 className="text-white text-xl md:text-2xl font-black uppercase tracking-tight mb-4">
-                      {service.title}
-                    </h3>
-
-                    <p className="text-slate-200 text-sm md:text-base leading-relaxed mb-8 font-medium">
-                      {service.desc}
-                    </p>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleInquiryClick(service);
-                      }}
-                      className="group relative w-full bg-blue-500 text-white px-8 py-4 text-[11px] font-black uppercase tracking-[0.3em] overflow-hidden transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] border border-blue-400 active:scale-95"
-                    >
-                      <span className="relative z-10 flex items-center justify-center gap-2">
-                        Confirm Inquiry <span>→</span>
-                      </span>
-                      <div className="absolute inset-0 bg-white translate-y-[101%] group-hover:translate-y-0 transition-transform duration-300 opacity-10"></div>
-                    </button>
-
-                    <div className="mt-8 border-t border-white/10 pt-4">
-                      <p className="text-[8px] text-white/40 uppercase tracking-[0.4em] font-bold">
-                        Express Travel Corporate Services
-                      </p>
-                    </div>
-                  </div>
+                  <img 
+                    src={service.img} 
+                    alt={service.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                  />
                 </div>
-              </div>
+
+                {/* Heading */}
+                <h2 className="text-slate-800 font-bold text-xl uppercase tracking-[0.2em] mb-4">
+                  {service.title}
+                </h2>
+                
+                {/* Description */}
+                <p className="text-slate-500 text-[12px] leading-relaxed font-medium mb-6 px-4 line-clamp-3 flex-1">
+                  {service.desc}
+                </p>
+
+                {/* Button */}
+                <button 
+                  onClick={() => handleInquiryClick(service)}
+                  className="mt-auto border border-slate-800 text-slate-800 px-8 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 hover:text-white transition-all duration-300"
+                >
+                  Explore Details
+                </button>
+
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- FORM MODAL --- */}
+      {/* --- FORM MODAL (Unchanged) --- */}
       <AnimatePresence>
         {isDrawerOpen && (
           <>

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../supabaseClient';
 import { Plus, Pencil, Trash2, X, Save, Globe, MapPin, Upload, Loader2 } from 'lucide-react';
@@ -52,13 +53,13 @@ const AdminCategories = () => {
       // 2. Upload file to Supabase Storage Bucket named 'images'
       // NOTE: Make sure you have created a PUBLIC bucket named 'images' in Supabase
       const { error: uploadError } = await supabase.storage
-        .from('images')
+        .from('category-images')
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
       // 3. Get the Public URL
-      const { data } = supabase.storage.from('images').getPublicUrl(filePath);
+      const { data } = supabase.storage.from('category-images').getPublicUrl(filePath);
       
       setForm(prev => ({ ...prev, image_url: data.publicUrl }));
       setMsg('Image uploaded successfully!');

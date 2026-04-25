@@ -19,7 +19,7 @@ const ContactUs = () => {
       phone: "+91-44-2827 2279 / 4203 7171",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "https://images.unsplash.com/photo-1582512118780-36940d7ba918?q=80&w=800" 
+      image: "/Chennai.jpeg" 
     },
     { 
       city: "Bangalore", 
@@ -35,7 +35,7 @@ const ContactUs = () => {
       phone: "+91 86011 40561",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "https://images.unsplash.com/photo-1584839583232-96ef61f1737f?q=80&w=800" 
+      image: "/pune1.jpeg" 
     },
     { 
       city: "Bhopal", 
@@ -59,7 +59,7 @@ const ContactUs = () => {
       phone: "+91-97-9111-1275",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "https://images.unsplash.com/photo-1598230230537-88d3e2003884?q=80&w=800" 
+      image: "/Hyderabad.jpeg" 
     },
     { 
       city: "Nagpur", 
@@ -75,13 +75,12 @@ const ContactUs = () => {
       phone: "+91-9786628662",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "https://images.unsplash.com/photo-1582512118780-36940d7ba918?q=80&w=800" 
+      image: "/Puducherry.jpeg" 
     }
   ];
 
   const scrollBranches = [...branches, ...branches];
 
-  // Manual Scroll Function for Arrows
   const handleManualScroll = (direction) => {
     if (scrollRef.current) {
       const { scrollLeft, clientWidth } = scrollRef.current;
@@ -106,9 +105,10 @@ const ContactUs = () => {
         .scroll-wrapper:hover .scroll-container {
           animation-play-state: paused;
         }
-        /* Mobile adjustment for carousel */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @media (max-width: 768px) {
-           .scroll-container { animation-duration: 40s; }
+            .scroll-container { animation-duration: 40s; }
         }
       `}</style>
 
@@ -182,54 +182,48 @@ const ContactUs = () => {
           </div>
         </div>
 
-        {/* MAP SECTION */}
+        {/* --- MAP SECTION (RESTORED WITH MARKER) --- */}
         <div className="mt-12 relative group overflow-hidden border-8 border-white shadow-2xl h-[300px] md:h-[400px]">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.837860155252!2d80.24443931482276!3d13.045334990807802!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526650630b9e8b%3A0x6d9006097e06f1d!2s20%2C%20Duraisamy%20St%2C%20Nungambakkam%2C%20Chennai%2C%20Tamil%20Nadu%20600034!5e0!3m2!1sen!2sin!4v1619245123456!5m2!1sen!2sin" width="100%" height="100%" style={{ border: 0 }} allowFullScreen="" loading="lazy" className="grayscale group-hover:grayscale-0 transition-all duration-1000"></iframe>
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.581585642938!2d80.2389146!3d13.0623146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52665e7c08f1ad%3A0x7cc7af15e1034490!2s20%2C%20Duraiswamy%20St%2C%20Tirumurthy%20Nagar%2C%20Nungambakkam%2C%20Chennai%2C%20Tamil%20Nadu%20600034!5e0!3m2!1sen!2sin!4v1711200000000!5m2!1sen!2sin" 
+            width="100%" 
+            height="100%" 
+            style={{ border: 0 }} 
+            allowFullScreen="" 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
 
-        {/* --- REGIONAL NETWORK CAROUSEL --- */}
+        {/* --- REGIONAL NETWORK CAROUSEL (India Tour UI) --- */}
         <div className="mt-20 relative scroll-wrapper">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter">Regional <span className="text-blue-600">Network</span></h2>
             <div className="h-1.5 w-16 bg-blue-600 mx-auto mt-2"></div>
           </div>
           
-          {/* Navigation Arrows */}
-          <button 
-            onClick={() => handleManualScroll('left')}
-            className="absolute left-0 top-[60%] -translate-y-1/2 z-50 bg-white/90 p-2 shadow-lg border border-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all rounded-full md:rounded-none"
-          >
-            <ChevronLeft size={32} />
-          </button>
-          
-          <button 
-            onClick={() => handleManualScroll('right')}
-            className="absolute right-0 top-[60%] -translate-y-1/2 z-50 bg-white/90 p-2 shadow-lg border border-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all rounded-full md:rounded-none"
-          >
-            <ChevronRight size={32} />
-          </button>
+          <button onClick={() => handleManualScroll('left')} className="absolute left-0 top-[40%] -translate-y-1/2 z-50 bg-white/90 p-2 shadow-lg border border-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all rounded-full"><ChevronLeft size={32} /></button>
+          <button onClick={() => handleManualScroll('right')} className="absolute right-0 top-[40%] -translate-y-1/2 z-50 bg-white/90 p-2 shadow-lg border border-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all rounded-full"><ChevronRight size={32} /></button>
 
-          <div 
-            ref={scrollRef}
-            className="relative flex overflow-x-auto no-scrollbar px-2 md:px-10"
-          >
-            <div className="scroll-container">
+          <div ref={scrollRef} className="relative flex overflow-x-auto no-scrollbar px-2 md:px-10">
+            <div className="scroll-container py-10">
               {scrollBranches.map((branch, idx) => (
-                <div 
-                  key={idx} 
-                  onClick={() => setSelectedBranch(branch)}
-                  className="relative h-80 w-[280px] md:w-[400px] flex-shrink-0 overflow-hidden shadow-lg border-b-8 border-blue-600 group/card mx-3 cursor-pointer"
-                >
-                  <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-60 transition-transform duration-500 group-hover/card:scale-110" style={{ backgroundImage: `url('${branch.image}')` }}></div>
-                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
-                  <div className="relative z-20 h-full p-6 md:p-8 flex flex-col justify-end text-white">
-                    <h4 className="font-black text-xl md:text-2xl uppercase mb-2 italic tracking-tight">{branch.city}</h4>
-                    <p className="text-[9px] md:text-[10px] leading-relaxed font-bold uppercase mb-4 opacity-90 max-w-xs truncate">{branch.address}</p>
-                    <div className="pt-3 border-t border-white/20 flex items-center justify-between text-blue-400 font-black text-[9px] uppercase tracking-widest group-hover/card:text-white transition-colors w-full">
-                      <span>Contact Branch</span>
-                      <Globe size={14}/>
-                    </div>
+                <div key={idx} onClick={() => setSelectedBranch(branch)} className="flex flex-col items-center text-center h-full mx-5 w-[280px] md:w-[320px] shrink-0">
+                  
+                  <div className="w-full aspect-[5/4] overflow-hidden border-[6px] border-white shadow-sm ring-1 ring-gray-100 mb-6 cursor-pointer group">
+                    <img src={branch.image} alt={branch.city} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   </div>
+
+                  <h2 className="text-slate-800 font-bold text-lg uppercase tracking-[0.2em] mb-4">{branch.city}</h2>
+                  
+                  <p className="text-slate-500 text-[11px] leading-relaxed font-medium mb-6 px-4 line-clamp-2 flex-1 uppercase tracking-tight">
+                    {branch.address}
+                  </p>
+
+                  <button className="mt-auto border border-slate-800 text-slate-800 px-6 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 hover:text-white transition-all duration-300">
+                    View Details
+                  </button>
+
                 </div>
               ))}
             </div>
@@ -237,28 +231,13 @@ const ContactUs = () => {
         </div>
       </div>
 
-      {/* --- POP-UP MODAL (FIXED & RESPONSIVE) --- */}
+      {/* --- POP-UP MODAL --- */}
       <AnimatePresence>
         {selectedBranch && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" 
-            onClick={() => setSelectedBranch(null)}
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} 
-              className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto md:overflow-hidden relative shadow-2xl flex flex-col" 
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button 
-                onClick={() => setSelectedBranch(null)} 
-                className="absolute top-2 right-2 md:top-4 md:right-4 z-[110] bg-white md:bg-slate-100 p-2 hover:bg-blue-600 hover:text-white transition-colors shadow-md rounded-full md:rounded-none"
-              >
-                <X size={20}/>
-              </button>
-              
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedBranch(null)}>
+            <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto md:overflow-hidden relative shadow-2xl flex flex-col" onClick={(e) => e.stopPropagation()}>
+              <button onClick={() => setSelectedBranch(null)} className="absolute top-2 right-2 md:top-4 md:right-4 z-[110] bg-white md:bg-slate-100 p-2 hover:bg-blue-600 hover:text-white transition-colors shadow-md rounded-full"><X size={20}/></button>
               <div className="grid md:grid-cols-2 items-stretch min-h-0 md:min-h-[550px]">
-                {/* Image Side */}
                 <div className="h-56 md:h-full bg-slate-900 relative">
                   <img src={selectedBranch.image} alt={selectedBranch.city} className="w-full h-full object-cover opacity-60" />
                   <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 bg-gradient-to-t from-slate-900 to-transparent">
@@ -266,45 +245,18 @@ const ContactUs = () => {
                     <h2 className="text-white text-2xl md:text-4xl font-black uppercase italic leading-tight">{selectedBranch.city}</h2>
                   </div>
                 </div>
-
-                {/* Info Side */}
                 <div className="p-6 md:p-10 space-y-6 md:space-y-8 flex flex-col justify-center bg-white">
                   <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                     <div>
                       <span className="text-[10px] md:text-[11px] font-black text-slate-400 uppercase tracking-widest block mb-1">Status</span>
-                      <span className="text-green-600 font-black text-xs md:text-sm flex items-center gap-1">
-                        <CheckCircle size={16}/> {selectedBranch.status}
-                      </span>
+                      <span className="text-green-600 font-black text-xs md:text-sm flex items-center gap-1"><CheckCircle size={16}/> {selectedBranch.status}</span>
                     </div>
-                    <button 
-                      onClick={() => navigate('/enquery')} 
-                      className="w-full md:w-auto bg-blue-600 text-white text-[10px] md:text-[11px] font-black px-6 py-3 uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg active:scale-95"
-                    >
-                      Send Enquiry
-                    </button>
+                    <button onClick={() => navigate('/enquery')} className="w-full md:w-auto bg-blue-600 text-white text-[10px] md:text-[11px] font-black px-6 py-3 uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg active:scale-95">Send Enquiry</button>
                   </div>
-
                   <div className="space-y-4 md:space-y-6">
-                    <div className="flex gap-4">
-                      <MapPin className="text-blue-600 shrink-0" size={24}/>
-                      <p className="text-xs md:text-[14px] font-bold text-slate-600 leading-relaxed uppercase">{selectedBranch.address}</p>
-                    </div>
-                    
-                    <div className="flex gap-4 border-t border-slate-100 pt-4 md:pt-6">
-                      <Phone className="text-blue-600 shrink-0" size={24}/>
-                      <div>
-                        <span className="text-[10px] md:text-[11px] font-black text-slate-400 uppercase block mb-1">Direct Line</span>
-                        <p className="text-sm md:text-lg font-black text-slate-900">{selectedBranch.phone}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex gap-4 border-t border-slate-100 pt-4 md:pt-6">
-                      <Mail className="text-blue-600 shrink-0" size={24}/>
-                      <div>
-                        <span className="text-[10px] md:text-[11px] font-black text-slate-400 uppercase block mb-1">Official Email</span>
-                        <p className="text-sm md:text-lg font-black text-blue-600 lowercase break-all">{selectedBranch.email}</p>
-                      </div>
-                    </div>
+                    <div className="flex gap-4"><MapPin className="text-blue-600 shrink-0" size={24}/><p className="text-xs md:text-[14px] font-bold text-slate-600 leading-relaxed uppercase">{selectedBranch.address}</p></div>
+                    <div className="flex gap-4 border-t border-slate-100 pt-4 md:pt-6"><Phone className="text-blue-600 shrink-0" size={24}/><div><span className="text-[10px] md:text-[11px] font-black text-slate-400 uppercase block mb-1">Direct Line</span><p className="text-sm md:text-lg font-black text-slate-900">{selectedBranch.phone}</p></div></div>
+                    <div className="flex gap-4 border-t border-slate-100 pt-4 md:pt-6"><Mail className="text-blue-600 shrink-0" size={24}/><div><span className="text-[10px] md:text-[11px] font-black text-slate-400 uppercase block mb-1">Official Email</span><p className="text-sm md:text-lg font-black text-blue-600 lowercase break-all">{selectedBranch.email}</p></div></div>
                   </div>
                 </div>
               </div>

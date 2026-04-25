@@ -15,11 +15,40 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
 
 const travelCards = [
-  { img: nepalImg, title: "NEPAL", sub: "Majestic Himalayan peaks and spiritual traditions.", link: "/tours/india" },
-  { img: northEastImg, title: "THE BEST OF NORTH EAST", sub: "Explore Darjeeling, Gangtok, and Pelling.", link: "/tours/india" },
-  { img: telanganaImg, title: "TELANGANA", sub: "Ancient architecture and divine serenity.", link: "/tours/india" },
-  { img: kashmirImg, title: "KASHMIR", sub: "Snow-capped peaks and tranquil waters.", link: "/tours/india" },
-  { img: gujaratImg, title: "GUJARAT", sub: "White salt deserts and Asiatic Lions.", link: "/tours/india" },
+  { 
+    img: nepalImg, 
+    title: "NEPAL", 
+    sub: "Majestic Himalayan peaks and spiritual traditions.", 
+    // Example: Replace with actual Nepal Package ID from your DB
+    link: "/package/your-nepal-uuid-here" 
+  },
+  { 
+    img: northEastImg, 
+    title: "THE BEST OF NORTH EAST", 
+    sub: "Explore Darjeeling, Gangtok, and Pelling.", 
+    // "Best of the North East" ID from your Supabase screenshot
+    link: "/tours/india/north-east" 
+  },
+  { 
+    img: telanganaImg, 
+    title: "TELANGANA", 
+    sub: "Ancient architecture and divine serenity.", 
+    link: "/tours/india/telangana" 
+  },
+  { 
+    img: kashmirImg, 
+    title: "KASHMIR", 
+    sub: "Snow-capped peaks and tranquil waters.", 
+    // "Karismatic Kerala" or similar specific package ID
+    link: "/tours/india/kashmir" 
+  },
+  { 
+    img: gujaratImg, 
+    title: "GUJARAT", 
+    sub: "White salt deserts and Asiatic Lions.", 
+    // "Enchanting Gujarat" ID from your Supabase screenshot
+    link: "/tours/india/gujarat" 
+  },
 ];
 
 const multiCards = [...travelCards, ...travelCards];
