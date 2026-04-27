@@ -20,7 +20,7 @@ const travelCards = [
     title: "NEPAL", 
     sub: "Majestic Himalayan peaks and spiritual traditions.", 
     // Example: Replace with actual Nepal Package ID from your DB
-    link: "/package/your-nepal-uuid-here" 
+    link: "/tours/international/nepal" 
   },
   { 
     img: northEastImg, 
