@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 // ── Layout Components ──────────────────────────────────────────────────
 import Header           from './components/Header';
 import Footer           from './components/Footer';
-import PaymentPartners  from './components/payment';
+import PaymentPartners  from './components/payment-mrunal';
 import FloatingControls from './components/FloatingIcons';
 
 // ── Home Components ────────────────────────────────────────────────────
@@ -39,6 +39,9 @@ import ProtectedRoute  from './components/admin/ProtectedRoute';
 // ── New Admin Backend Components ──────────────────────────────────────
 import ImageUploader       from './components/admin/ImageUploader';
 import AccommodationEditor from './components/admin/AccommodationEditor';
+
+// payment route
+import Payment from './components/Payment';
 
 // ─────────────────────────────────────────────────────────────────────────
 
@@ -84,6 +87,8 @@ function App() {
           {/* Backend Fetching Components Added Here */}
           <Route path="uploader"      element={<ImageUploader/>}/>
           <Route path="accommodation" element={<AccommodationEditor/>}/>
+
+          <Route path="payment" element={<Payment />} />
         </Route>
 
         {/* ── PUBLIC HOME ROUTES ── */}
