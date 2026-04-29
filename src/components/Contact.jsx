@@ -79,7 +79,8 @@ const ContactUs = () => {
     }
   ];
 
-  const scrollBranches = [...branches, ...branches];
+  // Infinite loop ke liye data ko duplicate kiya gaya hai
+  const scrollBranches = [...branches, ...branches, ...branches];
 
   const handleManualScroll = (direction) => {
     if (scrollRef.current) {
@@ -95,12 +96,12 @@ const ContactUs = () => {
       <style>{`
         @keyframes scroll {
           0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+          100% { transform: translateX(calc(-320px * ${branches.length})); }
         }
         .scroll-container {
           display: flex;
           width: max-content;
-          animation: scroll 80s linear infinite;
+          animation: scroll 40s linear infinite;
         }
         .scroll-wrapper:hover .scroll-container {
           animation-play-state: paused;
@@ -108,7 +109,10 @@ const ContactUs = () => {
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @media (max-width: 768px) {
-            .scroll-container { animation-duration: 40s; }
+            .scroll-container { 
+              animation-duration: 25s; 
+              animation: scroll 25s linear infinite;
+            }
         }
       `}</style>
 
@@ -157,7 +161,7 @@ const ContactUs = () => {
                 <div className="flex gap-4">
                   <MapPin className="text-blue-500 shrink-0" size={20} />
                   <div className="text-[11px] leading-snug text-slate-300">
-                    <b className="text-white block text-sm mb-1 uppercase italic">Express Travel Corporate Pvt Ltd</b>
+                    <b className="text-white block text-sm mb-1 uppercase italic">Express Travel Corporate Services Pvt Ltd</b>
                     Regd. Office Express Building No.20, Duraisamy Street, Nungambakkam, Chennai-600034
                   </div>
                 </div>
@@ -182,48 +186,44 @@ const ContactUs = () => {
           </div>
         </div>
 
-        {/* --- MAP SECTION (RESTORED WITH MARKER) --- */}
+        {/* --- MAP SECTION --- */}
         <div className="mt-12 relative group overflow-hidden border-8 border-white shadow-2xl h-[300px] md:h-[400px]">
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.581585642938!2d80.2389146!3d13.0623146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52665e7c08f1ad%3A0x7cc7af15e1034490!2s20%2C%20Duraiswamy%20St%2C%20Tirumurthy%20Nagar%2C%20Nungambakkam%2C%20Chennai%2C%20Tamil%20Nadu%20600034!5e0!3m2!1sen!2sin!4v1711200000000!5m2!1sen!2sin" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen="" 
-            loading="lazy" 
+          <iframe
+            src="https://www.google.com/maps?q=20,Duraisamy+Street,Nungambakkam,Chennai-600034&output=embed"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            title="Express Building Location"
           ></iframe>
         </div>
 
-        {/* --- REGIONAL NETWORK CAROUSEL (India Tour UI) --- */}
-        <div className="mt-20 relative scroll-wrapper">
+        {/* --- REGIONAL NETWORK CAROUSEL (Infinite Loop) --- */}
+        <div className="mt-20 relative scroll-wrapper overflow-hidden">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter">Regional <span className="text-blue-600">Network</span></h2>
             <div className="h-1.5 w-16 bg-blue-600 mx-auto mt-2"></div>
           </div>
           
-          <button onClick={() => handleManualScroll('left')} className="absolute left-0 top-[40%] -translate-y-1/2 z-50 bg-white/90 p-2 shadow-lg border border-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all rounded-full"><ChevronLeft size={32} /></button>
-          <button onClick={() => handleManualScroll('right')} className="absolute right-0 top-[40%] -translate-y-1/2 z-50 bg-white/90 p-2 shadow-lg border border-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all rounded-full"><ChevronRight size={32} /></button>
+          <button onClick={() => handleManualScroll('left')} className="absolute left-0 top-[60%] -translate-y-1/2 z-50 bg-white/90 p-2 shadow-lg border border-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all rounded-full hidden md:block"><ChevronLeft size={32} /></button>
+          <button onClick={() => handleManualScroll('right')} className="absolute right-0 top-[60%] -translate-y-1/2 z-50 bg-white/90 p-2 shadow-lg border border-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-all rounded-full hidden md:block"><ChevronRight size={32} /></button>
 
-          <div ref={scrollRef} className="relative flex overflow-x-auto no-scrollbar px-2 md:px-10">
+          <div ref={scrollRef} className="relative flex overflow-x-hidden no-scrollbar">
             <div className="scroll-container py-10">
               {scrollBranches.map((branch, idx) => (
                 <div key={idx} onClick={() => setSelectedBranch(branch)} className="flex flex-col items-center text-center h-full mx-5 w-[280px] md:w-[320px] shrink-0">
-                  
                   <div className="w-full aspect-[5/4] overflow-hidden border-[6px] border-white shadow-sm ring-1 ring-gray-100 mb-6 cursor-pointer group">
                     <img src={branch.image} alt={branch.city} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   </div>
-
                   <h2 className="text-slate-800 font-bold text-lg uppercase tracking-[0.2em] mb-4">{branch.city}</h2>
-                  
                   <p className="text-slate-500 text-[11px] leading-relaxed font-medium mb-6 px-4 line-clamp-2 flex-1 uppercase tracking-tight">
                     {branch.address}
                   </p>
-
                   <button className="mt-auto border border-slate-800 text-slate-800 px-6 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 hover:text-white transition-all duration-300">
                     View Details
                   </button>
-
                 </div>
               ))}
             </div>

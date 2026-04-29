@@ -533,7 +533,7 @@ const CategoryPage = ({ type = 'india' }) => {
               You'll never forget the experience we are ready to present Joy!
             </p>
             <div className="flex gap-4">
-              <Link to="/enquiry"
+              <Link to="/enquery"
                 className="bg-white text-slate-900 px-12 py-4 font-black uppercase tracking-widest text-xs hover:bg-cyan-400 transition-all inline-block">
                 Click Here
               </Link>
