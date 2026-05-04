@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, Menu, X, Globe, CreditCard } from 'lucide-react';
-import PaymentModal from './PaymentModal'; // ← NEW import
+import PaymentModal from './PaymentModal';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -9,15 +9,15 @@ const Header = () => {
   const [toursDropdown, setToursDropdown] = useState(false);
   const [langDropdown, setLangDropdown] = useState(false);
   const [selectedLang, setSelectedLang] = useState('English');
-  const [showPayment, setShowPayment] = useState(false); // ← NEW
+  const [showPayment, setShowPayment] = useState(false);
 
   const location = useLocation();
 
-  // ✅ Modified: Now includes India and International pages to behave like the Home page
+  // ✅ Updated Logic: Home, Main Tour Categories, and Specific Region/Package pages
   const isLightHeroPage = 
     location.pathname === '/' || 
-    location.pathname === '/tours/india' || 
-    location.pathname === '/tours/international';
+    location.pathname.startsWith('/tours/') || // Covers /tours/india, /tours/india/gt-rj, etc.
+    location.pathname.includes('/package/');
 
   const shouldBeDark = isScrolled || !isLightHeroPage;
 
@@ -55,7 +55,6 @@ const Header = () => {
     }
   }, []);
 
-  // Prevent background scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -96,7 +95,7 @@ const Header = () => {
     setIsMobileMenuOpen(false);
     setMobileToursOpen(false);
     setMobileLangOpen(false);
-    setToursDropdown(false); // Close desktop dropdown on click
+    setToursDropdown(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -125,7 +124,6 @@ const Header = () => {
         <div id="google_translate_element" className="hidden"></div>
 
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center h-16">
-          {/* LEFT: LOGO */}
           <Link to="/" className="flex items-center gap-3 shrink-0 group" onClick={handleLinkClick}>
             <img src="/LOGO.jpg" alt="Logo" className="h-10 md:h-14 w-auto object-contain transition-transform group-hover:scale-105" />
             <div className={`h-10 w-[1px] ml-1 transition-colors duration-500 ${shouldBeDark ? 'bg-blue-900' : 'bg-white/50'}`}></div>
@@ -139,7 +137,6 @@ const Header = () => {
             </div>
           </Link>
 
-          {/* MIDDLE: NAVIGATION */}
           <nav className="hidden xl:flex items-center absolute left-1/2 -translate-x-1/2">
             <ul className="flex items-center gap-x-1">
               {menuItems.map((item, idx) => (
@@ -185,11 +182,8 @@ const Header = () => {
             </ul>
           </nav>
 
-          {/* RIGHT: TOOLS & INCREDIBLE INDIA */}
           <div className="flex items-center gap-6">
             <div className="hidden xl:flex items-center gap-2">
-
-              {/* ── Pay Online button (DESKTOP) — opens PaymentModal ── */}
               <button
                 onClick={() => setShowPayment(true)}
                 className={`group flex items-center gap-0 hover:gap-2 px-2.5 py-2 rounded-full transition-all duration-300 border overflow-hidden
@@ -201,7 +195,6 @@ const Header = () => {
                 </span>
               </button>
 
-              {/* Language Selection — UNCHANGED */}
               <div className="relative" ref={langRef}>
                 <button
                   onClick={() => setLangDropdown(!langDropdown)}
@@ -227,7 +220,6 @@ const Header = () => {
               </div>
             </div>
 
-            {/* INCREDIBLE INDIA — UNCHANGED */}
             <div className="hidden lg:flex items-center gap-2">
               <div className={`h-10 w-[1px] transition-colors duration-500 ${shouldBeDark ? 'bg-blue-900' : 'bg-white/50'}`}></div>
               <div className="flex flex-col items-start leading-none pl-1">
@@ -242,7 +234,6 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Hamburger Toggle — UNCHANGED */}
             <button
               className={`xl:hidden p-2 rounded-full transition-all ${shouldBeDark ? 'text-blue-900 bg-blue-50' : 'text-white bg-white/10 backdrop-blur-sm'}`}
               onClick={() => setIsMobileMenuOpen(true)}
@@ -252,7 +243,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* MOBILE MENU — FIXED & STABLE */}
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-[200] bg-white flex flex-col animate-in slide-in-from-right duration-300 h-screen w-screen overflow-hidden">
             <div className="p-6 flex justify-between items-center border-b border-gray-100 shrink-0">
@@ -289,7 +279,6 @@ const Header = () => {
                 </div>
               ))}
 
-              {/* ── Pay Online button (MOBILE) — opens PaymentModal, closes menu ── */}
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
@@ -300,7 +289,6 @@ const Header = () => {
                 <CreditCard size={20} /> Pay Online
               </button>
 
-              {/* Language — UNCHANGED */}
               <div className="pb-10">
                 <button
                   onClick={() => setMobileLangOpen(!mobileLangOpen)}
@@ -324,7 +312,6 @@ const Header = () => {
                 )}
               </div>
 
-              {/* Incredible India — UNCHANGED */}
               <div className="mt-auto pt-8 border-t border-gray-100 text-center shrink-0">
                 <p className="text-[32px] font-[1000] text-blue-900 uppercase leading-none tracking-tighter">Incredible <span className="text-blue-600">!</span>ndia</p>
                 <p className="text-[11px] font-bold text-gray-400 mt-2 uppercase tracking-widest leading-none">Recognized by Govt. of India</p>
@@ -341,7 +328,6 @@ const Header = () => {
         `}</style>
       </header>
 
-      {/* ── Payment Modal ── */}
       <PaymentModal
         isOpen={showPayment}
         onClose={() => setShowPayment(false)}

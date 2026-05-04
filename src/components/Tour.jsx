@@ -19,14 +19,12 @@ const travelCards = [
     img: nepalImg, 
     title: "NEPAL", 
     sub: "Majestic Himalayan peaks and spiritual traditions.", 
-    // Example: Replace with actual Nepal Package ID from your DB
     link: "/tours/international/nepal" 
   },
   { 
     img: northEastImg, 
     title: "THE BEST OF NORTH EAST", 
     sub: "Explore Darjeeling, Gangtok, and Pelling.", 
-    // "Best of the North East" ID from your Supabase screenshot
     link: "/tours/india/north-east" 
   },
   { 
@@ -39,14 +37,12 @@ const travelCards = [
     img: kashmirImg, 
     title: "KASHMIR", 
     sub: "Snow-capped peaks and tranquil waters.", 
-    // "Karismatic Kerala" or similar specific package ID
     link: "/tours/india/kashmir" 
   },
   { 
     img: gujaratImg, 
     title: "GUJARAT", 
     sub: "White salt deserts and Asiatic Lions.", 
-    // "Enchanting Gujarat" ID from your Supabase screenshot
     link: "/tours/india/gujarat" 
   },
 ];
@@ -67,7 +63,6 @@ const Tour = () => {
 
       <div 
         className="w-full max-w-[1500px] relative px-2"
-        // Hover par stop, hatne par resume
         onMouseEnter={() => swiperRef.current?.autoplay.stop()}
         onMouseLeave={() => swiperRef.current?.autoplay.start()}
       >
@@ -79,13 +74,17 @@ const Tour = () => {
           centeredSlides={true}
           loop={true}
           slidesPerView={'auto'}
+          // Enables smooth touch and mouse swiping
+          simulateTouch={true}
+          allowTouchMove={true}
+          edgeSwipeDetection={true}
           coverflowEffect={{
-            rotate: 0, stretch: 0, depth: 100, modifier: 1.5, slideShadows: false,
+            rotate: 0, stretch: 0, depth: 100, modifier: 0.5, slideShadows: false,
           }}
           autoplay={{ 
-            delay: 2000, // Speed control (2 seconds per slide)
-            disableOnInteraction: false, // User click ke baad bhi chalta rahega
-            pauseOnMouseEnter: false // Manual handler (useRef) handle kar raha hai isliye ise false rakha hai
+            delay: 2000, 
+            disableOnInteraction: false, 
+            pauseOnMouseEnter: false 
           }}
           navigation={true}
           className="final-tour-swiper !pb-16 !pt-5"
