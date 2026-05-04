@@ -6,6 +6,7 @@ import {
   Quote, Ship, Star, X, ChevronRight, MapPin, Clock, ArrowRight
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
+import { submitEnquiry } from '../services/enquiryService';
 
 /* ─────────────────────────────────────────────────────────────
    STATIC DATA
@@ -46,7 +47,18 @@ const EnquiryModal = ({ pkg, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
-    await supabase.from('enquiries').insert({ ...form, package_id: pkg.id });
+    await Promise.all([
+    supabase.from('enquiries').insert({ ...form, package_id: pkg.id }),
+    submitEnquiry({
+      fullName:    form.name,
+      phoneNumber: form.phone,
+      email:       form.email,
+      fromDate:    form.travel_date,
+      travelers:   form.pax,
+      requirements: form.message,
+      serviceType: `Package Enquiry — ${pkg.name}`,
+    }),
+  ]);
     setDone(true);
     setSending(false);
   };
