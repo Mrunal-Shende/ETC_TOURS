@@ -40,8 +40,8 @@ import ProtectedRoute  from './components/admin/ProtectedRoute';
 import ImageUploader       from './components/admin/ImageUploader';
 import AccommodationEditor from './components/admin/AccommodationEditor';
 
-// payment route
-import Payment from './components/Payment';
+payment route
+import Payment from './components/payment';
 
 // ─────────────────────────────────────────────────────────────────────────
 
