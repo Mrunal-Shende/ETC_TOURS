@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 // ── Layout Components ──────────────────────────────────────────────────
 import Header           from './components/Header';
 import Footer           from './components/Footer';
-import PaymentPartners  from './components/payment-mrunal';
+import PaymentPartners  from './components/membership';
 import FloatingControls from './components/FloatingIcons';
 
 // ── Home Components ────────────────────────────────────────────────────
