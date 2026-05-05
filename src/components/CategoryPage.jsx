@@ -65,12 +65,12 @@ const EnquiryModal = ({ pkg, onClose }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 pt-24 overflow-y-auto backdrop-blur-sm"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
-        className="bg-white w-full max-w-md shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto rounded-none"
+        className="bg-white w-full max-w-md shadow-2xl overflow-hidden rounded-none flex flex-col my-auto"
         initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95 }}
       >
         <div className="bg-slate-900 text-white px-6 py-5 flex items-start justify-between">
@@ -94,7 +94,7 @@ const EnquiryModal = ({ pkg, onClose }) => {
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto max-h-[70vh]">
             <div>
               <label className="field-label">Full Name *</label>
               <input type="text" required placeholder="Your name"
@@ -107,7 +107,7 @@ const EnquiryModal = ({ pkg, onClose }) => {
             </div>
             <div>
               <label className="field-label">Email</label>
-              <input type="email" placeholder="you@email.com"
+              <input type="email" placeholder="yash@email.com"
                 value={form.email} onChange={set('email')} className="field-input" />
             </div>
             <div className="grid grid-cols-2 gap-3">

@@ -96,7 +96,7 @@
 //             </div>
 //             <div>
 //               <label className="field-label">Email</label>
-//               <input type="email" placeholder="you@email.com"
+//               <input type="email" placeholder=""
 //                 value={form.email} onChange={set('email')} className="field-input" />
 //             </div>
 //             <div className="grid grid-cols-2 gap-3">

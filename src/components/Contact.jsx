@@ -478,7 +478,7 @@ const ContactUs = () => {
       `}</style>
 
       {/* --- HERO SECTION --- */}
-      <div className="relative w-full h-screen bg-[#0f172a] overflow-hidden flex items-center justify-center">
+      <div className="relative w-full h-[100vh] min-h-[600px] bg-[#0f172a] overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat scale-105" style={{ backgroundImage: "url('/contact1.jpeg')" }}></div>
         <div className="absolute inset-0 z-10 bg-black/40"></div>
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0f172a]/70 via-transparent to-[#0f172a]/40"></div>

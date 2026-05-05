@@ -8,7 +8,7 @@ import {
   Activity, ZoomIn, Info, Shield, Check, Calendar,
   ArrowRight, Plane, BedDouble, Utensils
 } from 'lucide-react';
-import { supabase } from '../supabaseClient';
+import {  } from '../supabaseClient';
 
 /* ═══════════════════════════════════════════════
    SAFE DATA HELPERS
