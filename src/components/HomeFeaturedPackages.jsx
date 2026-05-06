@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { Ship, MapPin, ArrowRight } from 'lucide-react';
+import { submitEnquiry } from '../services/enquiryService';
 
 /* ── Badge colours — same as original ───────────────────────── */
 const badgeColor = {
@@ -27,9 +28,29 @@ const EnquiryModal = ({ pkg, onClose }) => {
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
 
   const submit = async e => {
-    e.preventDefault(); setSending(true);
-    await supabase.from('enquiries').insert({ ...form, package_id: pkg.id });
-    setDone(true); setSending(false);
+    e.preventDefault();
+    setSending(true);
+
+    try {
+      await submitEnquiry({
+        fullName: form.name,
+        phoneNumber: form.phone,
+        email: form.email,
+        fromDate: form.travel_date,
+        travelers: form.pax,
+        requirements: form.message,
+        packageName: pkg.name,
+        serviceType: "holiday"
+      });
+
+      setDone(true);
+
+    } catch (err) {
+      console.error("GAS Error:", err);
+      alert("Submission failed");
+    }
+
+    setSending(false);
   };
 
   const F = { 
@@ -61,7 +82,7 @@ const EnquiryModal = ({ pkg, onClose }) => {
           </div>
         ) : (
           <form onSubmit={submit} className="p-5 space-y-3">
-            {[{l:'Full Name *',k:'name',t:'text',r:true,p:'Your name'},{l:'Phone *',k:'phone',t:'tel',r:true,p:'+91 98765 43210'},{l:'Email',k:'email',t:'email',r:false,p:'you@email.com'}].map(f=>(
+            {[{l:'Full Name *',k:'name',t:'text',r:true,p:'Your name'},{l:'Phone *',k:'phone',t:'tel',r:true,p:'+91 98765 43210'},{l:'Email',k:'email',t:'email',r:true,p:'you@email.com'}].map(f=>(
               <div key={f.k}><label style={F.label}>{f.l}</label><input type={f.t} required={f.r} placeholder={f.p} value={form[f.k]} onChange={set(f.k)} style={F.input}/></div>
             ))}
             

@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 // --- IMAGES IMPORT ---
 import nepalImg from '../assets/tours/nepal.jpg';
 import northEastImg from '../assets/tours/northeast.jpg';
-import telanganaImg from '../assets/tours/telangana.jpg';
+import telanganaImg from '../assets/tours/Telangana.jpeg';
 import kashmirImg from '../assets/tours/kashmir.jpg';
-import gujaratImg from '../assets/tours/gujarat.jpg';
+import gujaratImg from '../assets/tours/gujrat.jpeg';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';

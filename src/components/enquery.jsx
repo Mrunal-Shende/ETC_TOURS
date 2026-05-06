@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Send, ChevronDown, Clock, ShieldCheck, Globe, Calendar, Users, MapPin, X, ChevronRight, Briefcase, Wallet } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { submitEnquiry } from '../services/enquiryService';
 
 const EnquiryPage = () => {
   const initialFormState = {
@@ -30,11 +31,43 @@ const EnquiryPage = () => {
     if (name === "serviceType") setServiceType(value);
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setSubmissionStatus('loading');
+  //   try {
+  //     await new Promise(resolve => setTimeout(resolve, 2000));
+  //     setSubmissionStatus('success');
+  //     setFormData(initialFormState);
+  //     setServiceType("");
+  //   } catch (error) {
+  //     setSubmissionStatus('error');
+  //   }
+  // };
+  // NEW — real GAS submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmissionStatus('loading');
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await submitEnquiry({
+        fullName:     formData.fullName,
+        phoneNumber:  formData.phoneNumber,
+        email:        formData.email,
+        company:      formData.company,
+        serviceType:  formData.serviceType,
+        destination:  formData.destination,
+        fromDate:     formData.fromDate,
+        toDate:       formData.toDate,
+        travelers:    formData.travelers,
+        groupSize:    formData.groupSize,
+        budget:       formData.budget,
+        carFleet:     formData.carFleet,
+        tripType:     formData.tripType,
+        pickUpLoc:    formData.pickUpLoc,
+        dropLoc:      formData.dropLoc,
+        eventType:    formData.eventType,
+        requirements: formData.requirements,
+      });
       setSubmissionStatus('success');
       setFormData(initialFormState);
       setServiceType("");
@@ -267,6 +300,17 @@ const EnquiryPage = () => {
                     Thank you. One of our executives will call you back soon.
                   </motion.div>
                 )}
+                {/* ADD this error block right after */}
+                {submissionStatus === 'error' && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="mt-6 p-4 bg-red-50 border border-red-200 text-red-700 text-xs font-bold text-center uppercase tracking-widest"
+                  >
+                    Could not submit. Please check your connection and try again.
+                  </motion.div>
+                )}
+
               </div>
             </form>
           </div>

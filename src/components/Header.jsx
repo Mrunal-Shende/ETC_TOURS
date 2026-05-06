@@ -17,7 +17,14 @@ const Header = () => {
   const isLightHeroPage = 
     location.pathname === '/' || 
     location.pathname.startsWith('/tours/') || // Covers /tours/india, /tours/india/gt-rj, etc.
+
     location.pathname.includes('/package/');
+
+    location.pathname.includes('/package/') ||
+    location.pathname === '/contact'  ||
+    location.pathname === '/about'    ||
+    location.pathname === '/blog'     ||
+    location.pathname === '/services';
 
   const shouldBeDark = isScrolled || !isLightHeroPage;
 
