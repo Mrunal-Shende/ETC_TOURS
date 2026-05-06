@@ -114,8 +114,8 @@ function App() {
         <Route path="/services" element={<PublicLayout><Services/></PublicLayout>}/>
         <Route path="/contact"  element={<PublicLayout><ContactUs/></PublicLayout>}/>
         
-        {/* ContactUs page ke pop-up se linked redirection route */}
-        <Route path="/enquery"  element={<PublicLayout><EnquiryPage/></PublicLayout>}/>
+        {/* Corrected path to /enquiry to match FloatingControls */}
+        <Route path="/enquiry"  element={<PublicLayout><EnquiryPage/></PublicLayout>}/>
 
         {/* ── TOURS ROUTES ── */}
         {/* India */}
