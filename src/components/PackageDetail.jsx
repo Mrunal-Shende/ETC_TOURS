@@ -8,7 +8,7 @@ import {
   Activity, ZoomIn, Info, Shield, Check, Calendar,
   ArrowRight, Plane, BedDouble, Utensils
 } from 'lucide-react';
-import {  } from '../supabaseClient';
+import { supabase } from '../supabaseClient';
 
 /* ═══════════════════════════════════════════════
    SAFE DATA HELPERS
@@ -251,7 +251,7 @@ const PackageDetail = () => {
       {/* ════════════════════════════════════════
           HERO - RESPONSIVE TEXT SIZE
       ════════════════════════════════════════ */}
-      <div className="relative w-full h-[50vh] sm:h-[60vh] min-h-[400px] overflow-hidden bg-[#0a1628] flex items-center justify-center">
+      <div className="relative w-full h-[50vh] sm:h-[85vh] min-h-[400px] overflow-hidden bg-[#0a1628] flex items-center justify-center">
         {heroImage && (
           <img src={heroImage} className="absolute inset-0 w-full h-full object-cover opacity-60" alt="" />
         )}
@@ -347,12 +347,13 @@ const PackageDetail = () => {
             )}
 
             <section>
-              <SectionTitle icon={CheckCircle}>Inclusions</SectionTitle>
+              <SectionTitle icon={CheckCircle}>Inclusions & Exclusions</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="rounded-2xl border border-slate-200 bg-white p-5">
+                  <h4 className="text-[10px] font-black uppercase text-blue-600 mb-4 tracking-widest">Inclusions</h4>
                   <ul className="space-y-3">
                     {inclusionsLines.map((item, i) => (
-                      <li key={i} className="flex gap-3 items-start"><div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 shrink-0" /><span className="text-xs sm:text-sm font-medium text-slate-700">{item}</span></li>
+                      <li key={i} className="text-xs text-slate-700 flex gap-2"><span>•</span> {item}</li>
                     ))}
                   </ul>
                 </div>

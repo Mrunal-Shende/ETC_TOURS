@@ -41,7 +41,7 @@ import ImageUploader       from './components/admin/ImageUploader';
 import AccommodationEditor from './components/admin/AccommodationEditor';
 
 // payment route
-import Payment from './components/payment';
+import Payment from './components/Payment';
 
 // ─────────────────────────────────────────────────────────────────────────
 

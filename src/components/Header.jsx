@@ -20,6 +20,7 @@ const Header = () => {
     location.pathname.includes('/package/') ||
     location.pathname === '/contact'  ||
     location.pathname === '/about'    ||
+    location.pathname === '/blog'     ||
     location.pathname === '/services';
 
 

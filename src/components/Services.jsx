@@ -12,10 +12,15 @@ import CruisesImg from '/image/Cruises.jpeg';
 import VisaImg from '/image/Visa.jpeg';
 import PassportImg from '/image/Passport.jpeg';
 import ForexImg from '/image/Forex.jpeg';
+// import { useState } from 'react'; // already there
+import { submitEnquiry } from '../services/enquiryService'; // ADD THIS
 
 const Services = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedServiceForForm, setSelectedServiceForForm] = useState(null);
+  const [formState, setFormState] = useState({ name: '', phone: '', email: '' });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const services = [
     { title: "Transportation", desc: "Your choice of cars and reliable services at the best available prices.", img: TransportationImg },
@@ -139,14 +144,24 @@ const Services = () => {
                     Service <span className="text-blue-600">Inquiry</span>
                   </h2>
                   <button
-                    onClick={() => setIsDrawerOpen(false)}
+                    onClick={() => { setIsDrawerOpen(false); setSent(false); setFormState({name:'',phone:'',email:''}); }}
                     className="text-[10px] font-black border-2 border-slate-200 px-4 py-2 hover:bg-red-500 hover:text-white hover:border-red-500 transition-all"
                   >
                     CLOSE ✕
                   </button>
                 </div>
 
-                <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Inquiry Sent!'); setIsDrawerOpen(false); }}>
+                <form className="space-y-6" 
+                onSubmit={async (e) => {
+                  e.preventDefault(); setSending(true);
+                  await submitEnquiry({
+                    fullName: formState.name, phoneNumber: formState.phone,
+                    email: formState.email,
+                    serviceType: selectedServiceForForm?.title || 'General Inquiry',
+                    requirements: `Service enquiry: ${selectedServiceForForm?.title}`,
+                  }).catch(err => console.warn('GAS:', err.message));
+                  setSent(true); setSending(false);
+                }}>
                   <div className="group border-l-4 border-slate-100 focus-within:border-blue-600 bg-slate-50 p-4 transition-all">
                     <label className="text-[9px] font-black uppercase text-slate-400 tracking-widest block mb-1">Requested Service</label>
                     <input readOnly value={selectedServiceForForm?.title || "General Inquiry"} className="w-full bg-transparent outline-none font-bold text-blue-600 text-sm" />
@@ -154,16 +169,36 @@ const Services = () => {
 
                   <div className="group border-l-4 border-slate-100 focus-within:border-blue-600 bg-slate-50 p-4 transition-all">
                     <label className="text-[9px] font-black uppercase text-slate-400 tracking-widest block mb-1">Full Name</label>
-                    <input required type="text" className="w-full bg-transparent outline-none font-bold text-slate-900 placeholder:text-slate-300 text-sm uppercase" placeholder="E.G. JOHN DOE" />
+                    <input 
+                      required 
+                      type="text"
+                      value={formState.name}
+                      onChange={e => setFormState(p => ({...p, name: e.target.value}))}
+                      
+                    />
                   </div>
 
                   <div className="group border-l-4 border-slate-100 focus-within:border-blue-600 bg-slate-50 p-4 transition-all">
                     <label className="text-[9px] font-black uppercase text-slate-400 tracking-widest block mb-1">Phone Number</label>
-                    <input required type="tel" className="w-full bg-transparent outline-none font-bold text-slate-900 placeholder:text-slate-300 text-sm" placeholder="+91 XXXXX XXXXX" />
+                    <input 
+                      required 
+                      type="tel"
+                      value={formState.phone}
+                      onChange={e => setFormState(p => ({...p, phone: e.target.value}))}
+                    
+                    />
+                  </div>
+
+                  <div className="group border-l-4 border-slate-100 focus-within:border-blue-600 bg-slate-50 p-4 transition-all">
+                    <label className="text-[9px] font-black uppercase text-slate-400 tracking-widest block mb-1">Email Address *</label>
+                    <input required type="email" value={formState.email}
+                      onChange={e => setFormState(p=>({...p,email:e.target.value}))}
+                      className="w-full bg-transparent outline-none font-bold text-slate-900 placeholder:text-slate-300 text-sm"
+                      placeholder="you@email.com" />
                   </div>
 
                   <button type="submit" className="w-full bg-slate-900 text-white py-5 font-black uppercase tracking-[0.3em] text-[11px] hover:bg-blue-600 transition-all shadow-lg">
-                    Submit Request Now
+                    {sending ? 'Sending...' : sent ? 'Sent! ✓' : 'Submit Request Now'}
                   </button>
                 </form>
 
