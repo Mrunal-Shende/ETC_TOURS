@@ -3,13 +3,14 @@ import React from 'react';
 const FleetHomeCTA = () => {
   return (
     <div className="pkg-root">
-      {/* Background Decor - Optional: provides the subtle dot grid and blue glow */}
+      {/* Background Decor */}
       <div className="pkg-ambient">
         <div className="pkg-orb pkg-orb-1" />
         <div className="pkg-dotgrid" />
       </div>
 
-      <section className="relative z-10 bg-white font-sans text-[#1A202C] py-20 px-4 md:px-6 max-w-7xl mx-auto text-center">
+      {/* pt-4 se thoda sa space rakha hai taaki overlap na ho, aur pb-10 se niche ka gap set kiya hai */}
+      <section className="relative z-10 bg-white font-sans text-[#1A202C] pt-4 pb-10 md:pb-16 px-4 md:px-6 max-w-7xl mx-auto text-center">
         <div className="mb-4">
           <span className="text-blue-600 font-bold tracking-[0.2em] text-[10px] uppercase mb-1 block italic">
             Elite Transport

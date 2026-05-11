@@ -88,7 +88,7 @@ const Tour = () => {
             pauseOnMouseEnter: false // Manual handler (useRef) handle kar raha hai isliye ise false rakha hai
           }}
           navigation={true}
-          className="final-tour-swiper !pb-16 !pt-5"
+          className="final-tour-swiper !pb-4 !pt-1"
         >
           {multiCards.map((card, index) => (
             <SwiperSlide key={index} className="final-tour-slide">
