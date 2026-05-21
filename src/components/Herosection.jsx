@@ -6,27 +6,42 @@ const slides = [
   {
     img: "agra.jpg",
     title: "AGRA",
-    sub: "Witness the timeless beauty of the Taj Mahal. A symbol of eternal love and a masterpiece of Mughal architecture."
+    sub: "Witness the timeless beauty of the Taj Mahal, a masterpiece of Mughal architecture."
+  },
+  {
+    img: "Europe.jpeg", // Europe/Venice Image
+    title: "Europe",
+    sub: "Glide through the iconic canals of Venice and experience the ultimate romantic European escape."
   },
   {
     img: "kerla.jpg",
     title: "KERALA",
-    sub: "Escape to God's Own Country. Experience the tranquil backwaters and lush tea plantations."
+    sub: "Escape to God's Own Country. Experience the tranquil backwaters and lush green tea plantations."
+  },
+  {
+    img: "singapore1.jpeg", // Singapore Image
+    title: "SINGAPORE",
+    sub: "Explore a futuristic global hub blending modern architecture with spectacular nature parks."
   },
   {
     img: "/varansi.jpeg",
     title: "VARANASI",
-    sub: "The city is known worldwide for its many ghats—steps leading down the steep river bank to the water—where pilgrims perform rituals."
+    sub: "Discover the spiritual heart of India through ancient riverside ghats and divine evening rituals."
+  },
+  {
+    img: "dubai3 (2).jpeg", // Dubai Image
+    title: "DUBAI",
+    sub: "Experience luxury redefined with towering architectural marvels and vast desert adventures."
   },
   {
     img: "/jaipur.jpg",
     title: "JAIPUR",
-    sub: "Explore the Pink City's royal heritage. Majestic forts and Rajputana history await you."
+    sub: "Step into the royal heritage of the Pink City filled with magnificent forts and historic palaces."
   },
   {
-    img: "/pondi.jpeg",
-    title: "TAMIL NADU",
-    sub: "Mamallapuram, or Mahabalipuram, is a town on a strip of land between the Bay of Bengal and the Great Salt Lake, in the south Indian state of Tamil Nadu."
+    img: "Beach.jpeg", // Maldives Image
+    title: "MALDIVES",
+    sub: "Relax on pristine white sands surrounded by breathtaking turquoise waters and tropical luxury."
   }
 ];
 
@@ -96,7 +111,7 @@ const Herosection = () => {
       <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-6 pt-10">
         <div key={current} className="flex flex-col items-center">
           <span className="text-blue-500 font-black tracking-[0.4em] text-[10px] md:text-xs mb-2 animate-slide-in uppercase">
-            Explore Incredible India
+            Explore Incredible Destinations
           </span>
           
           <h1 className="text-white text-5xl md:text-8xl font-black uppercase tracking-tighter animate-slide-in leading-none">
@@ -105,7 +120,8 @@ const Herosection = () => {
           
           <div className="h-1 w-20 bg-blue-500 my-4 animate-slide-in delay-100"></div>
 
-          <p className="text-gray-100 text-xs md:text-lg max-w-xl font-bold leading-relaxed animate-slide-in delay-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+          {/* Fixed height container or line-clamp handles unexpected extra content seamlessly */}
+          <p className="text-gray-100 text-xs md:text-lg max-w-xl font-bold leading-relaxed animate-slide-in delay-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] min-h-[3.5rem] md:min-h-[4.5rem]">
             {slides[current].sub}
           </p>
         </div>

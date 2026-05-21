@@ -273,7 +273,7 @@ const PackageDetail = () => {
             <h1 
               style={{ 
                 fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: "clamp(32px, 8vw, 72px)" // Chota mobile me 32px, bade me 72px max
+                fontSize: "clamp(32px, 8vw, 72px)"
               }}
               className="text-white font-black uppercase tracking-tighter leading-[1.1] sm:leading-[1]"
             >
@@ -288,13 +288,20 @@ const PackageDetail = () => {
       ════════════════════════════════════════ */}
       <div className="sticky top-0 z-50 bg-[#0a1628] border-b border-white/5 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-10 py-3 sm:py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 sm:gap-6 overflow-hidden">
-            <span className="text-white/90 text-[10px] sm:text-xs font-black uppercase tracking-widest whitespace-nowrap">{days}D / {nights}N</span>
+          
+          <div className="flex flex-wrap items-center gap-4 sm:gap-8 overflow-hidden">
+            <span className="text-white/90 text-[10px] sm:text-xs font-black uppercase tracking-widest whitespace-nowrap">
+              {days}D / {nights}N
+            </span>
+            
             <div className="flex items-center gap-2 text-blue-400 truncate">
                <MapPin size={12} className="shrink-0" />
-               <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wide truncate">{startCity} {endCity && `→ ${endCity}`}</span>
+               <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wide truncate">
+                 {startCity} {endCity && `→ ${endCity}`}
+               </span>
             </div>
           </div>
+
           <button onClick={() => setEnquiry(true)}
             className="bg-blue-600 hover:bg-blue-700 text-white px-5 sm:px-8 py-2.5 sm:py-3 font-black text-[10px] sm:text-[11px] uppercase tracking-widest rounded-lg transition-all whitespace-nowrap">
             Book Now
@@ -313,9 +320,17 @@ const PackageDetail = () => {
             <section>
               <SectionTitle icon={Info}>Overview</SectionTitle>
               <p className="text-slate-600 text-sm sm:text-[15px] leading-relaxed mb-8">{pkg.description}</p>
+              
+              {/* Layout grid containing updated stats configuration */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {nights > 0 && <StatCard icon={Clock} label="Duration" value={`${days}D / ${nights}N`} />}
                 {startCity && <StatCard icon={MapPin} label="Starts From" value={startCity} />}
+                
+                {/* 🌟 Best Time To Visit Box (Directly next to 'Starts From') 🌟 */}
+                {pkg.best_time_to_travel && (
+                  <StatCard icon={Calendar} label="Best Time To Visit" value={pkg.best_time_to_travel} />
+                )}
+
                 {pkg.tour_type && <StatCard icon={Activity} label="Tour Type" value={pkg.tour_type} />}
                 {pkg.accommodation_type && <StatCard icon={Hotel} label="Stay" value={pkg.accommodation_type} />}
               </div>

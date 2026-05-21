@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState, useRef } from 'react';
 import { supabase } from '../../supabaseClient';
 import {
@@ -168,7 +166,6 @@ const ImageUploader = ({ label, currentUrl, onUpload }) => {
    — Visual row builder for city/nights/category/meal plan
    — Saves as JSON array to accommodation column
 ══════════════════════════════════════════════════════════════ */
-// const MEAL_OPTIONS = ['CP', 'MAP', 'AP', 'EP', 'BB'];
 const MEAL_OPTIONS = [
   { code: 'CP', label: 'CP (Breakfast Included)' },
   { code: 'MAP', label: 'MAP (Breakfast + Dinner)' },
@@ -220,21 +217,17 @@ const AccommodationEditor = ({ value, onChange }) => {
                 placeholder="Hotel name" className="field-sm"/>
               <input value={row.cat_c} onChange={e => updateRow(idx,'cat_c',e.target.value)}
                 placeholder="Hotel name" className="field-sm"/>
-              {/* <select value={row.meal_plan} onChange={e => updateRow(idx,'meal_plan',e.target.value)}
-                className="field-sm">
-                {MEAL_OPTIONS.map(m => <option key={m} value={m}>{m}</option>)}
-              </select> */}
               <select
-              value={row.meal_plan}
-              onChange={e => updateRow(idx, 'meal_plan', e.target.value)}
-              className="field-sm"
-            >
-              {MEAL_OPTIONS.map(m => (
-                <option key={m.code} value={m.code}>
-                  {m.label}
-                </option>
-              ))}
-            </select>
+                value={row.meal_plan}
+                onChange={e => updateRow(idx, 'meal_plan', e.target.value)}
+                className="field-sm"
+              >
+                {MEAL_OPTIONS.map(m => (
+                  <option key={m.code} value={m.code}>
+                    {m.label}
+                  </option>
+                ))}
+              </select>
               <button type="button" onClick={() => removeRow(idx)}
                 className="text-slate-600 hover:text-red-400 transition-colors flex items-center justify-center">
                 <Trash2 size={14}/>
@@ -249,7 +242,6 @@ const AccommodationEditor = ({ value, onChange }) => {
         <PlusCircle size={16}/> Add Row
       </button>
 
-      {/* JSON preview for debugging */}
       {rows.length > 0 && (
         <details className="mt-3">
           <summary className="text-[10px] text-slate-600 cursor-pointer hover:text-slate-400 uppercase tracking-wider font-bold">
@@ -308,7 +300,8 @@ const EMPTY = {
   highlights:'', description:'', image_url:'', badge:'',
   duration_label:'', is_featured:false, is_active:true, display_order:0,
   inclusions:'', exclusions:'', gallery:'', itinerary:[],
-  key_details:'', validity_text:'', accommodation:[],
+  key_details:'', validity_text:'', best_time_to_travel: '', // <-- Added here
+  accommodation:[],
 };
 
 /* ══════════════════════════════════════════════════════════════
@@ -361,6 +354,7 @@ const AdminPackages = () => {
       gallery:       pkg.gallery       || '',
       key_details:   pkg.key_details   || '',
       validity_text: pkg.validity_text || '',
+      best_time_to_travel: pkg.best_time_to_travel || '', // <-- Added here
       itinerary:     Array.isArray(pkg.itinerary)     ? pkg.itinerary     : [],
       accommodation: Array.isArray(pkg.accommodation) ? pkg.accommodation : [],
     });
@@ -392,6 +386,7 @@ const AdminPackages = () => {
       gallery:       form.gallery       || null,
       key_details:   form.key_details   || null,
       validity_text: form.validity_text || null,
+      best_time_to_travel: form.best_time_to_travel || null, // <-- Added here
       itinerary:     form.itinerary.length     ? form.itinerary     : null,
       accommodation: form.accommodation.length ? form.accommodation : null,
     };
@@ -839,6 +834,21 @@ const AdminPackages = () => {
                       <p className="text-slate-500 text-[10px] mt-1.5">Appears as a full-width amber banner near the top of the package detail page.</p>
                     </div>
 
+                    {/* ══ NEW ADDITION: BEST TIME TO TRAVEL ══ */}
+                    <div className="border-t border-slate-800 pt-5">
+                      <label className="label">
+                        Best Time To Travel
+                        <span className="ml-2 text-blue-400 text-[10px] font-bold normal-case tracking-normal">★ Recommended Season</span>
+                      </label>
+                      <input
+                        value={form.best_time_to_travel}
+                        onChange={set('best_time_to_travel')}
+                        className="field"
+                        placeholder="e.g. September to March is the ideal time due to pleasant weather."
+                      />
+                      <p className="text-slate-500 text-[10px] mt-1.5">This helps users choose the right month/season for their journey.</p>
+                    </div>
+
                     <div className="border-t border-slate-800 pt-5">
                       <label className="label">
                         Key Details
@@ -854,7 +864,6 @@ const AdminPackages = () => {
                         className="field resize-none"
                         placeholder={"Rates are 10% commissionable\nAll government taxes are included\nNo GST input\nRates subject to availability at the time of booking\nMinimum 2 pax required\nChild below 5 years complimentary"}
                       />
-                      {/* Live preview */}
                       {form.key_details && (
                         <div className="mt-3 bg-slate-800 border border-slate-700 rounded-lg p-4">
                           <p className="text-slate-500 text-[9px] uppercase tracking-widest font-bold mb-3">Live Preview</p>

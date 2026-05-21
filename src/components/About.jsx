@@ -22,6 +22,15 @@ const features = [
     ),
   },
   {
+    title: "Global Recognition",
+    desc: "Trusted worldwide for international standards of safety, quality, and hospitality.",
+    icon: (
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.35 4 12.69 4 12s.1-1.35.26-2h3.38c-.09.66-.14 1.33-.14 2s.05 1.34.14 2H4.26zm.82 2h2.95c.32 1.3.79 2.5 1.38 3.56A8.03 8.03 0 0 1 5.08 16zm2.95-8H5.08a8.03 8.03 0 0 1 3.81-3.56c-.59 1.06-1.06 2.26-1.38 3.56zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.34-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.34.16 2s-.07 1.34-.16 2zm.25 5.56c.59-1.06 1.06-2.26 1.38-3.56h2.95a8.03 8.03 0 0 1-3.81 3.56zM16.36 14c.09-.66.14-1.34.14-2s-.05-1.34-.14-2h3.38c.16.65.26 1.33.26 2s-.1 1.35-.26 2h-3.38z" />
+      </svg>
+    ),
+  },
+  {
     title: "Corporate & Leisure",
     desc: "End-to-end travel management for individuals, families, and large groups.",
     icon: (
@@ -184,7 +193,7 @@ const AboutSection = () => {
 
             <p style={{ fontFamily: 'Montserrat, sans-serif', fontSize: '14px', lineHeight: '1.8' }} className="text-slate-500 max-w-md">
               Based in Chennai and recognized by the Government of India, we deliver
-              seamless travel experiences across South India — blending cultural depth,
+              seamless travel experiences across Globally — blending cultural depth,
               personalised service, and flawless logistics since 1999.
             </p>
 
