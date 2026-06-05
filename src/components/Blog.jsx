@@ -1,220 +1,595 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Compass } from 'lucide-react';
+import { ArrowRight, ArrowLeft, ExternalLink, Calendar, Clock, X, MapPin, Navigation } from 'lucide-react';
 
+const blogs = [
+  {
+    id: 1,
+    title: "3 Chola Temples in Tamil Nadu That Feel Beyond Human",
+    desc: "There are places in Tamil Nadu where granite sings, shadows predict time, and kings built temples so powerful that even after 1000 years, they still dominate the skyline.",
+    category: "ARCHITECTURAL MARVELS",
+    image: "/chola.jpeg",
+    carouselImages: ["/aira.jpeg", "/Briha.jpeg", "/GANGAI.jpeg", "/south.jpeg"],
+    readTime: "8 min read",
+    fullContent: {
+      lede: "Tamil Nadu's Chola temples aren't just monuments — they are living institutions where devotion, mathematics, and art were fused into stone over a thousand years ago. These three UNESCO-listed marvels represent the absolute pinnacle of Dravidian temple architecture.",
+      bestTime: "November to February (Pleasant winter winds)",
+      list: [
+        {
+          name: "Brihadisvara Temple",
+          location: "Thanjavur, Tamil Nadu",
+          details: "Imagine standing in Thanjavur 1000 years ago. The sound of chisels echoes across the city. Hundreds of workers pull gigantic stones under the burning sun while Raja Raja Chola watches his dream rise into the sky. Oil lamps flicker at night, priests chant inside unfinished halls, and slowly — a mountain of granite becomes one of the greatest temples India has ever seen. The 66-metre vimana (tower) was the tallest structure in the Indian subcontinent at the time of its completion in 1010 CE.",
+          img: "/Briha.jpeg",
+          howToReach: "Trichy Airport → NH-83 Highway Route → Thanjavur City Center (55 km). The highways offer seamless four-lane road connectivity.",
+          roadmap: ["Arrive at Thanjavur Junction/Trichy Hub", "Take local highway transit to the Grand Temple Complex", "Marvel at the massive 66-meter towering Vimana rocket structure", "Explore ancient Tamil inscriptions & hidden inner sanctuary frescoes"],
+        },
+        {
+          name: "Gangaikonda Cholapuram",
+          location: "Ariyalur District, Tamil Nadu",
+          details: "Rajendra Chola conquered lands so far north that he brought back water from the Ganges — and built an entire city to celebrate it. Today, it carries a strange and unforgettable atmosphere. The temple feels calm, powerful, and almost abandoned by time itself. Its elegant curves, giant Shiva lingam, lion well, and quiet courtyards create the feeling of walking through the remains of a once unstoppable empire.",
+          img: "/GANGAI.jpeg",
+          howToReach: "Kumbakonam → Anaikkarai Bridge Route → Gangaikonda Cholapuram Highway (34 km). Well maintained dual-carriageway setup.",
+          roadmap: ["Reach Kumbakonam or Ariyalur hub via highway or rail", "Hire private cab or state transport towards Jayankondam route", "Walk through the pristine uncrowded lawn perimeter to the sanctum", "Visit the unique Simhakeni (Lion Well) and check structural symmetries"],
+        },
+        {
+          name: "Airavatesvara Temple",
+          location: "Darasuram, Kumbakonam",
+          details: "Hidden within Darasuram is a fascinating bull-and-elephant carving where two animals share a single head. Depending on the angle from which it is viewed, the sculpture appears as either a bull or an elephant. More than 800 years after it was carved, this ingenious creation remains one of the temple's most intriguing attractions.",
+          img: "/aira.jpeg",
+          howToReach: "Kumbakonam Central Stand → Local Darasuram Bypass Road Route (4 km). Extremely short but busy road approach.",
+          roadmap: ["Arrive at Kumbakonam central junction point", "Take a short 10-minute road trip down to Darasuram village limits", "Observe the iconic horse-drawn chariot structural design foundations", "Locate the optical illusion carving and test acoustic musical stone steps"],
+        }
+      ],
+      note: "Respect the sacred guidelines of these living ancient heritage installations by walking barefoot over the stone courtyards.",
+    }
+  },
+  {
+    id: 2,
+    title: "Where Moonlight Dances on Salt: The Magic of Rann Utsav",
+    desc: "As the sun sets over the salt desert, the festival grounds come alive with the sounds of drums, folk songs, and traditional dances from Gujarat.",
+    category: "DESERT FESTIVAL SPECIAL",
+    image: "/rann.jpeg",
+    carouselImages: ["/rann.jpeg", "/rann1.jpeg", "/rann2.jpeg", "/rann3.jpeg"],
+    readTime: "7 min read",
+    fullContent: {
+      lede: "Stretching across 7,500 square kilometres, the Great Rann of Kutch is the world's largest salt desert. For three months every winter, it transforms into one of India's most theatrical celebrations — the Rann Utsav.",
+      bestTime: "November to February (Specially during Full Moon cycles)",
+      list: [
+        {
+          name: "White Rann Plains & Full Moon",
+          location: "Dhordo, Kutch, Gujarat",
+          details: "The White Rann is the highlight of the festival. As sunlight touches the endless salt plains, the landscape transforms into a dazzling white canvas stretching to the horizon. During sunset, the desert glows with shades of gold, orange, and pink. One of the most memorable experiences is seeing the White Rann under moonlight, when the salt desert reflects the moon's glow, creating a surreal landscape that feels almost magical.",
+          img: "/rannmoon.jpeg",
+          howToReach: "Bhuj City Hub → Bhada/Khavda Road Route → Dhordo Checkpost Corridor (80 km). Clear flat tarred highway tracks.",
+          roadmap: ["Land at Bhuj Airport/Station Hub", "Drive straight north via Bhuj-Khavda highway road", "Present security documents at Dhordo Checkpost window", "Walk into the sprawling white crystallised salt flatlands"],
+        },
+        {
+          name: "Folk Grounds & Artisan Souks",
+          location: "Dhordo Tent City, Kutch",
+          details: "As the sun sets over the salt desert, the festival grounds come alive with the sounds of drums, folk songs, and traditional dances from Gujarat. Dancers in colorful attire spin gracefully under the open sky while musicians bring traditions to life. The handicraft markets of Kutch are a vibrant showcase of embroidered textiles, handcrafted jewellery, colorful Bandhani fabrics, leather products, and Kutchi crafts.",
+          img: "/tentcity.jpeg",
+          howToReach: "Dhordo Tent City Premises → Inner Festival Event Loops & Haat Courtyards. Accessible via walking tracks.",
+          roadmap: ["Enter main cultural arena pavilion at sunset hour", "Take seats for evening energetic Garba & Kutchi musical recitals", "Stroll through local government-approved artisan craft stalls", "Interact with National Award-winning embroidery families directly"],
+        },
+        {
+          name: "Kutchi Culinary Journey",
+          location: "Dhordo Village, Kutch",
+          details: "No visit to Rann Utsav is complete without experiencing the flavors of Kutch. The festival offers a delightful journey through Gujarat's culinary traditions, where every dish is prepared with recipes passed down through generations. Visitors can savor local flavors such as the spicy Kutchi Dabeli, wholesome Bajra Rotla, comforting Kadhi, and traditional Gujarati thalis.",
+          img: "/rannfood.jpeg",
+          howToReach: "Tent City Dining Halls / Local Dhordo Village Food Courtyards via Border Highway Hubs.",
+          roadmap: ["Locate authentic dining commons or village-style seating areas", "Order slow-cooked traditional clay-pot preparation meals", "Try hot buttery Bajra Rotla topped with authentic garlic chutney paste", "Conclude with fresh Kutchi sweets and local buttermilk drinks"],
+        }
+      ],
+      note: "Obtain the mandatory Special Permit for the White Rann near Dhordo online or at the checkpost, as it is located close to the international border.",
+    }
+  },
+  {
+    id: 3,
+    title: "Hampi: Walking Through the Ruins of a Lost Empire",
+    desc: "Empires rise and fall, but Hampi refuses to be forgotten. Scattered across a surreal landscape of giant boulders, walk through the capital remnants of the majestic Vijayanagara Empire.",
+    category: "UNESCO WORLD HERITAGE",
+    image: "/hampi.jpeg",
+    carouselImages: ["/Hampi1.jpeg", "/Hampi2.jpeg", "/Hampi3.jpeg", "/hampi.jpeg"],
+    readTime: "10 min read",
+    fullContent: {
+      lede: "In the 14th century, Hampi was one of the largest and wealthiest cities in the world. Today, its ruins spread across 26 square kilometres of surreal boulder landscapes — a UNESCO World Heritage Site that rewards every curious step.",
+      bestTime: "October to March (Cool breezes avoid scorching rock temperatures)",
+      list: [
+        {
+          name: "Virupaksha Temple",
+          location: "Hampi Bazaar, Karnataka",
+          details: "Long before Hampi became a UNESCO World Heritage Site, prayers were already echoing through the halls of Virupaksha Temple. Dedicated to Lord Shiva, this sacred temple remains an active place of worship even after centuries of political change and historical upheaval. Its towering gopuram welcomes visitors into a world where devotion, architecture, and history exist side by side.",
+          img: "/viru.jpeg",
+          howToReach: "Bengaluru Hub → Chitradurga → Hospet → Hampi (approx. 340 km via NH-48 and NH-50). Travel time is roughly 6–7 hours.",
+          roadmap: ["Navigate from Hospet town directly to Hampi Bazaar Road", "Pass through the massive outer stone gateway structures", "Explore the active inner worship chambers and old courtyard corridors", "Interact with the temple elephant and see the inverted shadow camera obscura system"],
+        },
+        {
+          name: "The Stone Chariot",
+          location: "Vittala Temple Complex, Hampi",
+          details: "Perhaps no monument represents Hampi better than the famous Stone Chariot. Carved with extraordinary precision, this architectural masterpiece has become one of India's most recognized heritage symbols. Though it appears ready to roll forward, the chariot has stood still for centuries, captivating visitors with its craftsmanship and timeless structural beauty.",
+          img: "/stone.jpeg",
+          howToReach: "Hampi Main Road → Vittala Temple Complex Walkway Route via Battery Operated Carts.",
+          roadmap: ["Reach the outer parking boundaries of the safe monument zones", "Board an eco-friendly golf cart or take the scenic riverside trek track", "Enter the main courtyard of the iconic stone chariot enclosure", "Examine closely the detailed carvings on the wheels and monolithic elephant guards"],
+        },
+        {
+          name: "Vittala Temple Pillars",
+          location: "Vittala Temple, Hampi",
+          details: "What if a temple could make music? The Vittala Temple is renowned for its legendary musical pillars, which have fascinated visitors and historians alike. The 56 monolithic granite pillars of the main hall each emit a different musical note when tapped — a feat of acoustic engineering that modern architects still struggle to explain fully.",
+          img: "/vittala.jpeg",
+          howToReach: "Hampi Bazaar → River Bank Walking Trail → Vittala Compound Access Line.",
+          roadmap: ["Enter the open-air maha-mandapa stone hall complex setup", "Observe the 56 massive structural pillars carved out of solid mountain stone", "Study how minor taps generate accurate musical frequencies across chambers", "Photograph the delicate stone roof eaves designed like flowing wood panels"],
+        },
+        {
+          name: "Hemakuta Hill Sunset",
+          location: "Near Virupaksha Temple, Hampi",
+          details: "As the sun begins to set, Hemakuta Hill offers one of the most breathtaking views in Hampi. From its summit, visitors can watch the golden light spread across temples, ruins, and giant boulders that stretch endlessly across the landscape. The hill itself is dotted with pre-Vijayanagara shrines, making every step of the climb historically rewarding.",
+          img: "/Hemakuta.jpeg",
+          howToReach: "Adjacent to Virupaksha Temple Complex western gates → Marked Rock Steps Climbing Route.",
+          roadmap: ["Begin gentle upward rocky trek an hour before the targeted sunset schedule", "Pass by the distinct double-storied monolithic stone pavilions on top", "Find a quiet ledge overlooking the sprawling green banana plantations", "Watch the golden sun dip behind the dramatic boulder-strewn horizon line"],
+        }
+      ],
+      note: "Wear strong traction footwear as exploring Hampi involves substantial walking and climbing over ancient, uneven rock boulders.",
+    }
+  },
+  {
+    id: 4,
+    title: "Rajasthan: Where Every Fort Has a Story and Every Sunset Feels Royal",
+    desc: "Some destinations are visited. Rajasthan is experienced. Step into a grand historical epic filled with golden deserts, magnificent hilltop forts, and palaces.",
+    category: "ROYAL INDULGENCE",
+    image: "/Rajasthan.jpeg",
+    carouselImages: ["/Rajasthan.jpeg", "/raj1.jpeg", "/raj2.jpeg", "/raj3.jpeg"],
+    readTime: "11 min read",
+    fullContent: {
+      lede: "Rajasthan occupies a special place in the Indian imagination — a land of turbaned warriors, mirror-inlaid palaces, camel caravans, and sunsets that turn entire sandstone cities to gold. It is India's largest state and perhaps its most cinematic.",
+      bestTime: "November to February (Avoids harsh desert summer heatwaves)",
+      list: [
+        {
+          name: "Amber Fort",
+          location: "Amer, Jaipur, Rajasthan",
+          details: "Rising above the rugged hills of Jaipur, Amber Fort is a masterpiece of Rajput architecture. As visitors walk through its grand gateways, mirrored halls (Sheesh Mahal), and royal courtyards, it is easy to imagine the era when kings, warriors, and nobles filled these spaces. The Sheesh Mahal — Hall of Mirrors — was designed so that a single candle flame could illuminate the entire room through thousands of tiny mirror fragments.",
+          img: "/amber.jpeg",
+          howToReach: "Delhi → NH-48 Expressway Route → Jaipur Outer Amer Road Bypass Corridor (260 km). Dynamic six-lane road link.",
+          roadmap: ["Drive through Jaipur old pink city gates north towards Amer village", "Ascend the fort stone pathways via jeep transit or walking ramps", "Enter the Diwan-i-Aam and explore Sheesh Mahal glass reflections", "Look down upon the manicured floating saffron gardens on Maota lake"],
+        },
+        {
+          name: "Mehrangarh Fort",
+          location: "Jodhpur, Rajasthan",
+          details: "Perched high above Jodhpur, Mehrangarh Fort dominates the skyline like a giant stone crown. Behind its massive walls lie palaces, museums, and centuries of royal history. From the fort's ramparts, visitors can admire the famous blue houses of Jodhpur stretching endlessly below — the fort's outer gates still bear cannonball dents from the siege of 1808.",
+          img: "/mehra.jpeg",
+          howToReach: "Jaipur → NH-25 National Highway Route → Jodhpur Blue City Link Road (340 km). Standard multi-lane tar tracks.",
+          roadmap: ["Drive up the steep winding mountain road to Fort main entry", "Pass through the historical Jai Pol gate with old battle scars", "Tour museum galleries showcasing royal elephant howdahs and weaponry", "Walk to the cliff lookout to photograph cobalt blue houses below"],
+        },
+        {
+          name: "Jaisalmer Fort",
+          location: "Jaisalmer, Rajasthan",
+          details: "Unlike many historic forts that stand abandoned, Jaisalmer Fort remains alive. Within its golden sandstone walls are homes, temples, shops, and narrow streets bustling with activity. As the evening sun illuminates the fort, it glows like molten gold — earning Jaisalmer its reputation as the Golden City of India.",
+          img: "/Jaisalmer.jpeg",
+          howToReach: "Jodhpur → NH-11 Desert Highway Route → Pokhran Corridor → Jaisalmer (285 km). Beautifully flat, empty desert views.",
+          roadmap: ["Drive down the desert highway into the focal tri-junction circle", "Walk past the massive wooden gates into the active living fort zone", "Explore ancient multi-story Jain stone temples with intricate lattices", "Sip local tea on a fortress terrace as the stone turns deep gold"],
+        },
+        {
+          name: "City Palace & Thar Desert",
+          location: "Udaipur & Jaisalmer, Rajasthan",
+          details: "Overlooking the serene waters of Lake Pichola, the City Palace of Udaipur combines elegance and history. No trip to Rajasthan is complete without venturing into the Thar Desert for a camel safari across rolling sand dunes and traditional folk performances under star-filled skies.",
+          img: "/desert.jpeg",
+          howToReach: "Jaisalmer → Sam Sand Dunes Desert Access Link Road Route (45 km). True desert road driving experience.",
+          roadmap: ["Drive out from Jaisalmer city towards Sam Sand Dunes village roads", "Check into a luxury desert camp or hop onto designated camel handlers", "Ride deep into the shifting crest lines for a clear wilderness sunset", "Return to camp for open-sky folk dances by local Kalbeliya artist troupes"],
+        }
+      ],
+      note: "Keep small cash denominations handy for hiring local state-certified history guides at the fort counters.",
+    }
+  },
+  {
+    id: 5,
+    title: "Leh: Where the Mountains Touch the Sky",
+    desc: "It is more than a destination — it is an experience that changes the way you see nature. Travel to India's high-altitude wonderland of blue lakes and monasteries.",
+    category: "HIGH-ALTITUDE ADVENTURE",
+    image: "/Ladakh.jpeg",
+    carouselImages: ["/leh1.jpeg", "/leh2.jpeg", "/leh3.jpeg", "/Ladakh.jpeg"],
+    readTime: "9 min read",
+    fullContent: {
+      lede: "At 3,500 metres above sea level, Leh is the gateway to one of Earth's last great wildernesses. Ladakh's landscapes are so extreme — from turquoise salt lakes to double-humped camels on sand dunes surrounded by glaciers — that every vista demands a second look.",
+      bestTime: "May to September (High mountain passes remain cleared of winter snow)",
+      list: [
+        {
+          name: "Pangong Tso Lake",
+          location: "Ladakh, Jammu & Kashmir",
+          details: "Beyond winding mountain roads lies a lake so stunning that it hardly seems real. Stretching across the Himalayas, Pangong Tso mesmerizes visitors with its ever-changing shades of blue. Depending on the sunlight and weather, the lake transforms from turquoise to deep sapphire. Remarkably, despite being a landlocked salt lake, Pangong Tso is 134 kilometres long — two-thirds of which lies in Tibet.",
+          img: "/pangong.jpeg",
+          howToReach: "Leh Town Hub → Karu Junction Route → Chang La Pass Crossing → Pangong (225 km). Highly challenging mountain pass terrain.",
+          roadmap: ["Leave Leh town before dawn to maintain optimal travel windows", "Cross Chang La pass (one of the highest motorable roads globally) safely", "Descend through remote high altitude marshlands into the alpine valley", "Witness the shifting sapphire shades of the landlocked salt lake"],
+        },
+        {
+          name: "Nubra Valley Desert",
+          location: "Nubra Valley, Ladakh",
+          details: "Imagine finding sand dunes in the middle of towering snow-capped mountains. Nubra Valley is a place of contrasts, where cold deserts, flowing rivers, and rugged peaks coexist in perfect harmony. The valley sits at the confluence of the Shyok and Nubra rivers, and its micro-climate is warm enough to grow sea-buckthorn and wild roses.",
+          img: "/nubra.jpeg",
+          howToReach: "Leh Town → Khardung La Pass Mountain Track Route → Diskit Town Junction (160 km). Steep vertical climbing switchbacks.",
+          roadmap: ["Drive up the dramatic mountain cuts to reach Khardung La pass", "Descend slowly into the deep Shyok River basin flat fields", "Reach the expansive grey-toned Hunder Sand Dunes boundary parks", "Mount the double-humped Bactrian camel for a cold-desert caravan"],
+        },
+        {
+          name: "Magnetic Hill & Leh Palace",
+          location: "Leh, Ladakh",
+          details: "Imagine stopping your vehicle on an empty mountain road and watching it slowly move uphill on its own. Magnetic Hill creates an optical illusion so strange that visitors often step out just to watch it happen. Leh Palace, built in the 17th century, offers panoramic views of the town and majestic Himalayan ranges across nine floors of Tibetan-Buddhist architecture.",
+          img: "/hills.jpeg",
+          howToReach: "Leh City Main Center → Srinagar-Leh NH-1 National Highway Route (30 km). Superb smooth mountain tarmac quality.",
+          roadmap: ["Drive west from Leh town center along the smooth NH-1 highway", "Locate the marked yellow box zone painted on the mountain asphalt", "Shift vehicle gearbox into neutral and cut ignition systems completely", "Observe vehicle moving forward due to the natural optical slope illusion"],
+        }
+      ],
+      note: "Acclimatize completely in Leh town for at least 48 hours upon arrival to avoid severe acute mountain sickness (AMS).",
+    }
+  }
+];
+
+/* ─── IMAGE WITH FALLBACK ─── */
+const Img = ({ src, alt, className, style }) => (
+  <img
+    src={src} alt={alt} className={className} style={style}
+    onError={e => { e.target.style.background = '#e2e8f0'; e.target.src = ''; }}
+  />
+);
+
+/* ─── BLOG CARD CAROUSEL ─── */
+const BlogCardCarousel = ({ images, alt }) => {
+  const [current, setCurrent] = useState(0);
+  const timerRef = useRef(null);
+
+  const next = useCallback(() => {
+    setCurrent(prev => (prev + 1) % images.length);
+  }, [images.length]);
+
+  useEffect(() => {
+    timerRef.current = setInterval(next, 3000);
+    return () => clearInterval(timerRef.current);
+  }, [next]);
+
+  const goTo = (idx) => {
+    clearInterval(timerRef.current);
+    setCurrent(idx);
+    timerRef.current = setInterval(next, 3000);
+  };
+
+  return (
+    <div className="relative w-full h-full overflow-hidden">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.7 }}
+          className="absolute inset-0"
+        >
+          <Img src={images[current]} alt={`${alt} ${current + 1}`} className="w-full h-full object-cover" />
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/50 to-transparent z-10" />
+
+      <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 z-20">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={(e) => { e.stopPropagation(); goTo(i); }}
+            style={{
+              width: i === current ? '22px' : '7px',
+              height: '7px',
+              borderRadius: '4px',
+              background: i === current ? '#ffffff' : 'rgba(255,255,255,0.45)',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: 'all 0.35s ease',
+              flexShrink: 0,
+            }}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
+      </div>
+
+      <div className="absolute top-3 right-3 z-20 bg-black/40 backdrop-blur-sm text-white text-[10px] font-black px-2 py-0.5 rounded-md tracking-wide">
+        {current + 1} / {images.length}
+      </div>
+    </div>
+  );
+};
+
+/* ─── ARTICLE ITEM — no modal, all data inline beside image ─── */
+const ArticleItem = ({ item, number }) => {
+  const isEven = number % 2 === 0;
+
+  return (
+    <div className="py-12 md:py-16 border-b border-slate-100 last:border-0">
+      <div className={`flex flex-col ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 md:gap-12 items-stretch`}>
+
+        {/* ── IMAGE — bigger, fixed height ── */}
+        <div className="w-full md:w-[52%] flex-shrink-0 flex flex-col">
+          <div
+            className="relative overflow-hidden rounded-2xl bg-slate-100 w-full"
+            style={{ minHeight: '340px', height: '100%' }}
+          >
+            <Img src={item.img} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+          </div>
+          <p className="mt-2 text-[11px] text-slate-400 font-medium">{item.name}, India</p>
+        </div>
+
+        {/* ── CONTENT — all data directly visible ── */}
+        <div className="flex-1 min-w-0 flex flex-col justify-center gap-5">
+
+          {/* Number + Title */}
+          <div className="flex items-center gap-4">
+            <span
+              className="flex-shrink-0 font-black select-none leading-none"
+              style={{ fontSize: '3rem', color: '#2563eb', fontVariantNumeric: 'lining-nums' }}
+            >
+              {number}
+            </span>
+            <h2
+              className="text-xl md:text-2xl font-black text-slate-900 tracking-tight leading-tight"
+              style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+            >
+              {item.name}
+            </h2>
+          </div>
+
+          {/* Location */}
+          <div className="flex items-center gap-2">
+            <MapPin size={13} className="text-blue-600 flex-shrink-0" />
+            <p className="text-sm font-black text-slate-900">
+              <span className="font-normal text-slate-600">{item.location}</span>
+            </p>
+          </div>
+
+          {/* Description */}
+          <p className="text-sm text-slate-600 leading-relaxed">
+            {item.details}
+          </p>
+
+          {/* How to Reach */}
+          <div className="bg-blue-50/70 border border-blue-100 rounded-xl p-4 space-y-1.5">
+            <div className="flex items-center gap-1.5 text-slate-800 font-black text-[10px] uppercase tracking-wide">
+              <Navigation size={12} className="text-blue-600" />
+              How to Reach
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">{item.howToReach}</p>
+          </div>
+
+          {/* Roadmap */}
+          <div>
+            <p className="text-[10px] uppercase tracking-wider font-black text-slate-400 mb-2.5">Step-by-Step Route</p>
+            <div className="space-y-2">
+              {item.roadmap.map((step, i) => (
+                <div key={i} className="flex items-start gap-3 text-xs text-slate-600">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-600 text-white font-black flex items-center justify-center mt-0.5 text-[10px]">
+                    {i + 1}
+                  </span>
+                  <span className="leading-relaxed pt-0.5">{step}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ─── MORE ARTICLES — Greenish background changed to an elegant light blue ─── */
+const MoreArticles = ({ currentId, onSelect }) => {
+  const others = blogs.filter(b => b.id !== currentId).slice(0, 3);
+  return (
+    <section className="py-14 md:py-20 bg-sky-100/80">
+      <div className="max-w-5xl mx-auto px-4 md:px-6">
+        <h3
+          className="text-3xl md:text-4xl font-black text-slate-800 mb-8 md:mb-10"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
+          More articles like this
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5">
+          {others.map(b => (
+            <button
+              key={b.id}
+              onClick={() => { window.scrollTo(0, 0); onSelect(b); }}
+              className="relative overflow-hidden rounded-2xl group text-left border-0 p-0 bg-transparent cursor-pointer"
+              style={{ aspectRatio: '3/4' }}
+            >
+              <Img src={b.image} alt={b.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute top-3 left-3">
+                <span className="inline-block bg-black/40 backdrop-blur-sm text-white text-[10px] font-black tracking-wider uppercase px-2.5 py-1 rounded-md">
+                  {b.category}
+                </span>
+              </div>
+              <div className="absolute bottom-5 left-4 right-4">
+                <p className="text-white font-black text-sm md:text-base leading-snug"
+                  style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>
+                  {b.title}
+                </p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ─── BLOG DETAIL PAGE ─── */
+const BlogDetail = ({ blog, onBack, onSelect }) => (
+  <motion.div
+    key={`detail-${blog.id}`}
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="bg-white min-h-screen"
+  >
+    {/* HERO */}
+    <div className="relative w-full overflow-hidden flex flex-col justify-end" style={{ height: '64vh', minHeight: 420 }}>
+      <Img src={blog.image} alt={blog.title} className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
+
+      <div className="relative z-10 max-w-4xl w-full mx-auto px-4 md:px-8 pb-8 md:pb-10">
+        <span className="text-white/70 font-black text-[10px] uppercase tracking-widest block mb-2">{blog.category}</span>
+        <h1
+          className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight drop-shadow-xl mb-4"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
+          {blog.title}
+        </h1>
+
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-white/10">
+          <div className="flex items-center gap-4 text-white/70 text-xs">
+            <span className="flex items-center gap-1.5"><Clock size={13} /> {blog.readTime}</span>
+            <span className="flex items-center gap-1.5"><Calendar size={13} /> Best time: {blog.fullContent.bestTime.split(' (')[0]}</span>
+          </div>
+
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/20 text-white font-black text-[10px] uppercase tracking-wider px-5 py-2.5 rounded-full transition-all shadow-md cursor-pointer"
+          >
+            <ArrowLeft size={12} /> Back to Blogs
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* ARTICLE BODY */}
+    <div className="max-w-5xl mx-auto px-4 md:px-8">
+      <div className="pt-10 md:pt-14 pb-8 border-b border-slate-100">
+        <p
+          className="text-lg md:text-xl text-slate-700 leading-relaxed max-w-3xl"
+          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+        >
+          {blog.fullContent.lede}
+        </p>
+        <div className="mt-5 flex items-center gap-2 flex-wrap">
+          <span className="text-xs text-slate-400 uppercase tracking-wider font-bold">Best time to visit:</span>
+          <span className="text-xs font-black text-slate-700">{blog.fullContent.bestTime}</span>
+        </div>
+      </div>
+
+      <div>
+        {blog.fullContent.list.map((item, i) => (
+          <ArticleItem key={i} item={item} number={i + 1} />
+        ))}
+      </div>
+
+      <div className="my-10 md:my-14 p-6 bg-blue-600 text-white rounded-2xl">
+        <p className="text-[10px] font-black uppercase tracking-widest mb-2 opacity-70">Travel Advisory</p>
+        <p className="text-sm md:text-base font-semibold leading-relaxed">{blog.fullContent.note}</p>
+      </div>
+    </div>
+
+    <MoreArticles currentId={blog.id} onSelect={onSelect} />
+  </motion.div>
+);
+
+/* ─── BLOG LISTING PAGE — Images aspect updated to 4/5 for maximum length and premium vertical height ─── */
+const BlogList = ({ onSelect }) => (
+  <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+
+    {/* Hero */}
+    <div className="relative w-full h-screen bg-[#0f172a] overflow-hidden flex items-center justify-center">
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
+        style={{ backgroundImage: "url('/heroblog.jpeg')" }} />
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a]/60 via-transparent to-[#0f172a]/40" />
+      <div className="relative z-20 text-center max-w-4xl mx-auto px-4 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex flex-col items-center mb-6 mt-8 px-6 py-2 border border-white/10 backdrop-blur-md bg-white/5"
+        >
+          <span className="text-white font-serif text-xl md:text-2xl font-bold tracking-tight italic text-center leading-tight">
+            Incredible <span className="text-blue-500 font-sans not-italic font-black">!</span>ndia
+          </span>
+          <span className="text-[7px] md:text-[8px] text-blue-400 font-black uppercase tracking-[0.3em] mt-1">
+            Travel Chronicles & Insights
+          </span>
+        </motion.div>
+        <motion.h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter uppercase italic leading-none drop-shadow-2xl">
+          BLOG
+        </motion.h1>
+      </div>
+    </div>
+
+    {/* Blog Cards */}
+    <div className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 space-y-16 md:space-y-24">
+      {blogs.map((blog, i) => (
+        <motion.div
+          key={blog.id}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.05 }}
+          className={`flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-6 md:gap-12`}
+        >
+          {/* IMAGE CONTAINER — aspect-[4/5] renders a larger, taller portrait length for carousel display */}
+          <div className="w-full md:w-[48%] relative overflow-hidden shadow-xl rounded-xl aspect-[5/5] bg-slate-100 flex-shrink-0">
+            <BlogCardCarousel images={blog.carouselImages || [blog.image]} alt={blog.title} />
+          </div>
+
+          {/* TEXT — Vertically centers beautifully against the tall image format */}
+          <div className={`w-full md:flex-1 relative ${i % 2 === 0 ? 'text-left' : 'text-right'}`}>
+            <div className={`absolute top-0 ${i % 2 === 0 ? 'left-0' : 'right-0'} w-8 md:w-12 h-8 md:h-12 border-t-2 ${i % 2 === 0 ? 'border-l-2' : 'border-r-2'} border-blue-600`} />
+
+            <div className="pt-6 px-2 md:px-4">
+              <div className={`flex items-center gap-3 mb-2 ${i % 2 !== 0 ? 'justify-end' : ''}`}>
+                {i % 2 === 0 && (
+                  <span className="text-2xl font-black text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-100 select-none">
+                    {i + 1}
+                  </span>
+                )}
+                <p className="text-blue-600 font-bold text-[8px] md:text-[9px] tracking-widest uppercase">
+                  {blog.category}
+                </p>
+                {i % 2 !== 0 && (
+                  <span className="text-2xl font-black text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-100 select-none">
+                    {i + 1}
+                  </span>
+                )}
+              </div>
+
+              <h2 className="text-xl md:text-2xl font-black text-slate-900 uppercase mb-3 leading-tight tracking-tight">
+                {blog.title}
+              </h2>
+              <p className="text-xs font-medium text-slate-500 leading-relaxed mb-5">
+                {blog.desc}
+              </p>
+
+              <button
+                onClick={() => onSelect(blog)}
+                className={`flex items-center gap-2 text-slate-900 font-black text-[9px] md:text-[10px] uppercase border-b-2 border-slate-900 pb-1 hover:text-blue-600 hover:border-blue-600 transition-all ${i % 2 !== 0 ? 'ml-auto' : ''}`}
+              >
+                Read More <ArrowRight size={12} />
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </motion.div>
+);
+
+/* ─── ROOT ─── */
 const BlogPage = () => {
   const [selectedBlog, setSelectedBlog] = useState(null);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [selectedBlog]);
-
-  const scrollToLocation = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const headerOffset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
-  };
-
-  const blogs = [
-    {
-      id: 1,
-      title: "Top 7 Places To Travel after Pandemic in India",
-      desc: "Beaches are forgotten by our minds and Beautiful hills are lost from our sight. Reconnect with nature in the post-pandemic era.",
-      category: "POST-PANDEMIC TRAVEL",
-      image: "/blog1.jpeg", 
-      borderPos: "left",
-      fullContent: {
-        intro: "Beaches are forgotten by our minds and Beautiful hills are lost from our sight. So many things changed upside down with the never forgotten virus corona. It became a tragic fate which reshaped the lives of every human being.",
-        motto: "LET THE BYGONES BE BYGONE",
-        subIntro: "Let’s move forward to the year 2021 and hope to live a new normal life.",
-        list: [
-          { name: "GOA", details: "GOA is the first region that became a green pandemic free zone. The lavish beaches and shining sand of GOA welcomes travelers from all region of India." },
-          { name: "HIMACHAL PRADESH", details: "Government of Himachal, opened the gates for people to visit the humongous mountains and fall in love with the floating clouds." },
-          { name: "COORG- Karnataka", details: "“The Scotland of India” is a must visit place that everyone should visit at least once in their life time." },
-          { name: "Andhra Pradesh & Telangana", details: "A unique combination of tradition, nature and modern trend could be witnessed when you visit cities like Hyderabad and Vizag." },
-          { name: "Tamilnadu", details: "Being surrounded by ocean on two sides and covered with a train of mountains Tamilnadu is one such a place that everyone should visit without fail." },
-          { name: "Uttarakhand- Valley of flowers", details: "Every year the valley is blessed with a variety of flowers which counts to a huge number." },
-          { name: "Pondicherry", details: "The union territory showcases a strong bond between the French culture and culture of tamilnadu." }
-        ],
-        note: "One kind note from us to you is that in this new normal life, adapt yourself to wear masks and maintain a personal hygiene."
-      }
-    },
-    {
-      id: 2,
-      title: "Best Place to Visit & Have a memorable Pongal 2021",
-      desc: "We all know that our 2020 wasn’t the way we expected it to be. Our lifestyle changed upside down and now we need that fresh breeze.",
-      category: "FESTIVAL SPECIAL",
-      image: "/blog22.jpeg", 
-      borderPos: "right",
-      fullContent: {
-        intro: "Life tossed us back and forth like a piece of paper. Our lifestyle changed upside down and now we all need that fresh breeze.",
-        motto: "VROOM!! VROOM!",
-        subIntro: "Having our financial crisis in mind, we came up with top 3 places to visit in tamilnadu with a low budget.",
-        list: [
-          { name: "Megamalai", details: "Beautiful hills and the tea plantations will soothe your heart." },
-          { name: "Coonoor", details: "The luke warm sunshine and mild breezy cold weather will melt and warm your heart." },
-          { name: "Yerkadu", details: "Yerkadu is well known for the hilly mountains and lush green sceneries." }
-        ],
-        note: "Despite spending money there is something extra when it comes to spending a quality time with your money."
-      }
-    },
-    {
-      id: 3,
-      title: "Rare Place to Visit in Tamil Nadu with Low Budget",
-      desc: "The first place in budget list is Megamalai which is located near kumuli. Explore hidden gems without breaking the bank.",
-      category: "BUDGET EXPLORATION",
-      image: "/blog3.jpeg", 
-      borderPos: "left",
-      fullContent: {
-        intro: "Explore rare places without spending too much. Reconnect with nature.",
-        motto: "BUDGET TREASURES",
-        subIntro: "Travelling is never complete without visiting the Queen and Princess of the Hills.",
-        list: [
-          { name: "Megamalai", details: "Beautiful hills and the tea plantations will soothe your heart." },
-          { name: "Theni", details: "The luke warm sunshine and mild breezy cold weather will melt and warm your heart." },
-          { name: "Pollachi", details: "Yerkadu is well known for the hilly mountains and lush green sceneries." },
-          { name: "Ooty", details: "The town of Ooty has everything within herself to mesmerize the visitors." }
-        ],
-        note: "Plan your trip with proper safety measures. Add these rare places to your bucket list!"
-      }
-    },
-    {
-      id: 4,
-      title: "Best places to visit in India this Valentine’s Day",
-      desc: "The one thing we look forward in the month of February is Valentine’s day.",
-      category: "ROMANTIC EXCURSION",
-      image: "/blog4.jpeg", 
-      borderPos: "right"
-    }
-  ];
+  const handleSelect = (blog) => { window.scrollTo(0, 0); setSelectedBlog(blog); };
+  const handleBack = () => { window.scrollTo(0, 0); setSelectedBlog(null); };
 
   return (
     <div className="bg-[#fcfdfe] min-h-screen font-sans text-slate-700 selection:bg-blue-100">
       <AnimatePresence mode="wait">
         {!selectedBlog ? (
-          <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            
-            {/* --- HERO SECTION FIXED TO FULL SCREEN --- */}
-            <div className="relative w-full h-screen bg-[#0f172a] overflow-hidden flex items-center justify-center">
-              <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat scale-105"
-                style={{ backgroundImage: "url('/heroblog.jpeg')" }}></div>
-              
-              {/* Overlay for readability */}
-              <div className="absolute inset-0 z-10 bg-black/40"></div>
-              <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0f172a]/60 via-transparent to-[#0f172a]/40"></div>
-
-              <div className="relative z-20 text-center max-w-4xl mx-auto px-4 md:px-6">
-                <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="inline-flex flex-col items-center mb-6 mt-8 px-6 py-2 border border-white/10 backdrop-blur-md bg-white/5">
-                  <span className="text-white font-serif text-xl md:text-2xl font-bold tracking-tight italic text-center leading-tight">Incredible <span className="text-blue-500 font-sans not-italic font-black">!</span>ndia</span>
-                  <span className="text-[7px] md:text-[8px] text-blue-400 font-black uppercase tracking-[0.3em] mt-1 text-center">Travel Chronicles & Insights</span>
-                </motion.div>
-                <motion.h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter uppercase italic leading-none drop-shadow-2xl">BLOG</motion.h1>
-              </div>
-            </div>
-
-            {/* --- BLOG LISTING --- */}
-            <div className="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 space-y-12 md:space-y-16">
-              {blogs.map((blog) => (
-                <motion.div key={blog.id} className={`flex flex-col ${blog.borderPos === 'left' ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-6 md:gap-10`}>
-                  <div className="w-full md:w-1/2 overflow-hidden shadow-lg aspect-[4/3]">
-                    <img src={blog.image} alt={blog.title} className="w-full h-full object-cover opacity-100" />
-                  </div>
-                  <div className={`w-full md:w-1/2 relative ${blog.borderPos === 'left' ? 'text-left' : 'text-right'}`}>
-                    <div className={`absolute top-0 ${blog.borderPos === 'left' ? 'left-0' : 'right-0'} w-8 md:w-12 h-8 md:h-12 border-t-2 ${blog.borderPos === 'left' ? 'border-l-2' : 'border-r-2'} border-blue-600`}></div>
-                    <div className="pt-5 md:pt-6 px-4 md:px-6">
-                      <p className="text-blue-600 font-bold text-[8px] md:text-[9px] tracking-widest uppercase mb-1">{blog.category}</p>
-                      <h2 className="text-lg md:text-2xl font-black text-slate-900 uppercase mb-2 md:mb-3 leading-tight">{blog.title}</h2>
-                      <p className="text-[11px] md:text-xs font-medium text-slate-500 leading-relaxed mb-4">{blog.desc}</p>
-                      <button onClick={() => blog.fullContent && setSelectedBlog(blog)} className={`flex items-center gap-2 text-slate-900 font-black text-[9px] md:text-[10px] uppercase border-b border-slate-900 pb-1 hover:text-blue-600 hover:border-blue-600 transition-all ${blog.borderPos === 'right' ? 'ml-auto' : ''}`}>
-                        Read More <ArrowRight size={12} />
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          <BlogList key="list" onSelect={handleSelect} />
         ) : (
-          <motion.div key="detail" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="bg-white min-h-screen relative">
-            <div className="max-w-6xl mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-24 md:pb-32">
-              <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-                <div className="lg:w-1/3 lg:sticky lg:top-32 h-fit bg-slate-50/50 p-4 md:p-6 border-r border-slate-100">
-                  <div className="border-l-4 border-blue-600 pl-4 md:pl-6 mb-8 md:mb-10">
-                    <p className="text-[8px] md:text-[9px] font-black text-blue-600 uppercase tracking-widest mb-2">{selectedBlog.category}</p>
-                    <h1 className="text-xl md:text-2xl font-black text-slate-900 uppercase italic leading-tight mb-4 md:mb-6">{selectedBlog.title}</h1>
-                  </div>
-                  
-                  <nav className="space-y-3 md:space-y-4 max-h-48 lg:max-h-full overflow-y-auto custom-scrollbar pr-2">
-                    <p className="text-[7px] md:text-[8px] font-black text-slate-300 uppercase tracking-widest mb-4">Explore the Story</p>
-                    {selectedBlog.fullContent.list.map((item, i) => (
-                      <div key={i} onClick={() => scrollToLocation(`location-${i}`)} className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase hover:text-blue-600 cursor-pointer flex items-center gap-2 md:gap-3 transition-all group">
-                        <span className="text-blue-600/20 font-black italic group-hover:text-blue-600 transition-colors">0{i+1}</span> {item.name}
-                      </div>
-                    ))}
-                  </nav>
-                  
-                  <div className="mt-8 md:mt-20 pt-6 md:pt-10 border-t border-slate-200">
-                    <button onClick={() => setSelectedBlog(null)} className="flex items-center gap-3 text-slate-400 font-black uppercase text-[8px] md:text-[9px] tracking-[0.2em] md:tracking-[0.3em] hover:text-blue-600 transition-colors">
-                      <ArrowLeft size={16} /> Return to Index
-                    </button>
-                  </div>
-                </div>
-
-                <div className="lg:w-2/3">
-                  <div className="mb-10 md:mb-16 overflow-hidden shadow-2xl rounded-sm">
-                    <img src={selectedBlog.image} className="w-full aspect-[16/9] object-cover" alt="Blog cover" />
-                  </div>
-
-                  <div className="prose prose-slate max-w-none px-2 md:px-0">
-                    <p className="text-base md:text-lg font-bold text-slate-800 leading-relaxed mb-8 md:mb-12 border-l-4 border-blue-600 pl-4 md:pl-6 italic">{selectedBlog.fullContent.intro}</p>
-                    
-                    <div className="my-8 md:my-12 py-4 md:py-6 border-y border-slate-100 bg-slate-50/30 px-4 md:px-6 text-center lg:text-left">
-                      <h4 className="text-[10px] md:text-xs font-black text-blue-600 uppercase tracking-[0.3em] md:tracking-[0.4em] mb-2">{selectedBlog.fullContent.motto}</h4>
-                      <p className="text-[11px] md:text-sm font-medium text-slate-400 uppercase">{selectedBlog.fullContent.subIntro}</p>
-                    </div>
-
-                    <div className="space-y-12 md:space-y-20">
-                      {selectedBlog.fullContent.list.map((item, i) => (
-                        <div key={i} id={`location-${i}`} className="scroll-mt-32 group">
-                          <h3 className="text-lg md:text-xl font-black text-slate-900 uppercase italic mb-3 md:mb-4 flex items-center gap-3 md:gap-4">
-                            <span className="text-blue-600 font-black italic text-base md:text-lg">0{i+1}.</span> {item.name}
-                          </h3>
-                          <p className="text-[13px] md:text-sm text-slate-500 font-bold leading-relaxed pl-8 md:pl-10">
-                            {item.details}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-16 md:mt-32 p-6 md:p-8 bg-blue-600 text-white relative overflow-hidden shadow-2xl">
-                      <Compass size={120} className="absolute -right-5 -bottom-5 text-white opacity-10" />
-                      <div className="relative z-10">
-                        <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest mb-2 italic opacity-60 text-white">Traveler's Safety Note</p>
-                        <p className="text-sm md:text-base font-bold italic leading-relaxed text-white">
-                          {selectedBlog.fullContent.note}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          <BlogDetail key={`detail-${selectedBlog.id}`} blog={selectedBlog} onBack={handleBack} onSelect={handleSelect} />
         )}
       </AnimatePresence>
-
-      <style>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #2563eb; }
-      `}</style>
     </div>
   );
 };

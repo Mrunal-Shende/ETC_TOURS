@@ -9,6 +9,11 @@ import northEastImg from '../assets/tours/northeast.jpg';
 import telanganaImg from '../assets/tours/telangana.jpg';
 import kashmirImg from '../assets/tours/kashmir.jpg';
 import gujaratImg from '../assets/tours/gujarat.jpg';
+// Naye Destinations ki Images Import
+import maldivsImg from '../assets/tours/maldivs.jpeg';
+import bhutanImg from '../assets/tours/bhutan.jpeg';
+import rajasthanImg from '../assets/tours/rajasthan (2).jpeg';
+import assamImg from '../assets/tours/assam.jpeg';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
@@ -18,37 +23,57 @@ const travelCards = [
   { 
     img: nepalImg, 
     title: "NEPAL", 
-    sub: "Majestic Himalayan peaks and spiritual traditions.", 
-    // Example: Replace with actual Nepal Package ID from your DB
+    sub: "Experience the majestic Himalayan peaks, rich spiritual traditions, historic temples, and thrilling trekking trails that make this country a paradise for adventure seekers.", 
     link: "/tours/international/nepal" 
   },
   { 
     img: northEastImg, 
     title: "THE BEST OF NORTH EAST", 
-    sub: "Explore Darjeeling, Gangtok, and Pelling.", 
-    // "Best of the North East" ID from your Supabase screenshot
+    sub: "Explore the scenic beauty of Darjeeling's tea gardens, the serene monasteries of Gangtok, and the breathtaking views of Pelling nestled in the eastern Himalayas.", 
     link: "/tours/india/north-east" 
   },
   { 
     img: telanganaImg, 
     title: "TELANGANA", 
-    sub: "Ancient architecture and divine serenity.", 
+    sub: "Discover the spectacular ancient architecture, historic forts, grand rich heritage, and divine serenity of peaceful temples hidden across this cultural state.", 
     link: "/tours/india/telangana" 
   },
   { 
     img: kashmirImg, 
     title: "KASHMIR", 
-    sub: "Snow-capped peaks and tranquil waters.", 
-    // "Karismatic Kerala" or similar specific package ID
+    sub: "Immerse yourself in heaven on earth with beautiful snow-capped mountain peaks, tranquil shikara rides on Dal Lake, and stunning vibrant blooming valleys.", 
     link: "/tours/india/kashmir" 
   },
   { 
     img: gujaratImg, 
     title: "GUJARAT", 
-    sub: "White salt deserts and Asiatic Lions.", 
-    // "Enchanting Gujarat" ID from your Supabase screenshot
+    sub: "Witness the magical endless white salt deserts of Rann of Kutch, historic stepwells, rich traditional crafts, and the majestic wildlife of Asiatic Lions in Gir.", 
     link: "/tours/india/gujarat" 
   },
+  { 
+    img: maldivsImg, 
+    title: "MALDIVES", 
+    sub: "Relax alongside crystal clear turquoise waters, vibrant coral reefs, colorful marine life perfect for a dream tropical getaway.", 
+    link: "/tours/international/maldives" 
+  },
+  { 
+    img: bhutanImg, 
+    title: "BHUTAN", 
+    sub: "Journey into the mythical land of happiness, featuring dramatic cliffside monasteries, deep beautiful green valleys, and a deeply preserved ancient Buddhist culture.", 
+    link: "/tours/international/bhutan" 
+  },
+  { 
+    img: rajasthanImg, 
+    title: "RAJASTHAN", 
+    sub: "Live the grand royal experience with magnificent golden forts, majestic heritage palaces, thrilling desert camel safaris, and colorful traditional folk festivals.", 
+    link: "/tours/india/rajasthan" 
+  },
+  { 
+    img: assamImg, 
+    title: "ASSAM", 
+    sub: "Stroll through endless lush green tea gardens, enjoy scenic Brahmaputra river cruises, and explore the exotic wildlife home of the famous one-horned rhinos in Kaziranga.", 
+    link: "/tours/india/assam" 
+  }
 ];
 
 const multiCards = [...travelCards, ...travelCards];
@@ -107,7 +132,8 @@ const Tour = () => {
                       <h3 className="card-main-title uppercase font-black tracking-tight mb-1 text-base md:text-lg text-black">
                         {card.title}
                       </h3>
-                      <p className="card-main-desc text-[10px] md:text-xs line-clamp-2 leading-tight text-gray-700">
+                      {/* line-clamp-2 ko badhakar line-clamp-3 ya line-clamp-4 kiya hai taaki lamba subtitle load ho sake */}
+                      <p className="card-main-desc text-[10px] md:text-xs line-clamp-3 md:line-clamp-4 leading-tight text-gray-700">
                         {card.sub}
                       </p>
                     </div>

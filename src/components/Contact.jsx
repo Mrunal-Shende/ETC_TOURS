@@ -42,7 +42,7 @@ const ContactUs = () => {
       phone: "+91-44-2827 2279 / 4203 7171",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "/Chennai.jpeg" 
+      image: "/Chennai (2).jpeg" 
     },
     { 
       city: "Bangalore", 
@@ -50,7 +50,7 @@ const ContactUs = () => {
       phone: "+91 7200091167",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?q=80&w=800" 
+      image: "bang.jpeg" 
     },
     { 
       city: "Pune", 
@@ -66,7 +66,7 @@ const ContactUs = () => {
       phone: "+91 7200091168",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "/bhopal.jpeg" 
+      image: "/Bhopal.jpeg" 
     },
     { 
       city: "New Delhi", 
@@ -74,7 +74,7 @@ const ContactUs = () => {
       phone: "+91 7845103222",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "/India Gate.jpeg" 
+      image: "/delhi.jpeg" 
     },
     { 
       city: "Hyderabad", 
@@ -82,7 +82,7 @@ const ContactUs = () => {
       phone: "+91-97-9111-1275",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "/Hyderabad.jpeg" 
+      image: "/hyd.jpeg" 
     },
     { 
       city: "Nagpur", 
@@ -90,7 +90,7 @@ const ContactUs = () => {
       phone: "+91-9791007710",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "https://images.unsplash.com/photo-1623158021074-68f7b76774e1?q=80&w=800" 
+      image: "nagpur1.jpeg" 
     },
     { 
       city: "Puducherry", 
@@ -98,7 +98,7 @@ const ContactUs = () => {
       phone: "+91-9786628662",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "/Puducherry.jpeg" 
+      image: "/puddu.jpeg" 
     }
   ];
 

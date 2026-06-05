@@ -64,9 +64,8 @@ const AboutUsETC = () => {
             </h1>
 
             <div className="max-w-3xl border-t border-white/30 pt-8 mb-2">
-              <p className="text-gray-100 text-sm md:text-xl leading-relaxed italic font-medium px-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
-                "Synonymous with leisure and business travel. We provide a superior total travel management service of premium quality."
-              </p>
+              <p className="text-gray-100 text-sm md:text-xl leading-relaxed font-medium px-2 drop-shadow-[0_2px_4px_rgba(0,0,0,1)]">
+Where elite business meets effortless leisure. We don't just manage travel, we curate seamless, high-tier journeys designed for the discerning traveler              </p>
             </div>
           </motion.div>
         </div>

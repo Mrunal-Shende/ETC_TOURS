@@ -13,16 +13,22 @@ const Header = () => {
 
   const location = useLocation();
 
-  // ✅ Updated Logic: Home, Main Tour Categories, and Specific Region/Package pages
-  const isLightHeroPage = 
-    location.pathname === '/' || 
-    location.pathname.startsWith('/tours/') || // Covers /tours/india, /tours/india/gt-rj, etc.
-    location.pathname.includes('/package/') ||
-    location.pathname === '/contact'  ||
-    location.pathname === '/about'    ||
-    location.pathname === '/blog'     ||
-    location.pathname === '/services';
+  // Normalized path check to handle any trailing slashes or case mismatches
+  const currentPath = location.pathname.toLowerCase();
 
+  // ✅ Added both spelling combinations and robust checks so it forces the transparent/Home layout
+  const isLightHeroPage = 
+    currentPath === '/' || 
+    currentPath.startsWith('/tours/') || 
+    currentPath.includes('/package/') ||
+    currentPath === '/contact'  ||
+    currentPath === '/about'    ||
+    currentPath === '/blog'     ||
+    currentPath === '/services' ||
+    currentPath === '/enquiry'  ||
+    currentPath.includes('/enquiry') ||
+    currentPath === '/enquery'  ||
+    currentPath.includes('/enquery');
 
   const shouldBeDark = isScrolled || !isLightHeroPage;
 
