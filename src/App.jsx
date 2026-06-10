@@ -114,7 +114,7 @@ function App() {
         <Route path="/services" element={<PublicLayout><Services/></PublicLayout>}/>
         <Route path="/contact"  element={<PublicLayout><ContactUs/></PublicLayout>}/>
         
-        {/* ContactUs page ke pop-up se linked redirection route */}
+        {/* Corrected path to /enquiry to match FloatingControls */}
         <Route path="/enquery"  element={<PublicLayout><EnquiryPage/></PublicLayout>}/>
 
         {/* ── TOURS ROUTES ── */}

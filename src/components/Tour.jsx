@@ -23,7 +23,7 @@ const travelCards = [
   { 
     img: nepalImg, 
     title: "NEPAL", 
-    sub: "Experience the majestic Himalayan peaks, rich spiritual traditions, historic temples, and thrilling trekking trails that make this country a paradise for adventure seekers.", 
+    sub: "Experience the majestic Himalayan peaks, rich spiritual traditions, ancient historic temples, and thrilling trekking trails that make this country a paradise for adventure seekers.", 
     link: "/tours/international/nepal" 
   },
   { 
@@ -53,7 +53,7 @@ const travelCards = [
   { 
     img: maldivsImg, 
     title: "MALDIVES", 
-    sub: "Relax alongside crystal clear turquoise waters, vibrant coral reefs, colorful marine life perfect for a dream tropical getaway.", 
+    sub: "Relax alongside crystal clear turquoise waters, vibrant coral reefs, colorful marine life, and luxurious private overwater villas perfect for a dream tropical getaway.", 
     link: "/tours/international/maldives" 
   },
   { 

@@ -18,7 +18,7 @@ const blogs = [
         {
           name: "Brihadisvara Temple",
           location: "Thanjavur, Tamil Nadu",
-          details: "Imagine standing in Thanjavur 1000 years ago. The sound of chisels echoes across the city. Hundreds of workers pull gigantic stones under the burning sun while Raja Raja Chola watches his dream rise into the sky. Oil lamps flicker at night, priests chant inside unfinished halls, and slowly — a mountain of granite becomes one of the greatest temples India has ever seen. The 66-metre vimana (tower) was the tallest structure in the Indian subcontinent at the time of its completion in 1010 CE.",
+          details: "Imagine standing in Thanjavur 1000 years ago. The sound of chisels echoes across the city. Hundreds of workers pull gigantic stones under the burning sun while Raja Raja Chola watches his dream rise into the sky. Oil lamps flicker at night, priests chant inside unfinished halls, and slowly — a mountain of granite becomes one of the greatest temples India has ever seen. The 66-metre vimana (tower) was the tallest structure in the Indian subcontinent at the time of its completion in 1010 CE. Even after centuries of storms, invasions, and changing kingdoms, the temple stands untouched in pride, carrying ancient Tamil inscriptions, giant sculptures, and the powerful silence of an empire that once ruled the seas.",
           img: "/Briha.jpeg",
           howToReach: "Trichy Airport → NH-83 Highway Route → Thanjavur City Center (55 km). The highways offer seamless four-lane road connectivity.",
           roadmap: ["Arrive at Thanjavur Junction/Trichy Hub", "Take local highway transit to the Grand Temple Complex", "Marvel at the massive 66-meter towering Vimana rocket structure", "Explore ancient Tamil inscriptions & hidden inner sanctuary frescoes"],
@@ -26,7 +26,7 @@ const blogs = [
         {
           name: "Gangaikonda Cholapuram",
           location: "Ariyalur District, Tamil Nadu",
-          details: "Rajendra Chola conquered lands so far north that he brought back water from the Ganges — and built an entire city to celebrate it. Today, it carries a strange and unforgettable atmosphere. The temple feels calm, powerful, and almost abandoned by time itself. Its elegant curves, giant Shiva lingam, lion well, and quiet courtyards create the feeling of walking through the remains of a once unstoppable empire.",
+          details: "Rajendra Chola conquered lands so far north that he brought back water from the Ganges — and built an entire city to celebrate it. Today, Gangaikonda Cholapuram carries a strange and unforgettable atmosphere. The temple feels calm, powerful, and almost abandoned by time itself. Its elegant curves, giant Shiva lingam, lion well, and quiet courtyards create the feeling of walking through the remains of a once unstoppable empire. Unlike crowded tourist spots, this temple whispers its history slowly — rewarding visitors who pause long enough to listen.",
           img: "/GANGAI.jpeg",
           howToReach: "Kumbakonam → Anaikkarai Bridge Route → Gangaikonda Cholapuram Highway (34 km). Well maintained dual-carriageway setup.",
           roadmap: ["Reach Kumbakonam or Ariyalur hub via highway or rail", "Hire private cab or state transport towards Jayankondam route", "Walk through the pristine uncrowded lawn perimeter to the sanctum", "Visit the unique Simhakeni (Lion Well) and check structural symmetries"],
@@ -34,7 +34,7 @@ const blogs = [
         {
           name: "Airavatesvara Temple",
           location: "Darasuram, Kumbakonam",
-          details: "Hidden within Darasuram is a fascinating bull-and-elephant carving where two animals share a single head. Depending on the angle from which it is viewed, the sculpture appears as either a bull or an elephant. More than 800 years after it was carved, this ingenious creation remains one of the temple's most intriguing attractions.",
+          details: "Long before modern optical illusions appeared in books and galleries, Chola sculptors were already challenging the human eye. Hidden within Airavatesvara Temple is a fascinating bull-and-elephant carving where two animals share a single head. Depending on the angle from which it is viewed, the sculpture appears as either a bull or an elephant. More than 800 years after it was carved, this ingenious creation remains one of the temple's most intriguing attractions and a testament to the brilliance of Chola artistry. Walking through Darasuram feels less like visiting a monument and more like discovering a forgotten world where art, music, and devotion were carved together forever.",
           img: "/aira.jpeg",
           howToReach: "Kumbakonam Central Stand → Local Darasuram Bypass Road Route (4 km). Extremely short but busy road approach.",
           roadmap: ["Arrive at Kumbakonam central junction point", "Take a short 10-minute road trip down to Darasuram village limits", "Observe the iconic horse-drawn chariot structural design foundations", "Locate the optical illusion carving and test acoustic musical stone steps"],
@@ -52,35 +52,35 @@ const blogs = [
     carouselImages: ["/rann.jpeg", "/rann1.jpeg", "/rann2.jpeg", "/rann3.jpeg"],
     readTime: "7 min read",
     fullContent: {
-      lede: "Stretching across 7,500 square kilometres, the Great Rann of Kutch is the world's largest salt desert. For three months every winter, it transforms into one of India's most theatrical celebrations — the Rann Utsav.",
+      lede: "There are few places in the world where a barren desert transforms into a celebration of color, music, and culture. Every year, as winter arrives in Gujarat, the vast white salt desert of Kutch becomes the stage for Rann Utsav—a festival unlike any other. Beneath endless skies, visitors witness folk performances, vibrant handicrafts, traditional cuisine, and breathtaking sunsets that paint the horizon in shades of gold and crimson. But the true magic begins after dark, when moonlight reflects off the white salt plains, turning the landscape into a glowing wonderland that feels almost otherworldly. This is not just a festival; it is an experience that captures the spirit of Kutch in its most spectacular form.",
       bestTime: "November to February (Specially during Full Moon cycles)",
       list: [
         {
-          name: "White Rann Plains & Full Moon",
+          name: "White Rann Plains & Full Moon Magic",
           location: "Dhordo, Kutch, Gujarat",
-          details: "The White Rann is the highlight of the festival. As sunlight touches the endless salt plains, the landscape transforms into a dazzling white canvas stretching to the horizon. During sunset, the desert glows with shades of gold, orange, and pink. One of the most memorable experiences is seeing the White Rann under moonlight, when the salt desert reflects the moon's glow, creating a surreal landscape that feels almost magical.",
+          details: "The White Rann is the highlight of the festival. As sunlight touches the endless salt plains, the landscape transforms into a dazzling white canvas stretching to the horizon. During sunset, the desert glows with shades of gold, orange, and pink. One of the most memorable experiences is seeing the White Rann under moonlight. On full moon nights, the salt desert reflects the moon's glow, creating a surreal landscape that feels almost magical.",
           img: "/rannmoon.jpeg",
           howToReach: "Bhuj City Hub → Bhada/Khavda Road Route → Dhordo Checkpost Corridor (80 km). Clear flat tarred highway tracks.",
           roadmap: ["Land at Bhuj Airport/Station Hub", "Drive straight north via Bhuj-Khavda highway road", "Present security documents at Dhordo Checkpost window", "Walk into the sprawling white crystallised salt flatlands"],
         },
         {
-          name: "Folk Grounds & Artisan Souks",
+          name: "Traditional Folk Performances & Handicrafts",
           location: "Dhordo Tent City, Kutch",
-          details: "As the sun sets over the salt desert, the festival grounds come alive with the sounds of drums, folk songs, and traditional dances from Gujarat. Dancers in colorful attire spin gracefully under the open sky while musicians bring traditions to life. The handicraft markets of Kutch are a vibrant showcase of embroidered textiles, handcrafted jewellery, colorful Bandhani fabrics, leather products, and Kutchi crafts.",
+          details: "As the sun sets over the salt desert, the festival grounds come alive with the sounds of drums, folk songs, and traditional dances from Gujarat. Dancers in colorful attire spin gracefully under the open sky while musicians bring centuries-old traditions to life. Alongside, the handicraft markets of Kutch are a vibrant showcase of the region's rich artistic heritage. As you stroll through the bustling stalls, you'll discover beautifully embroidered textiles, handcrafted jewellery, colorful Bandhani fabrics, leather products, and a variety of traditional Kutchi handicrafts.",
           img: "/tentcity.jpeg",
           howToReach: "Dhordo Tent City Premises → Inner Festival Event Loops & Haat Courtyards. Accessible via walking tracks.",
           roadmap: ["Enter main cultural arena pavilion at sunset hour", "Take seats for evening energetic Garba & Kutchi musical recitals", "Stroll through local government-approved artisan craft stalls", "Interact with National Award-winning embroidery families directly"],
         },
         {
-          name: "Kutchi Culinary Journey",
+          name: "Authentic Kutchi Culinary Journey",
           location: "Dhordo Village, Kutch",
-          details: "No visit to Rann Utsav is complete without experiencing the flavors of Kutch. The festival offers a delightful journey through Gujarat's culinary traditions, where every dish is prepared with recipes passed down through generations. Visitors can savor local flavors such as the spicy Kutchi Dabeli, wholesome Bajra Rotla, comforting Kadhi, and traditional Gujarati thalis.",
+          details: "No visit to Rann Utsav is complete without experiencing the flavors of Kutch. The festival offers a delightful journey through Gujarat's culinary traditions, where every dish is prepared with recipes passed down through generations. Visitors can savor local favorites such as the spicy and flavorful Kutchi Dabeli, wholesome Bajra Rotla, comforting Kadhi, and traditional Gujarati thalis filled with a variety of regional delicacies. From simple village-style meals to festive specialties, every bite reflects the warmth, hospitality, and rich cultural heritage of Gujarat.",
           img: "/rannfood.jpeg",
           howToReach: "Tent City Dining Halls / Local Dhordo Village Food Courtyards via Border Highway Hubs.",
           roadmap: ["Locate authentic dining commons or village-style seating areas", "Order slow-cooked traditional clay-pot preparation meals", "Try hot buttery Bajra Rotla topped with authentic garlic chutney paste", "Conclude with fresh Kutchi sweets and local buttermilk drinks"],
         }
       ],
-      note: "Obtain the mandatory Special Permit for the White Rann near Dhordo online or at the checkpost, as it is located close to the international border.",
+      note: "The White Rann is located near India's border with Pakistan, so all visitors (Indians and foreigners) need a mandatory Special Permit to enter the White Rann area near Dhordo online or at the checkpost counter.",
     }
   },
   {
@@ -92,7 +92,7 @@ const blogs = [
     carouselImages: ["/Hampi1.jpeg", "/Hampi2.jpeg", "/Hampi3.jpeg", "/hampi.jpeg"],
     readTime: "10 min read",
     fullContent: {
-      lede: "In the 14th century, Hampi was one of the largest and wealthiest cities in the world. Today, its ruins spread across 26 square kilometres of surreal boulder landscapes — a UNESCO World Heritage Site that rewards every curious step.",
+      lede: "There are places that tell stories, and then there are places like Hampi that seem to whisper them from every stone. Scattered across a surreal landscape of giant boulders and ancient ruins, Hampi was once the glorious capital of the Vijayanagara Empire—one of the richest and most powerful kingdoms in Indian history. Today, its temples, markets, and monuments stand as silent reminders of a civilization that dazzled travelers from around the world.",
       bestTime: "October to March (Cool breezes avoid scorching rock temperatures)",
       list: [
         {
@@ -114,15 +114,15 @@ const blogs = [
         {
           name: "Vittala Temple Pillars",
           location: "Vittala Temple, Hampi",
-          details: "What if a temple could make music? The Vittala Temple is renowned for its legendary musical pillars, which have fascinated visitors and historians alike. The 56 monolithic granite pillars of the main hall each emit a different musical note when tapped — a feat of acoustic engineering that modern architects still struggle to explain fully.",
+          details: "What if a temple could make music? The Vittala Temple is renowned for its legendary musical pillars, which have fascinated visitors and historians alike. Every carving, corridor, and pillar reflects the artistic excellence of the Vijayanagara era, showcasing a level of detail that continues to inspire awe. The monolithic granite pillars emit distinct frequencies when lightly tapped.",
           img: "/vittala.jpeg",
           howToReach: "Hampi Bazaar → River Bank Walking Trail → Vittala Compound Access Line.",
           roadmap: ["Enter the open-air maha-mandapa stone hall complex setup", "Observe the 56 massive structural pillars carved out of solid mountain stone", "Study how minor taps generate accurate musical frequencies across chambers", "Photograph the delicate stone roof eaves designed like flowing wood panels"],
         },
         {
-          name: "Hemakuta Hill Sunset",
+          name: "Hemakuta Hill",
           location: "Near Virupaksha Temple, Hampi",
-          details: "As the sun begins to set, Hemakuta Hill offers one of the most breathtaking views in Hampi. From its summit, visitors can watch the golden light spread across temples, ruins, and giant boulders that stretch endlessly across the landscape. The hill itself is dotted with pre-Vijayanagara shrines, making every step of the climb historically rewarding.",
+          details: "As the sun begins to set, Hemakuta Hill offers one of the most breathtaking views in Hampi. From its summit, visitors can watch the golden light spread across temples, ruins, and giant boulders that stretch endlessly across the landscape. It is the perfect place to appreciate the scale and grandeur of what was once a thriving imperial capital.",
           img: "/Hemakuta.jpeg",
           howToReach: "Adjacent to Virupaksha Temple Complex western gates → Marked Rock Steps Climbing Route.",
           roadmap: ["Begin gentle upward rocky trek an hour before the targeted sunset schedule", "Pass by the distinct double-storied monolithic stone pavilions on top", "Find a quiet ledge overlooking the sprawling green banana plantations", "Watch the golden sun dip behind the dramatic boulder-strewn horizon line"],
@@ -140,13 +140,13 @@ const blogs = [
     carouselImages: ["/Rajasthan.jpeg", "/raj1.jpeg", "/raj2.jpeg", "/raj3.jpeg"],
     readTime: "11 min read",
     fullContent: {
-      lede: "Rajasthan occupies a special place in the Indian imagination — a land of turbaned warriors, mirror-inlaid palaces, camel caravans, and sunsets that turn entire sandstone cities to gold. It is India's largest state and perhaps its most cinematic.",
+      lede: "From golden deserts and magnificent forts to vibrant bazaars and royal palaces, Rajasthan feels like stepping into the pages of a grand historical epic. Every city has its own character, every monument its own legend, and every journey its own unforgettable memory. Some destinations are visited. Rajasthan is experienced.",
       bestTime: "November to February (Avoids harsh desert summer heatwaves)",
       list: [
         {
           name: "Amber Fort",
           location: "Amer, Jaipur, Rajasthan",
-          details: "Rising above the rugged hills of Jaipur, Amber Fort is a masterpiece of Rajput architecture. As visitors walk through its grand gateways, mirrored halls (Sheesh Mahal), and royal courtyards, it is easy to imagine the era when kings, warriors, and nobles filled these spaces. The Sheesh Mahal — Hall of Mirrors — was designed so that a single candle flame could illuminate the entire room through thousands of tiny mirror fragments.",
+          details: "Rising above the rugged hills of Jaipur, Amber Fort is a masterpiece of Rajput architecture. As visitors walk through its grand gateways, mirrored halls, and royal courtyards, it is easy to imagine the era when kings, warriors, and nobles filled these spaces. The fort's commanding views over the surrounding landscape reveal why it was once one of Rajasthan's most important strongholds.",
           img: "/amber.jpeg",
           howToReach: "Delhi → NH-48 Expressway Route → Jaipur Outer Amer Road Bypass Corridor (260 km). Dynamic six-lane road link.",
           roadmap: ["Drive through Jaipur old pink city gates north towards Amer village", "Ascend the fort stone pathways via jeep transit or walking ramps", "Enter the Diwan-i-Aam and explore Sheesh Mahal glass reflections", "Look down upon the manicured floating saffron gardens on Maota lake"],
@@ -154,7 +154,7 @@ const blogs = [
         {
           name: "Mehrangarh Fort",
           location: "Jodhpur, Rajasthan",
-          details: "Perched high above Jodhpur, Mehrangarh Fort dominates the skyline like a giant stone crown. Behind its massive walls lie palaces, museums, and centuries of royal history. From the fort's ramparts, visitors can admire the famous blue houses of Jodhpur stretching endlessly below — the fort's outer gates still bear cannonball dents from the siege of 1808.",
+          details: "Perched high above Jodhpur, Mehrangarh Fort dominates the skyline like a giant stone crown. Behind its massive walls lie palaces, museums, and centuries of royal history. From the fort's ramparts, visitors can admire the famous blue houses of Jodhpur stretching endlessly below, creating one of Rajasthan's most iconic views.",
           img: "/mehra.jpeg",
           howToReach: "Jaipur → NH-25 National Highway Route → Jodhpur Blue City Link Road (340 km). Standard multi-lane tar tracks.",
           roadmap: ["Drive up the steep winding mountain road to Fort main entry", "Pass through the historical Jai Pol gate with old battle scars", "Tour museum galleries showcasing royal elephant howdahs and weaponry", "Walk to the cliff lookout to photograph cobalt blue houses below"],
@@ -162,21 +162,21 @@ const blogs = [
         {
           name: "Jaisalmer Fort",
           location: "Jaisalmer, Rajasthan",
-          details: "Unlike many historic forts that stand abandoned, Jaisalmer Fort remains alive. Within its golden sandstone walls are homes, temples, shops, and narrow streets bustling with activity. As the evening sun illuminates the fort, it glows like molten gold — earning Jaisalmer its reputation as the Golden City of India.",
+          details: "Unlike many historic forts that stand abandoned, Jaisalmer Fort remains alive. Within its golden sandstone walls are homes, temples, shops, and narrow streets bustling with activity. As the evening sun illuminates the fort, it glows like molten gold, earning Jaisalmer its reputation as the Golden City of India.",
           img: "/Jaisalmer.jpeg",
           howToReach: "Jodhpur → NH-11 Desert Highway Route → Pokhran Corridor → Jaisalmer (285 km). Beautifully flat, empty desert views.",
           roadmap: ["Drive down the desert highway into the focal tri-junction circle", "Walk past the massive wooden gates into the active living fort zone", "Explore ancient multi-story Jain stone temples with intricate lattices", "Sip local tea on a fortress terrace as the stone turns deep gold"],
         },
         {
-          name: "City Palace & Thar Desert",
-          location: "Udaipur & Jaisalmer, Rajasthan",
-          details: "Overlooking the serene waters of Lake Pichola, the City Palace of Udaipur combines elegance and history. No trip to Rajasthan is complete without venturing into the Thar Desert for a camel safari across rolling sand dunes and traditional folk performances under star-filled skies.",
+          name: "City Palace & Thar Desert Magic",
+          location: "Udaipur & Thar Wilderness, Rajasthan",
+          details: "Overlooking the serene waters of Lake Pichola, the City Palace of Udaipur combines elegance, history, and breathtaking scenery. Balconies, courtyards, and ornate halls offer glimpses into the luxurious lives of Rajasthan's royal families. At sunset, the palace and lake create a picture-perfect scene. No trip to Rajasthan is complete without venturing into the Thar Desert. Camel safaris across rolling sand dunes, traditional folk performances under star-filled skies, and unforgettable desert sunsets create experiences that stay with travelers long after they leave.",
           img: "/desert.jpeg",
-          howToReach: "Jaisalmer → Sam Sand Dunes Desert Access Link Road Route (45 km). True desert road driving experience.",
+          howToReach: "Udaipur Central / Jaisalmer to Sam Sand Dunes Desert Access Link Road Route (45 km).",
           roadmap: ["Drive out from Jaisalmer city towards Sam Sand Dunes village roads", "Check into a luxury desert camp or hop onto designated camel handlers", "Ride deep into the shifting crest lines for a clear wilderness sunset", "Return to camp for open-sky folk dances by local Kalbeliya artist troupes"],
         }
       ],
-      note: "Keep small cash denominations handy for hiring local state-certified history guides at the fort counters.",
+      note: "Keep small cash denominations handy for hiring local state-certified history guides at the fort counters and purchasing local authentic artwork.",
     }
   },
   {
@@ -188,32 +188,40 @@ const blogs = [
     carouselImages: ["/leh1.jpeg", "/leh2.jpeg", "/leh3.jpeg", "/Ladakh.jpeg"],
     readTime: "9 min read",
     fullContent: {
-      lede: "At 3,500 metres above sea level, Leh is the gateway to one of Earth's last great wildernesses. Ladakh's landscapes are so extreme — from turquoise salt lakes to double-humped camels on sand dunes surrounded by glaciers — that every vista demands a second look.",
+      lede: "There are destinations that impress you, and then there are places that leave you speechless. Nestled between some of the world's highest mountain ranges, Leh–Ladakh is a land of turquoise lakes, ancient monasteries, dramatic roads, and landscapes so surreal they feel borrowed from another planet. Every turn reveals a new wonder, making Ladakh one of India's most unforgettable travel destination. It changes the way you see nature.",
       bestTime: "May to September (High mountain passes remain cleared of winter snow)",
       list: [
         {
-          name: "Pangong Tso Lake",
+          name: "Pangong Tso",
           location: "Ladakh, Jammu & Kashmir",
-          details: "Beyond winding mountain roads lies a lake so stunning that it hardly seems real. Stretching across the Himalayas, Pangong Tso mesmerizes visitors with its ever-changing shades of blue. Depending on the sunlight and weather, the lake transforms from turquoise to deep sapphire. Remarkably, despite being a landlocked salt lake, Pangong Tso is 134 kilometres long — two-thirds of which lies in Tibet.",
-          img: "/pangong.jpeg",
+          details: "Beyond winding mountain roads lies a lake so stunning that it hardly seems real. Stretching across the Himalayas, Pangong Tso mesmerizes visitors with its ever-changing shades of blue. Depending on the sunlight and weather, the lake transforms from turquoise to deep sapphire, creating a spectacle that feels different every hour of the day. Surrounded by barren mountains and endless skies, it is one of Ladakh's most iconic sights.",
+          img: "/pangong (2).jpeg",
           howToReach: "Leh Town Hub → Karu Junction Route → Chang La Pass Crossing → Pangong (225 km). Highly challenging mountain pass terrain.",
           roadmap: ["Leave Leh town before dawn to maintain optimal travel windows", "Cross Chang La pass (one of the highest motorable roads globally) safely", "Descend through remote high altitude marshlands into the alpine valley", "Witness the shifting sapphire shades of the landlocked salt lake"],
         },
         {
-          name: "Nubra Valley Desert",
+          name: "Nubra Valley",
           location: "Nubra Valley, Ladakh",
-          details: "Imagine finding sand dunes in the middle of towering snow-capped mountains. Nubra Valley is a place of contrasts, where cold deserts, flowing rivers, and rugged peaks coexist in perfect harmony. The valley sits at the confluence of the Shyok and Nubra rivers, and its micro-climate is warm enough to grow sea-buckthorn and wild roses.",
+          details: "Imagine finding sand dunes in the middle of towering snow-capped mountains. Nubra Valley is a place of contrasts, where cold deserts, flowing rivers, and rugged peaks coexist in perfect harmony. Visitors can explore the dunes, ride the famous double-humped Bactrian camels, and experience a landscape unlike anywhere else in India.",
           img: "/nubra.jpeg",
           howToReach: "Leh Town → Khardung La Pass Mountain Track Route → Diskit Town Junction (160 km). Steep vertical climbing switchbacks.",
           roadmap: ["Drive up the dramatic mountain cuts to reach Khardung La pass", "Descend slowly into the deep Shyok River basin flat fields", "Reach the expansive grey-toned Hunder Sand Dunes boundary parks", "Mount the double-humped Bactrian camel for a cold-desert caravan"],
         },
         {
-          name: "Magnetic Hill & Leh Palace",
-          location: "Leh, Ladakh",
-          details: "Imagine stopping your vehicle on an empty mountain road and watching it slowly move uphill on its own. Magnetic Hill creates an optical illusion so strange that visitors often step out just to watch it happen. Leh Palace, built in the 17th century, offers panoramic views of the town and majestic Himalayan ranges across nine floors of Tibetan-Buddhist architecture.",
-          img: "/hills.jpeg",
+          name: "Magnetic Hill",
+          location: "Leh-Srinagar Highway, Ladakh",
+          details: "Imagine stopping your vehicle on an empty mountain road and watching it slowly move uphill on its own. No engine. No pushing. Just silence, mountains, and a strange feeling that the road itself is pulling you forward. Magnetic Hill has become one of Ladakh’s most talked-about mysteries. Surrounded by barren mountains and endless skies, the place creates an illusion so strange that visitors often step out just to watch it happen again. But beyond the mystery, the journey itself is unforgettable — dramatic roads cutting through cold deserts, army trucks crossing distant valleys, and landscapes that feel untouched by modern life. In Ladakh, even the roads come with stories.",
+          img: "/hiils.jpeg",
           howToReach: "Leh City Main Center → Srinagar-Leh NH-1 National Highway Route (30 km). Superb smooth mountain tarmac quality.",
           roadmap: ["Drive west from Leh town center along the smooth NH-1 highway", "Locate the marked yellow box zone painted on the mountain asphalt", "Shift vehicle gearbox into neutral and cut ignition systems completely", "Observe vehicle moving forward due to the natural optical slope illusion"],
+        },
+        {
+          name: "Leh Palace",
+          location: "Leh Town, Ladakh",
+          details: "Standing high above Leh town, Leh Palace offers a glimpse into Ladakh's royal past. Built in the 17th century, the palace overlooks the surrounding mountains and valleys, providing breathtaking panoramic views. As the sun sets over the Himalayas, the palace becomes a perfect reminder of the region's rich history and enduring beauty.",
+          img: "/palace.jpeg",
+          howToReach: "Walkable or local cab approach from Main Leh Bazaar road limits up towards the historical ridge.",
+          roadmap: ["Navigate up the steep walking paths from old Leh town corridors", "Enter the wooden structural gateway of the nine-story palace", "Explore historical royal living rooms and old Tibetan dynamic artifacts", "Reach the top open terrace exactly at sunset for a 360-degree high-altitude view"],
         }
       ],
       note: "Acclimatize completely in Leh town for at least 48 hours upon arrival to avoid severe acute mountain sickness (AMS).",
@@ -527,7 +535,7 @@ const BlogList = ({ onSelect }) => (
           transition={{ delay: i * 0.05 }}
           className={`flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-6 md:gap-12`}
         >
-          {/* IMAGE CONTAINER — aspect-[4/5] renders a larger, taller portrait length for carousel display */}
+          {/* IMAGE CONTAINER — aspect-[5/5] */}
           <div className="w-full md:w-[48%] relative overflow-hidden shadow-xl rounded-xl aspect-[5/5] bg-slate-100 flex-shrink-0">
             <BlogCardCarousel images={blog.carouselImages || [blog.image]} alt={blog.title} />
           </div>

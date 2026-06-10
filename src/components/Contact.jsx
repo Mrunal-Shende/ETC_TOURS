@@ -66,7 +66,7 @@ const ContactUs = () => {
       phone: "+91 7200091168",
       email: "bookings@expresstravelcorp.com",
       status: "Operational 24/7",
-      image: "/Bhopal.jpeg" 
+      image: "/bhopal.jpeg" 
     },
     { 
       city: "New Delhi", 

@@ -16,6 +16,7 @@ const Header = () => {
   // Normalized path check to handle any trailing slashes or case mismatches
   const currentPath = location.pathname.toLowerCase();
 
+
   // ✅ Added both spelling combinations and robust checks so it forces the transparent/Home layout
   const isLightHeroPage = 
     currentPath === '/' || 
@@ -29,6 +30,7 @@ const Header = () => {
     currentPath.includes('/enquiry') ||
     currentPath === '/enquery'  ||
     currentPath.includes('/enquery');
+
 
   const shouldBeDark = isScrolled || !isLightHeroPage;
 
