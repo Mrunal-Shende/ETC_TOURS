@@ -230,6 +230,9 @@ const AboutUsETC = () => {
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#0033CC] z-10"></div>
 
               <div className="absolute inset-0 overflow-hidden shadow-2xl border border-slate-200 bg-slate-50">
+            =
+            
+            
             <img src="/mal.jpg" className="w-full h-full object-cover object-center" alt="Luxury Tours" />                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
               </div>
 
