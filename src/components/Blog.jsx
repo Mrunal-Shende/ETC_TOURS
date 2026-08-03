@@ -20,6 +20,7 @@ const blogs = [
           location: "Thanjavur, Tamil Nadu",
           details: "Imagine standing in Thanjavur 1000 years ago. The sound of chisels echoes across the city. Hundreds of workers pull gigantic stones under the burning sun while Raja Raja Chola watches his dream rise into the sky. Oil lamps flicker at night, priests chant inside unfinished halls, and slowly — a mountain of granite becomes one of the greatest temples India has ever seen. The 66-metre vimana (tower) was the tallest structure in the Indian subcontinent at the time of its completion in 1010 CE. Even after centuries of storms, invasions, and changing kingdoms, the temple stands untouched in pride, carrying ancient Tamil inscriptions, giant sculptures, and the powerful silence of an empire that once ruled the seas.",
           img: "/Briha.jpeg",
+          carouselImages: ["/Briha.jpeg", "/briha11.jpeg", "/briha22.jpeg","/briha33.jpeg"], // Added internal sub-carousel
           howToReach: "Trichy Airport → NH-83 Highway Route → Thanjavur City Center (55 km). The highways offer seamless four-lane road connectivity.",
           roadmap: ["Arrive at Thanjavur Junction/Trichy Hub", "Take local highway transit to the Grand Temple Complex", "Marvel at the massive 66-meter towering Vimana rocket structure", "Explore ancient Tamil inscriptions & hidden inner sanctuary frescoes"],
         },
@@ -28,6 +29,7 @@ const blogs = [
           location: "Ariyalur District, Tamil Nadu",
           details: "Rajendra Chola conquered lands so far north that he brought back water from the Ganges — and built an entire city to celebrate it. Today, Gangaikonda Cholapuram carries a strange and unforgettable atmosphere. The temple feels calm, powerful, and almost abandoned by time itself. Its elegant curves, giant Shiva lingam, lion well, and quiet courtyards create the feeling of walking through the remains of a once unstoppable empire. Unlike crowded tourist spots, this temple whispers its history slowly — rewarding visitors who pause long enough to listen.",
           img: "/GANGAI.jpeg",
+          carouselImages: ["/GANGAI.jpeg", "/goi11.jpeg","/goi22.jpeg","/goi33.jpeg"], // Added internal sub-carousel
           howToReach: "Kumbakonam → Anaikkarai Bridge Route → Gangaikonda Cholapuram Highway (34 km). Well maintained dual-carriageway setup.",
           roadmap: ["Reach Kumbakonam or Ariyalur hub via highway or rail", "Hire private cab or state transport towards Jayankondam route", "Walk through the pristine uncrowded lawn perimeter to the sanctum", "Visit the unique Simhakeni (Lion Well) and check structural symmetries"],
         },
@@ -36,6 +38,7 @@ const blogs = [
           location: "Darasuram, Kumbakonam",
           details: "Long before modern optical illusions appeared in books and galleries, Chola sculptors were already challenging the human eye. Hidden within Airavatesvara Temple is a fascinating bull-and-elephant carving where two animals share a single head. Depending on the angle from which it is viewed, the sculpture appears as either a bull or an elephant. More than 800 years after it was carved, this ingenious creation remains one of the temple's most intriguing attractions and a testament to the brilliance of Chola artistry. Walking through Darasuram feels less like visiting a monument and more like discovering a forgotten world where art, music, and devotion were carved together forever.",
           img: "/aira.jpeg",
+          carouselImages: ["/aira.jpeg", "/aira222.jpeg","/aira22.jpeg","/aira33.jpeg"], // Added internal sub-carousel
           howToReach: "Kumbakonam Central Stand → Local Darasuram Bypass Road Route (4 km). Extremely short but busy road approach.",
           roadmap: ["Arrive at Kumbakonam central junction point", "Take a short 10-minute road trip down to Darasuram village limits", "Observe the iconic horse-drawn chariot structural design foundations", "Locate the optical illusion carving and test acoustic musical stone steps"],
         }
@@ -60,6 +63,7 @@ const blogs = [
           location: "Dhordo, Kutch, Gujarat",
           details: "The White Rann is the highlight of the festival. As sunlight touches the endless salt plains, the landscape transforms into a dazzling white canvas stretching to the horizon. During sunset, the desert glows with shades of gold, orange, and pink. One of the most memorable experiences is seeing the White Rann under moonlight. On full moon nights, the salt desert reflects the moon's glow, creating a surreal landscape that feels almost magical.",
           img: "/rannmoon.jpeg",
+          carouselImages: ["/moon1.jpeg", "/moon11.jpeg", "/moon22.jpeg", "/moon44.jpeg"],
           howToReach: "Bhuj City Hub → Bhada/Khavda Road Route → Dhordo Checkpost Corridor (80 km). Clear flat tarred highway tracks.",
           roadmap: ["Land at Bhuj Airport/Station Hub", "Drive straight north via Bhuj-Khavda highway road", "Present security documents at Dhordo Checkpost window", "Walk into the sprawling white crystallised salt flatlands"],
         },
@@ -68,6 +72,7 @@ const blogs = [
           location: "Dhordo Tent City, Kutch",
           details: "As the sun sets over the salt desert, the festival grounds come alive with the sounds of drums, folk songs, and traditional dances from Gujarat. Dancers in colorful attire spin gracefully under the open sky while musicians bring centuries-old traditions to life. Alongside, the handicraft markets of Kutch are a vibrant showcase of the region's rich artistic heritage. As you stroll through the bustling stalls, you'll discover beautifully embroidered textiles, handcrafted jewellery, colorful Bandhani fabrics, leather products, and a variety of traditional Kutchi handicrafts.",
           img: "/tentcity.jpeg",
+          carouselImages: ["/tentcity.jpeg", "/kutuch1.jpeg","kutuch2.jpeg", "/kutuch3.jpeg", "/kutuch22.jpeg"],
           howToReach: "Dhordo Tent City Premises → Inner Festival Event Loops & Haat Courtyards. Accessible via walking tracks.",
           roadmap: ["Enter main cultural arena pavilion at sunset hour", "Take seats for evening energetic Garba & Kutchi musical recitals", "Stroll through local government-approved artisan craft stalls", "Interact with National Award-winning embroidery families directly"],
         },
@@ -76,6 +81,7 @@ const blogs = [
           location: "Dhordo Village, Kutch",
           details: "No visit to Rann Utsav is complete without experiencing the flavors of Kutch. The festival offers a delightful journey through Gujarat's culinary traditions, where every dish is prepared with recipes passed down through generations. Visitors can savor local favorites such as the spicy and flavorful Kutchi Dabeli, wholesome Bajra Rotla, comforting Kadhi, and traditional Gujarati thalis filled with a variety of regional delicacies. From simple village-style meals to festive specialties, every bite reflects the warmth, hospitality, and rich cultural heritage of Gujarat.",
           img: "/rannfood.jpeg",
+          carouselImages: ["/rannfood.jpeg", "/authentic1.jpeg", "/authentic2.jpeg"],
           howToReach: "Tent City Dining Halls / Local Dhordo Village Food Courtyards via Border Highway Hubs.",
           roadmap: ["Locate authentic dining commons or village-style seating areas", "Order slow-cooked traditional clay-pot preparation meals", "Try hot buttery Bajra Rotla topped with authentic garlic chutney paste", "Conclude with fresh Kutchi sweets and local buttermilk drinks"],
         }
@@ -100,6 +106,7 @@ const blogs = [
           location: "Hampi Bazaar, Karnataka",
           details: "Long before Hampi became a UNESCO World Heritage Site, prayers were already echoing through the halls of Virupaksha Temple. Dedicated to Lord Shiva, this sacred temple remains an active place of worship even after centuries of political change and historical upheaval. Its towering gopuram welcomes visitors into a world where devotion, architecture, and history exist side by side.",
           img: "/viru.jpeg",
+          carouselImages: ["/viru.jpeg", "/viru11.jpeg", "/viru22.jpeg", "/viru33.jpeg"],
           howToReach: "Bengaluru Hub → Chitradurga → Hospet → Hampi (approx. 340 km via NH-48 and NH-50). Travel time is roughly 6–7 hours.",
           roadmap: ["Navigate from Hospet town directly to Hampi Bazaar Road", "Pass through the massive outer stone gateway structures", "Explore the active inner worship chambers and old courtyard corridors", "Interact with the temple elephant and see the inverted shadow camera obscura system"],
         },
@@ -108,6 +115,7 @@ const blogs = [
           location: "Vittala Temple Complex, Hampi",
           details: "Perhaps no monument represents Hampi better than the famous Stone Chariot. Carved with extraordinary precision, this architectural masterpiece has become one of India's most recognized heritage symbols. Though it appears ready to roll forward, the chariot has stood still for centuries, captivating visitors with its craftsmanship and timeless structural beauty.",
           img: "/stone.jpeg",
+          carouselImages: ["/stone.jpeg", "/stone11.jpeg", "/stone22.jpeg", "/stone33.jpeg"],
           howToReach: "Hampi Main Road → Vittala Temple Complex Walkway Route via Battery Operated Carts.",
           roadmap: ["Reach the outer parking boundaries of the safe monument zones", "Board an eco-friendly golf cart or take the scenic riverside trek track", "Enter the main courtyard of the iconic stone chariot enclosure", "Examine closely the detailed carvings on the wheels and monolithic elephant guards"],
         },
@@ -116,6 +124,7 @@ const blogs = [
           location: "Vittala Temple, Hampi",
           details: "What if a temple could make music? The Vittala Temple is renowned for its legendary musical pillars, which have fascinated visitors and historians alike. Every carving, corridor, and pillar reflects the artistic excellence of the Vijayanagara era, showcasing a level of detail that continues to inspire awe. The monolithic granite pillars emit distinct frequencies when lightly tapped.",
           img: "/vittala.jpeg",
+          carouselImages: ["/vittala.jpeg", "/vit11.jpeg", "/vit22.jpeg","/vit33.jpeg"],
           howToReach: "Hampi Bazaar → River Bank Walking Trail → Vittala Compound Access Line.",
           roadmap: ["Enter the open-air maha-mandapa stone hall complex setup", "Observe the 56 massive structural pillars carved out of solid mountain stone", "Study how minor taps generate accurate musical frequencies across chambers", "Photograph the delicate stone roof eaves designed like flowing wood panels"],
         },
@@ -124,6 +133,7 @@ const blogs = [
           location: "Near Virupaksha Temple, Hampi",
           details: "As the sun begins to set, Hemakuta Hill offers one of the most breathtaking views in Hampi. From its summit, visitors can watch the golden light spread across temples, ruins, and giant boulders that stretch endlessly across the landscape. It is the perfect place to appreciate the scale and grandeur of what was once a thriving imperial capital.",
           img: "/Hemakuta.jpeg",
+          carouselImages: ["/Hemakuta.jpeg", "/hamp11.jpeg","/hamp22.jpeg","/hamp33.jpeg"],
           howToReach: "Adjacent to Virupaksha Temple Complex western gates → Marked Rock Steps Climbing Route.",
           roadmap: ["Begin gentle upward rocky trek an hour before the targeted sunset schedule", "Pass by the distinct double-storied monolithic stone pavilions on top", "Find a quiet ledge overlooking the sprawling green banana plantations", "Watch the golden sun dip behind the dramatic boulder-strewn horizon line"],
         }
@@ -148,6 +158,7 @@ const blogs = [
           location: "Amer, Jaipur, Rajasthan",
           details: "Rising above the rugged hills of Jaipur, Amber Fort is a masterpiece of Rajput architecture. As visitors walk through its grand gateways, mirrored halls, and royal courtyards, it is easy to imagine the era when kings, warriors, and nobles filled these spaces. The fort's commanding views over the surrounding landscape reveal why it was once one of Rajasthan's most important strongholds.",
           img: "/amber.jpeg",
+          carouselImages: ["/amber.jpeg", "/am1.jpeg","/am2.jpeg"],
           howToReach: "Delhi → NH-48 Expressway Route → Jaipur Outer Amer Road Bypass Corridor (260 km). Dynamic six-lane road link.",
           roadmap: ["Drive through Jaipur old pink city gates north towards Amer village", "Ascend the fort stone pathways via jeep transit or walking ramps", "Enter the Diwan-i-Aam and explore Sheesh Mahal glass reflections", "Look down upon the manicured floating saffron gardens on Maota lake"],
         },
@@ -156,6 +167,7 @@ const blogs = [
           location: "Jodhpur, Rajasthan",
           details: "Perched high above Jodhpur, Mehrangarh Fort dominates the skyline like a giant stone crown. Behind its massive walls lie palaces, museums, and centuries of royal history. From the fort's ramparts, visitors can admire the famous blue houses of Jodhpur stretching endlessly below, creating one of Rajasthan's most iconic views.",
           img: "/mehra.jpeg",
+          carouselImages: ["/mehra.jpeg", "/meh1.jpeg", "/meh22.jpeg", "/meh33.jpeg", "/meh44.jpeg"],
           howToReach: "Jaipur → NH-25 National Highway Route → Jodhpur Blue City Link Road (340 km). Standard multi-lane tar tracks.",
           roadmap: ["Drive up the steep winding mountain road to Fort main entry", "Pass through the historical Jai Pol gate with old battle scars", "Tour museum galleries showcasing royal elephant howdahs and weaponry", "Walk to the cliff lookout to photograph cobalt blue houses below"],
         },
@@ -164,6 +176,7 @@ const blogs = [
           location: "Jaisalmer, Rajasthan",
           details: "Unlike many historic forts that stand abandoned, Jaisalmer Fort remains alive. Within its golden sandstone walls are homes, temples, shops, and narrow streets bustling with activity. As the evening sun illuminates the fort, it glows like molten gold, earning Jaisalmer its reputation as the Golden City of India.",
           img: "/Jaisalmer.jpeg",
+          carouselImages: ["/Jaisalmer.jpeg", "/jai1.jpeg","/jai2.jpeg", "/jai3.jpeg","/jai4.jpeg"],
           howToReach: "Jodhpur → NH-11 Desert Highway Route → Pokhran Corridor → Jaisalmer (285 km). Beautifully flat, empty desert views.",
           roadmap: ["Drive down the desert highway into the focal tri-junction circle", "Walk past the massive wooden gates into the active living fort zone", "Explore ancient multi-story Jain stone temples with intricate lattices", "Sip local tea on a fortress terrace as the stone turns deep gold"],
         },
@@ -172,6 +185,7 @@ const blogs = [
           location: "Udaipur & Thar Wilderness, Rajasthan",
           details: "Overlooking the serene waters of Lake Pichola, the City Palace of Udaipur combines elegance, history, and breathtaking scenery. Balconies, courtyards, and ornate halls offer glimpses into the luxurious lives of Rajasthan's royal families. At sunset, the palace and lake create a picture-perfect scene. No trip to Rajasthan is complete without venturing into the Thar Desert. Camel safaris across rolling sand dunes, traditional folk performances under star-filled skies, and unforgettable desert sunsets create experiences that stay with travelers long after they leave.",
           img: "/desert.jpeg",
+          carouselImages: ["/desert.jpeg", "/road1.jpeg","/road22.jpeg","/road3.jpeg"],
           howToReach: "Udaipur Central / Jaisalmer to Sam Sand Dunes Desert Access Link Road Route (45 km).",
           roadmap: ["Drive out from Jaisalmer city towards Sam Sand Dunes village roads", "Check into a luxury desert camp or hop onto designated camel handlers", "Ride deep into the shifting crest lines for a clear wilderness sunset", "Return to camp for open-sky folk dances by local Kalbeliya artist troupes"],
         }
@@ -185,7 +199,7 @@ const blogs = [
     desc: "It is more than a destination — it is an experience that changes the way you see nature. Travel to India's high-altitude wonderland of blue lakes and monasteries.",
     category: "HIGH-ALTITUDE ADVENTURE",
     image: "/Ladakh.jpeg",
-    carouselImages: ["/leh1.jpeg", "/leh2.jpeg", "/leh3.jpeg", "/Ladakh.jpeg"],
+    carouselImages: ["/leh1.jpeg",  "/leh3.jpeg", "/Ladakh.jpeg"],
     readTime: "9 min read",
     fullContent: {
       lede: "There are destinations that impress you, and then there are places that leave you speechless. Nestled between some of the world's highest mountain ranges, Leh–Ladakh is a land of turquoise lakes, ancient monasteries, dramatic roads, and landscapes so surreal they feel borrowed from another planet. Every turn reveals a new wonder, making Ladakh one of India's most unforgettable travel destination. It changes the way you see nature.",
@@ -196,6 +210,7 @@ const blogs = [
           location: "Ladakh, Jammu & Kashmir",
           details: "Beyond winding mountain roads lies a lake so stunning that it hardly seems real. Stretching across the Himalayas, Pangong Tso mesmerizes visitors with its ever-changing shades of blue. Depending on the sunlight and weather, the lake transforms from turquoise to deep sapphire, creating a spectacle that feels different every hour of the day. Surrounded by barren mountains and endless skies, it is one of Ladakh's most iconic sights.",
           img: "/pangong (2).jpeg",
+          carouselImages: ["/pangong (2).jpeg", "/pa1.jpeg","/pa2.jpeg","/pa4.jpeg"],
           howToReach: "Leh Town Hub → Karu Junction Route → Chang La Pass Crossing → Pangong (225 km). Highly challenging mountain pass terrain.",
           roadmap: ["Leave Leh town before dawn to maintain optimal travel windows", "Cross Chang La pass (one of the highest motorable roads globally) safely", "Descend through remote high altitude marshlands into the alpine valley", "Witness the shifting sapphire shades of the landlocked salt lake"],
         },
@@ -204,6 +219,7 @@ const blogs = [
           location: "Nubra Valley, Ladakh",
           details: "Imagine finding sand dunes in the middle of towering snow-capped mountains. Nubra Valley is a place of contrasts, where cold deserts, flowing rivers, and rugged peaks coexist in perfect harmony. Visitors can explore the dunes, ride the famous double-humped Bactrian camels, and experience a landscape unlike anywhere else in India.",
           img: "/nubra.jpeg",
+          carouselImages: ["/nu5.jpeg", "/nu1.jpeg", "/nu2.jpeg", "/nu3.jpeg", "/nu4.jpeg"],
           howToReach: "Leh Town → Khardung La Pass Mountain Track Route → Diskit Town Junction (160 km). Steep vertical climbing switchbacks.",
           roadmap: ["Drive up the dramatic mountain cuts to reach Khardung La pass", "Descend slowly into the deep Shyok River basin flat fields", "Reach the expansive grey-toned Hunder Sand Dunes boundary parks", "Mount the double-humped Bactrian camel for a cold-desert caravan"],
         },
@@ -212,6 +228,7 @@ const blogs = [
           location: "Leh-Srinagar Highway, Ladakh",
           details: "Imagine stopping your vehicle on an empty mountain road and watching it slowly move uphill on its own. No engine. No pushing. Just silence, mountains, and a strange feeling that the road itself is pulling you forward. Magnetic Hill has become one of Ladakh’s most talked-about mysteries. Surrounded by barren mountains and endless skies, the place creates an illusion so strange that visitors often step out just to watch it happen again. But beyond the mystery, the journey itself is unforgettable — dramatic roads cutting through cold deserts, army trucks crossing distant valleys, and landscapes that feel untouched by modern life. In Ladakh, even the roads come with stories.",
           img: "/hiils.jpeg",
+          carouselImages: ["/hiils.jpeg", "/ma1.jpeg", "/ma2.jpeg", "/ma3.jpeg","/ma4.jpeg"],
           howToReach: "Leh City Main Center → Srinagar-Leh NH-1 National Highway Route (30 km). Superb smooth mountain tarmac quality.",
           roadmap: ["Drive west from Leh town center along the smooth NH-1 highway", "Locate the marked yellow box zone painted on the mountain asphalt", "Shift vehicle gearbox into neutral and cut ignition systems completely", "Observe vehicle moving forward due to the natural optical slope illusion"],
         },
@@ -220,6 +237,7 @@ const blogs = [
           location: "Leh Town, Ladakh",
           details: "Standing high above Leh town, Leh Palace offers a glimpse into Ladakh's royal past. Built in the 17th century, the palace overlooks the surrounding mountains and valleys, providing breathtaking panoramic views. As the sun sets over the Himalayas, the palace becomes a perfect reminder of the region's rich history and enduring beauty.",
           img: "/palace.jpeg",
+          carouselImages: ["/palace.jpeg", "/pal1.jpeg", "/pal2.jpeg","/pal3.jpeg"],
           howToReach: "Walkable or local cab approach from Main Leh Bazaar road limits up towards the historical ridge.",
           roadmap: ["Navigate up the steep walking paths from old Leh town corridors", "Enter the wooden structural gateway of the nine-story palace", "Explore historical royal living rooms and old Tibetan dynamic artifacts", "Reach the top open terrace exactly at sunset for a 360-degree high-altitude view"],
         }
@@ -302,7 +320,7 @@ const BlogCardCarousel = ({ images, alt }) => {
   );
 };
 
-/* ─── ARTICLE ITEM — no modal, all data inline beside image ─── */
+/* ─── ARTICLE ITEM — Replaced single image with BlogCardCarousel ─── */
 const ArticleItem = ({ item, number }) => {
   const isEven = number % 2 === 0;
 
@@ -310,13 +328,14 @@ const ArticleItem = ({ item, number }) => {
     <div className="py-12 md:py-16 border-b border-slate-100 last:border-0">
       <div className={`flex flex-col ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 md:gap-12 items-stretch`}>
 
-        {/* ── IMAGE — bigger, fixed height ── */}
+        {/* ── IMAGE CAROUSEL CONTAINER — Now identical setup to list view ── */}
         <div className="w-full md:w-[52%] flex-shrink-0 flex flex-col">
           <div
             className="relative overflow-hidden rounded-2xl bg-slate-100 w-full"
-            style={{ minHeight: '340px', height: '100%' }}
+            style={{ minHeight: '340px', height: '100%', aspectRatio: '5/4' }}
           >
-            <Img src={item.img} alt={item.name} className="absolute inset-0 w-full h-full object-cover" />
+            {/* Added Carousel using fallback to single item image array if list has no sub-carousel images */}
+            <BlogCardCarousel images={item.carouselImages || [item.img]} alt={item.name} />
           </div>
           <p className="mt-2 text-[11px] text-slate-400 font-medium">{item.name}, India</p>
         </div>
