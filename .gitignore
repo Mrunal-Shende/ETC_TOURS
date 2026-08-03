@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+razorpay-server/node_modules/
+
+# Build output
+dist/
+
+# Environment files
+.env
+src/.env
+razorpay-server/.env
+
+# Logs
+*.log
