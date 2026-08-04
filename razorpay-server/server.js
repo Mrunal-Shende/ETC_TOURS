@@ -48,31 +48,23 @@ const allowedOrigins = [
   "https://www.expresstravelcorp.com",
   "https://etc-tours-travels.netlify.app",
   "http://localhost:5173",
+  "http://localhost:5174",
   "http://localhost:3000",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests without Origin (Postman, server-to-server)
-      if (!origin) return callback(null, true);
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
 
-      console.error(`❌ CORS blocked for origin: ${origin}`);
-      return callback(new Error(`CORS blocked for origin: ${origin}`));
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
-// Handle preflight requests
-app.options("*", cors());
+    return callback(new Error(`Origin ${origin} not allowed`));
+  },
+  credentials: true,
+}));
 
 /* ─────────────────────────────────────────
    Razorpay client

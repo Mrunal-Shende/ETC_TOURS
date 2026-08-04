@@ -38,6 +38,9 @@ import { useState, useCallback } from 'react';
 /* ── API base URL from Vite env (falls back to localhost) ── */
 const API_BASE = import.meta.env.VITE_PAYMENT_API_URL || 'http://localhost:3001';
 
+console.log("Payment API:", import.meta.env.VITE_PAYMENT_API_URL);
+console.log("API_BASE:", API_BASE);
+
 /* ── Load Razorpay checkout script exactly once ── */
 const loadRazorpayScript = () =>
   new Promise((resolve) => {
@@ -99,12 +102,7 @@ const useRazorpay = () => {
           throw new Error(orderData.error || 'Could not create payment order. Please try again.');
         }
       } catch (fetchErr) {
-        /* Give a friendlier message when the backend is unreachable */
-        if (fetchErr.name === 'TypeError' && fetchErr.message.includes('fetch')) {
-          throw new Error(
-            'Payment server is unreachable. Please make sure the backend server is running on port 3001.'
-          );
-        }
+        console.error(fetchErr);
         throw fetchErr;
       }
 
@@ -219,3 +217,5 @@ const useRazorpay = () => {
 };
 
 export default useRazorpay;
+
+
